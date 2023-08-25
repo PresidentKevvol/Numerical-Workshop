@@ -96,8 +96,18 @@
             <button id="add-item">+ add particle</button>
         </div>
 
+        <!-- the settings for the simulation and animation -->
+        <div id="mid-4" class="mid">
+          Numerical time step (dt): <input type="number" id="num-time-step" value="0.001" step="0"><br>
+          (This determines how smooth the simulation is, in terms of numerical precision, not animation)<br>
+          Animation speed (timesteps/frame): <input type="number" id="anim-frame-step" value="10" step="1"><br>
+          <br>
+          <input id="chkbox-precompute" type="checkbox"> <label for="chkbox-precompute">Pre-compute the function values</label>
+        </div>
+
         <!-- render the equation to the embedded VR scene -->
         <div id="mid-5" class="mid">
+            
             <button id="start-render">Start simulation!</button>
             <div id="embedded-vr-scene">
                 <a-scene embedded id="vr-scene">

@@ -8,12 +8,21 @@ class Particle {
         //get the current (latest) position
         var cur_pos = this.pos_list[this.pos_list.length - 1];
 
-        //repeat this many times
+        //repeat this reps number of times
         for (var i=0; i<reps; i++) {
             var sub_vec = {x: cur_pos[0], y:cur_pos[1], z:cur_pos[2]};
+
+            /*
             var x1 = cur_pos[0] + exps[0].subs(sub_vec).N().valueOf() * dt;
             var y1 = cur_pos[1] + exps[1].subs(sub_vec).N().valueOf() * dt;
             var z1 = cur_pos[2] + exps[2].subs(sub_vec).N().valueOf() * dt;
+            */
+
+            ce.set(sub_vec);
+            var x1 = cur_pos[0] + exps[0].N().valueOf() * dt;
+            var y1 = cur_pos[1] + exps[1].N().valueOf() * dt;
+            var z1 = cur_pos[2] + exps[2].N().valueOf() * dt;
+
             cur_pos = [x1, y1, z1];
         }
 
@@ -35,6 +44,8 @@ var current_equations;
 var current_particles;
 //time step
 var time_step = 0.001;
+//how many simulation ticks per animation frame
+var skip_tick = 10;
 
 //the setIinterval object
 var render_interval_obj;
@@ -74,6 +85,10 @@ function start_rendering_clicked() {
         current_equations.push(equation_fields[i].expression);
     }
 
+    //adjust base settings
+    time_step = parseFloat(document.getElementById("num-time-step").value);
+    skip_tick = parseFloat(document.getElementById("anim-frame-step").value);
+
     //initialize particles
     current_particles = get_init_pos();
 
@@ -86,7 +101,7 @@ function render_interval_func() {
 
     //for each particle
     for (var i=0; i<current_particles.length; i++) {
-        current_particles[i].progress_tick(time_step, current_equations, 10);
+        current_particles[i].progress_tick(time_step, current_equations, skip_tick);
 
         var pos_list = current_particles[i].pos_list;
         var cur_pos = pos_list[pos_list.length - 1];
