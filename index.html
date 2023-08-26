@@ -12,16 +12,24 @@
           window.addEventListener('DOMContentLoaded', () =>
           import('https://unpkg.com/mathlive?module').then( (mathlive) => mathlive.renderMathInDocument()) );
         </script>
-        <script type="module">
+        <!-- <script type="module">
           import { ComputeEngine } from 'https://unpkg.com/@cortex-js/compute-engine?module';
           const ce = new ComputeEngine();
+        </script> -->
+        <script src="//unpkg.com/@cortex-js/compute-engine"></script>
+        <script>
+          window.onload = function() {
+            ce = new ComputeEngine.ComputeEngine();
+            console.log(ce.parse("e^{i\\pi}").N().latex);
+            // ➔ "-1"
+          }
         </script>
-
 
         <!-- a-frame vr -->
         <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-
+        <script src="https://unpkg.com/aframe-curve-component/dist/aframe-curve-component.min.js"></script>
         
+        <script src="timer_funcs.js"></script>
         <script src="index.js"></script>
 
 
@@ -102,13 +110,14 @@
           (This determines how smooth the simulation is, in terms of numerical precision, not animation)<br>
           Animation speed (timesteps/frame): <input type="number" id="anim-frame-step" value="10" step="1"><br>
           <br>
-          <input id="chkbox-precompute" type="checkbox"> <label for="chkbox-precompute">Pre-compute the function values</label>
+          <!-- <input id="chkbox-precompute" type="checkbox"> <label for="chkbox-precompute">Pre-compute the function values</label> -->
         </div>
 
         <!-- render the equation to the embedded VR scene -->
         <div id="mid-5" class="mid">
             
             <button id="start-render">Start simulation!</button>
+
             <div id="embedded-vr-scene">
                 <a-scene embedded id="vr-scene">
 
@@ -121,13 +130,16 @@
                               line__2="start: 0 4 -3; end: 1 5 -3; color: green"></a-entity>
                     <a-entity geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; color:#00ff00;" position="1 1.8 -3"></a-entity> -->
 
-                    <a-entity class="trajectory-lines"></a-entity>
-                    <a-entity class="part-heads" geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; color:#00ff00;" position="0 0 0"></a-entity>
+                    <!-- <a-entity class="trajectory-lines"></a-entity>
+                    <a-entity class="part-heads" geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; " material="color:#00ff00;" position="0 0 0"></a-entity> -->
 
 
                     <a-sky color="#0f0f0f"></a-sky>
                 </a-scene>
               </div>
+              <button id="pause-render">Pause</button>
+              <button id="reset-sim">Reset</button>
         </div>
+        
     </body>
 </html>
