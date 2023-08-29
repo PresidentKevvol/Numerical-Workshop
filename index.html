@@ -126,6 +126,14 @@
           <!-- <input id="chkbox-precompute" type="checkbox"> <label for="chkbox-precompute">Pre-compute the function values</label> -->
         </div>
 
+        <!-- import/export -->
+        <div id="mid-6" class="mid">
+          <button id="export-sim">Export simulation settings</button>
+          <button id="export-sim-url" class="tooltip"><span class="tooltiptext" id="url-copied-tooltip">Copy to clipboard</span>Export setup as url</button><br>
+          <textarea id="setting-json"></textarea><br>
+          <button id="import-sim">Import simulation settings</button>
+        </div>
+
         <!-- render the equation to the embedded VR scene -->
         <div id="mid-5" class="mid">
             
@@ -137,7 +145,7 @@
                     <a-entity class="part-heads" geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; " material="color:#00ff00;" position="0 0 0"></a-entity> -->
 
                     <a-sky color="#0f0f0f"></a-sky>
-                    <a-entity camera wasdqz-controls="" position="0 1.6 0" look-controls="pointerLockEnabled: false;">
+                    <a-entity camera wasdqz-controls="acceleration: 20" position="0 1.6 0" look-controls="pointerLockEnabled: false;">
                       <!-- <a-cursor></a-cursor> -->
                     </a-entity>
             </a-scene>
@@ -145,6 +153,7 @@
               <button id="pause-render">Pause</button>
               <button id="reset-sim">Reset</button>
         </div>
+        
         
     </body>
 </html>

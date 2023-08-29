@@ -77,6 +77,24 @@ function ijs_setup() {
     document.getElementById("start-render").addEventListener("click", start_rendering_clicked);
     document.getElementById("pause-render").addEventListener("click", pause_rendering_clicked);
     document.getElementById("reset-sim").addEventListener("click", reset_simulation_clicked);
+
+    document.getElementById("export-sim").addEventListener("click", export_btn_clicked);
+    document.getElementById("export-sim-url").addEventListener("click", export_url_btn_clicked);
+    document.getElementById("export-sim-url").addEventListener("mouseout", outFunc);
+    document.getElementById("import-sim").addEventListener("click", import_btn_clicked);
+
+    //call when all math fields properly loaded
+    equation_fields[2].addEventListener('mount', load_url_setup);
+}
+
+//load setup described in url param if there is any
+function load_url_setup(){
+    //when fully loaded, check if there is url params for settings
+    var urlParams = new URLSearchParams(window.location.search);
+    var setup_obj = urlParams.get('s');
+    if (setup_obj) {
+        import_setup(JSON.parse(setup_obj));
+    }
 }
 
 //add an initial particle to the simulation space
@@ -241,6 +259,110 @@ function render_interval_func() {
     }
 
     cur_frame ++;
+}
+
+function export_btn_clicked() {
+    var obj = export_setup();
+    var obj_str = JSON.stringify(obj, null, 2);
+    document.getElementById("setting-json").value = obj_str;
+}
+
+//export the current settings as a url with argument
+function export_url_btn_clicked() {
+    var obj = export_setup();
+    var url_arg = encodeURIComponent(JSON.stringify(obj));
+    var res = window.location.href.split(/[?#]/)[0] + "?s=" + url_arg;
+    //put in clipboard
+    navigator.clipboard.writeText(res);
+    var tooltip = document.getElementById("url-copied-tooltip");
+    tooltip.innerHTML = "Copied url of current setup to clipboard";
+}
+function outFunc() {
+    var tooltip = document.getElementById("url-copied-tooltip");
+    tooltip.innerHTML = "Copy to clipboard";
+}
+
+function import_btn_clicked() {
+    //import from the text field
+    var obj_str = document.getElementById("setting-json").value;
+    var obj = JSON.parse(obj_str);
+    import_setup(obj);
+}
+
+//export the equation, initial particle positions, settings, etc. as a json object
+function export_setup() {
+    //equations
+    var eqns = {
+        'x': equation_fields[0].value, 
+        'y': equation_fields[1].value, 
+        'z': equation_fields[2].value
+    };
+
+    //particles
+    var prts = [];
+    var init_pos_fields = document.getElementById("particles-init-pos").getElementsByClassName("particle-init-entry");
+    //read particles inits
+    for (var i=0; i<init_pos_fields.length; i++) {
+        var coords = init_pos_fields[i].getElementsByClassName("coord-init");
+
+        var x0 = parseFloat(coords[0].value);
+        var y0 = parseFloat(coords[1].value);
+        var z0 = parseFloat(coords[2].value);
+
+        var particle_color = init_pos_fields[i].getElementsByClassName("particle-color")[0].value;
+        var trail_color = init_pos_fields[i].getElementsByClassName("trail-color")[0].value;
+
+        var p = {
+            'x': x0, 
+            'y': y0, 
+            'z': z0,
+            'particle_color': particle_color,
+            'trail_color': trail_color
+        };
+        prts.push(p);
+    }
+
+    //resulting object
+    var res = {
+        'equations': eqns,
+        'particle_inits': prts,
+        'dt': parseFloat(document.getElementById("num-time-step").value),
+        'skips': parseFloat(document.getElementById("anim-frame-step").value)
+    };
+    return res;
+}
+
+function import_setup(ob) {
+    //start with the equation fields
+    equation_fields[0].value = ob.equations.x;
+    equation_fields[1].value = ob.equations.y;
+    equation_fields[2].value = ob.equations.z;
+
+    //then particles
+    var init_pos_contain = document.getElementById("particles-init-pos");
+    //clear existing ones
+    while (init_pos_contain.firstChild) {
+        init_pos_contain.removeChild(init_pos_contain.lastChild);
+    }
+    //insert new particle init entry cards
+    for (var i=0; i<ob.particle_inits.length; i++) {
+        var cur_p = ob.particle_inits[i];
+        add_item_clicked();
+        //object color in the VR space
+        var particle_color = init_pos_contain.lastChild.getElementsByClassName("particle-color")[0];
+        particle_color.value = cur_p.particle_color;
+        var trail_color = init_pos_contain.lastChild.getElementsByClassName("trail-color")[0];
+        trail_color.value = cur_p.trail_color;
+        //coord values
+        var coords = init_pos_contain.lastChild.getElementsByClassName("coord-init");
+        coords[0].value = cur_p.x;
+        coords[1].value = cur_p.y;
+        coords[2].value = cur_p.z;
+    }
+
+    //then numerical settings
+    document.getElementById("num-time-step").value = ob.dt;
+    document.getElementById("anim-frame-step").value = ob.skips;
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);
