@@ -195,24 +195,25 @@ function start_rendering_clicked() {
     }
 
     cur_frame = 0;
-    render_interval_obj = setInterval(render_interval_func, 25);
+    //render_interval_obj = setInterval(render_interval_func, 25);
+    document.getElementById("pause-render").innerHTML = "Pause";
     animation_playing = true;
 }
 
 function pause_rendering_clicked(e) {
     if (animation_playing) { //if it is playing
-        clearInterval(render_interval_obj);
+        //clearInterval(render_interval_obj);
         e.target.innerHTML = "Resume";
         animation_playing = false;
     } else { //if it is already paused
-        render_interval_obj = setInterval(render_interval_func, 25);
+        //render_interval_obj = setInterval(render_interval_func, 25);
         e.target.innerHTML = "Pause";
         animation_playing = true;
     }
 }
 
 function reset_simulation_clicked() {
-    clearInterval(render_interval_obj);
+    //clearInterval(render_interval_obj);
     animation_playing = false;
 
     var scene = document.getElementById("vr-scene");
@@ -229,6 +230,8 @@ function reset_simulation_clicked() {
     current_particles = [];
     current_equations = [];
     cur_frame = 0;
+    document.getElementById("pause-render").innerHTML = "Pause";
+
 }
 
 function render_interval_func() {
@@ -245,7 +248,8 @@ function render_interval_func() {
         //if NaN value encountered i.e. the sysyem numerically exploded
         //stop the simulation
         if (isNaN(cur_pos[0]) || isNaN(cur_pos[1]) || isNaN(cur_pos[2])) {
-            clearInterval(render_interval_obj);
+            //clearInterval(render_interval_obj);
+            animation_playing = false;
         }
 
         particle_heads[i].setAttribute("position", cur_pos.join(" "));

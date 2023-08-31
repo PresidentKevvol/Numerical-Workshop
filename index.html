@@ -33,6 +33,7 @@
         
         <script src="timer_funcs.js"></script>
         <script src="index.js"></script>
+        <script src="sim-update-component.js"></script>
 
 
         <!-- <script src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
@@ -143,7 +144,7 @@
             <button id="start-render">Start simulation!</button>
 
             <div id="embedded-vr-scene">
-                <a-scene embedded id="vr-scene">
+                <a-scene embedded id="vr-scene" sim-update>
                     <!-- <a-entity class="trajectory-lines"></a-entity>
                     <a-entity class="part-heads" geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; " material="color:#00ff00;" position="0 0 0"></a-entity> -->
 
