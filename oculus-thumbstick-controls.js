@@ -25,8 +25,6 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         this.el.addEventListener('thumbstickmoved', this.thumbstickMoved);
 
         //add trigger and grip/AB/XY button clicked event listener
-
-        //perhaps its binding?
         this.triggerDown = this.triggerDown.bind(this);
         this.triggerUp = this.triggerUp.bind(this);
         this.gripDown = this.gripDown.bind(this);
@@ -139,27 +137,18 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
     })(),
     thumbstickMoved: function (evt) {
         this.tsData.set(evt.detail.x, evt.detail.y);
-        document.getElementById("test-output-2").innerHTML += `ts: ${this.tsData.x}, ${this.tsData.y}; vi:${this.vertical_input} <br>`;
     },
     triggerDown: function (evt) {
         this.vertical_input = 1;
-        document.getElementById("test-output").innerHTML = "trigger down";
-        document.getElementById("test-output-2").innerHTML += `ts: ${this.tsData.x}, ${this.tsData.y}; vi:${this.vertical_input} <br>`;
     },
     triggerUp: function (evt) {
         this.vertical_input = 0;
-        document.getElementById("test-output").innerHTML = "trigger up";
-        document.getElementById("test-output-2").innerHTML += `ts: ${this.tsData.x}, ${this.tsData.y}; vi:${this.vertical_input} <br>`;
     },
     gripDown: function (evt) {
         this.vertical_input = -1;
-        document.getElementById("test-output").innerHTML = "grip down";
-        document.getElementById("test-output-2").innerHTML += `ts: ${this.tsData.x}, ${this.tsData.y}; vi:${this.vertical_input} <br>`;
     },
     gripUp: function (evt) {
         this.vertical_input = 0;
-        document.getElementById("test-output").innerHTML = "grip up";
-        document.getElementById("test-output-2").innerHTML += `ts: ${this.tsData.x}, ${this.tsData.y}; vi:${this.vertical_input} <br>`;
     },
     remove: function () {
         this.el.removeEventListener('thumbstickmoved', this.thumbstickMoved);
