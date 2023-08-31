@@ -52,6 +52,9 @@ var current_particles;
 var time_step = 0.001;
 //how many simulation ticks per animation frame
 var skip_tick = 10;
+//length of the trail of each particle in the animation
+var trail_length = 0;
+
 //flag for to pre compute the function values or not
 var precompute = false;
 //how many ticks to pre compute
@@ -146,6 +149,7 @@ function start_rendering_clicked() {
     //adjust base settings
     time_step = parseFloat(document.getElementById("num-time-step").value);
     skip_tick = parseFloat(document.getElementById("anim-frame-step").value);
+    trail_length = parseFloat(document.getElementById("anim-trail-length").value);
     //precompute = document.getElementById("chkbox-precompute").checked;
 
     precompute_count = 1000;
@@ -255,6 +259,10 @@ function render_interval_func() {
             //var attr_valu = "start: " + prv_pos.join(" ") + "; end: " + cur_pos.join(" ") + ";";
             //console.log(attr_valu);
             particle_trails[i].setAttribute(attr_name, attr_valu);
+
+            if (trail_length > 0 && pos_list.length + 1 > trail_length) { //if non infinite trail length
+                particle_trails[i].removeAttribute("line__" + (current_particles[i].pos_list.length + 1 - trail_length));
+            }
         }
     }
 
@@ -334,35 +342,45 @@ function export_setup() {
 
 function import_setup(ob) {
     //start with the equation fields
-    equation_fields[0].value = ob.equations.x;
-    equation_fields[1].value = ob.equations.y;
-    equation_fields[2].value = ob.equations.z;
+    if (ob.equations){
+        equation_fields[0].value = ob.equations.x;
+        equation_fields[1].value = ob.equations.y;
+        equation_fields[2].value = ob.equations.z;
+    }
 
     //then particles
-    var init_pos_contain = document.getElementById("particles-init-pos");
-    //clear existing ones
-    while (init_pos_contain.firstChild) {
-        init_pos_contain.removeChild(init_pos_contain.lastChild);
+    if (ob.particle_inits) {
+        var init_pos_contain = document.getElementById("particles-init-pos");
+        //clear existing ones
+        while (init_pos_contain.firstChild) {
+            init_pos_contain.removeChild(init_pos_contain.lastChild);
+        }
+        //insert new particle init entry cards
+        for (var i=0; i<ob.particle_inits.length; i++) {
+            var cur_p = ob.particle_inits[i];
+            add_item_clicked();
+            //object color in the VR space
+            if (cur_p.particle_color) {
+                var particle_color = init_pos_contain.lastChild.getElementsByClassName("particle-color")[0];
+                particle_color.value = cur_p.particle_color;
+            }
+            if (cur_p.trail_color) {
+                var trail_color = init_pos_contain.lastChild.getElementsByClassName("trail-color")[0];
+                trail_color.value = cur_p.trail_color;
+            }
+            //coord values
+            var coords = init_pos_contain.lastChild.getElementsByClassName("coord-init");
+            if (cur_p.x) { coords[0].value = cur_p.x; }
+            if (cur_p.y) { coords[1].value = cur_p.y; }
+            if (cur_p.z) { coords[2].value = cur_p.z; }
+        }
     }
-    //insert new particle init entry cards
-    for (var i=0; i<ob.particle_inits.length; i++) {
-        var cur_p = ob.particle_inits[i];
-        add_item_clicked();
-        //object color in the VR space
-        var particle_color = init_pos_contain.lastChild.getElementsByClassName("particle-color")[0];
-        particle_color.value = cur_p.particle_color;
-        var trail_color = init_pos_contain.lastChild.getElementsByClassName("trail-color")[0];
-        trail_color.value = cur_p.trail_color;
-        //coord values
-        var coords = init_pos_contain.lastChild.getElementsByClassName("coord-init");
-        coords[0].value = cur_p.x;
-        coords[1].value = cur_p.y;
-        coords[2].value = cur_p.z;
-    }
+    
 
     //then numerical settings
-    document.getElementById("num-time-step").value = ob.dt;
-    document.getElementById("anim-frame-step").value = ob.skips;
+    if (ob.dt) { document.getElementById("num-time-step").value = ob.dt; }
+    if (ob.skips) { document.getElementById("anim-frame-step").value = ob.skips; }
+    if (ob.trail_length) { document.getElementById("anim-trail-length").value = ob.trail_length; }
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);
