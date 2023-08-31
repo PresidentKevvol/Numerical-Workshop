@@ -132,6 +132,7 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
     })(),
     thumbstickMoved: function (evt) {
         this.tsData.set(evt.detail.x, evt.detail.y);
+        document.getElementById("test-output-2").innerHTML += `ts: ${this.tsData.x}, ${this.tsData.y}; vi:${this.vertical_input} <br>`;
     },
     triggerDown: function (evt) {
         this.vertical_input = 1;
