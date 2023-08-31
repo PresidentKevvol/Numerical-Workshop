@@ -335,7 +335,8 @@ function export_setup() {
         'equations': eqns,
         'particle_inits': prts,
         'dt': parseFloat(document.getElementById("num-time-step").value),
-        'skips': parseFloat(document.getElementById("anim-frame-step").value)
+        'skips': parseFloat(document.getElementById("anim-frame-step").value),
+        'trail_length': parseFloat(document.getElementById("anim-trail-length").value),
     };
     return res;
 }
