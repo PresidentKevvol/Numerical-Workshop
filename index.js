@@ -370,17 +370,17 @@ function import_setup(ob) {
             }
             //coord values
             var coords = init_pos_contain.lastChild.getElementsByClassName("coord-init");
-            if (cur_p.x) { coords[0].value = cur_p.x; }
-            if (cur_p.y) { coords[1].value = cur_p.y; }
-            if (cur_p.z) { coords[2].value = cur_p.z; }
+            if (cur_p.hasOwnProperty('x')) { coords[0].value = cur_p.x; }
+            if (cur_p.hasOwnProperty('y')) { coords[1].value = cur_p.y; }
+            if (cur_p.hasOwnProperty('z')) { coords[2].value = cur_p.z; }
         }
     }
     
 
     //then numerical settings
-    if (ob.dt) { document.getElementById("num-time-step").value = ob.dt; }
-    if (ob.skips) { document.getElementById("anim-frame-step").value = ob.skips; }
-    if (ob.trail_length) { document.getElementById("anim-trail-length").value = ob.trail_length; }
+    if (ob.hasOwnProperty('dt')) { document.getElementById("num-time-step").value = ob.dt; }
+    if (ob.hasOwnProperty('skips')) { document.getElementById("anim-frame-step").value = ob.skips; }
+    if (ob.hasOwnProperty('trail_length')) { document.getElementById("anim-trail-length").value = ob.trail_length; }
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);
