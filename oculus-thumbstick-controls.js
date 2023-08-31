@@ -135,15 +135,19 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
     },
     triggerDown: function (evt) {
         this.vertical_input = 1;
+        document.getElementById("test-output").innerHTML = "trigger down";
     },
     triggerUp: function (evt) {
         this.vertical_input = 0;
+        document.getElementById("test-output").innerHTML = "trigger up";
     },
     gripDown: function (evt) {
         this.vertical_input = -1;
+        document.getElementById("test-output").innerHTML = "grip down";
     },
     gripUp: function (evt) {
         this.vertical_input = 0;
+        document.getElementById("test-output").innerHTML = "grip up";
     },
     remove: function () {
         this.el.removeEventListener('thumbstickmoved', this.thumbstickMoved);
