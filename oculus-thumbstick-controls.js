@@ -25,6 +25,13 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         this.el.addEventListener('thumbstickmoved', this.thumbstickMoved);
 
         //add trigger and grip/AB/XY button clicked event listener
+
+        //perhaps its binding?
+        this.triggerDown = this.triggerDown.bind(this);
+        this.triggerUp = this.triggerUp.bind(this);
+        this.gripDown = this.triggerDown.bind(this);
+        this.gripUp = this.triggerUp.bind(this);
+
         this.el.addEventListener('triggerdown', this.triggerDown);
         this.el.addEventListener('triggerup', this.triggerUp);
         this.el.addEventListener('gripdown', this.gripDown);
@@ -156,5 +163,9 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
     },
     remove: function () {
         this.el.removeEventListener('thumbstickmoved', this.thumbstickMoved);
+        this.el.removeEventListener('triggerdown', this.triggerDown);
+        this.el.removeEventListener('triggerup', this.triggerUp);
+        this.el.removeEventListener('gripdown', this.gripDown);
+        this.el.removeEventListener('gripup', this.gripUp);
     }
 });
