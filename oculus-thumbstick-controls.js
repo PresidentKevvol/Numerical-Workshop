@@ -29,8 +29,8 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         //perhaps its binding?
         this.triggerDown = this.triggerDown.bind(this);
         this.triggerUp = this.triggerUp.bind(this);
-        this.gripDown = this.triggerDown.bind(this);
-        this.gripUp = this.triggerUp.bind(this);
+        this.gripDown = this.gripDown.bind(this);
+        this.gripUp = this.gripUp.bind(this);
 
         this.el.addEventListener('triggerdown', this.triggerDown);
         this.el.addEventListener('triggerup', this.triggerUp);
