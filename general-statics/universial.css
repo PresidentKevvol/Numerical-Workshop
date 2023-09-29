@@ -1,0 +1,10 @@
+body {
+    font-family: 'Now', sans-serif;
+    background-color: #ebfdff;
+}
+
+h1, h2, h3 {
+    font-weight: normal;
+    text-align: center;
+    margin: 0;
+}
