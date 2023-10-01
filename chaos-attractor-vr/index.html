@@ -2,6 +2,8 @@
     <head>
         <meta charset="utf-8" />
         <title>Chaos Attractor Simulator in VR - Numerical Workshop</title>
+        <script src="/general-statics/csi.min.js"></script>
+        <div data-include="/header-universal.html"></div>
 
         <!-- cortex js math engine -->
         <!--
@@ -47,7 +49,6 @@
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
 
-        <link href="https://fonts.cdnfonts.com/css/now" rel="stylesheet">
         <link rel="stylesheet" href="index.css">
 
         <!-- meta tags -->
@@ -162,13 +163,6 @@
               <button id="reset-sim">Reset</button>
         </div>
 
-        <div id="mid-commento-head" class="mid">
-          Leave a comment to showcase simulations you created or report bugs!<br>
-          Comment section created with Commento
-        </div>
-        <div id="mid-commento" class="mid">
-          <script defer src="https://commento.numerical.hornetsnestguild.com/js/commento.js"></script>
-          <div id="commento"></div>
-        </div>
+        <div data-include="/commento-section.html"></div>
     </body>
 </html>
