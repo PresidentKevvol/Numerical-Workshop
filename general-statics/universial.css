@@ -8,3 +8,37 @@ h1, h2, h3 {
     text-align: center;
     margin: 0;
 }
+
+button {
+    border: 2px solid #0f5e83;
+    color: black;
+    border-radius: 6px;
+    background-color: #00000000;
+  
+    padding: 5px;
+  
+    transition: 0.4s ease;
+    margin: 6px;
+}
+
+button:hover {
+    border: 2px solid #08374d;
+    color: white;
+    background-color: #08374d;
+}
+
+.remove-x {
+  color: gray;
+  display: inline-block;
+  font-size: 1.15em;
+  cursor: pointer;
+  /* float: right; */
+}
+.remove-x:hover {
+  color: crimson;
+}
+
+.mid {
+    width: 80vw;
+    margin: 1.8em auto;
+}

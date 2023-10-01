@@ -1,0 +1,37 @@
+h1 {
+    font-size: 2.8em;
+    margin-top: 1em;
+    margin-bottom: 0.4em;
+}
+
+#mid-1 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: center;
+}
+
+.item {
+    flex: 1;
+}
+
+.item-title {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.item-desc {}
+
+.item-img {
+    background-position: center;
+    background-size: cover;
+    width: 25.6em;
+    height: 14.4em;
+    display: inline-block;
+}
+
+#mid-3 {
+    font-size: 1.2em;
+    color: gray;
+    text-align: center;
+}
