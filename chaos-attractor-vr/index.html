@@ -2,7 +2,6 @@
     <head>
         <meta charset="utf-8" />
         <title>Chaos Attractor Simulator in VR - Numerical Workshop</title>
-        <script src="../general-statics/csi.min.js"></script>
         <div data-include="../header-universal.html"></div>
 
         <!-- cortex js math engine -->
@@ -56,7 +55,9 @@
         <meta property="og:type" content="website">
         <meta property="og:image" content="metaimg.png">
         <meta property="og:description" content="Customizable differential equation simulator in VR. Input your own custom differential equation to create a chaos attractor!">
-    </head>
+        
+        <script src="../general-statics/csi.min.js"></script>
+      </head>
     <body>
       <!-- the templates for html elements -->
         <div id="templates" hidden>
@@ -163,6 +164,13 @@
               <button id="reset-sim">Reset</button>
         </div>
 
-        <div data-include="../commento-section.html"></div>
+        <div id="mid-commento-head" class="mid">
+          Leave a comment to showcase simulations you created or report bugs!<br>
+          Comment section created with Commento
+      </div>
+      <div id="mid-commento" class="mid">
+          <div id="commento"></div>
+          <script defer src="https://commento.hornetsnestguild.com/js/commento.js"></script>
+      </div>
     </body>
 </html>

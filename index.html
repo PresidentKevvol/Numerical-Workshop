@@ -2,7 +2,6 @@
     <head>
         <meta charset="utf-8" />
         <title>Numerical Workshop by DeepFriedPancake🥞</title>
-        <script src="/general-statics/csi.min.js"></script>
 
         <div data-include="/header-universal.html"></div>
         <link rel="stylesheet" href="index.css">
@@ -12,6 +11,8 @@
         <meta property="og:type" content="website">
         <meta property="og:image" content="metaimg.png">
         <meta property="og:description" content="Playground of numerical simulations and visualizations made by DeepFriedPancake🥞">
+        
+        <script src="/general-statics/csi.min.js"></script>
     </head>
     <body>
         <h1>Numerical Workshop</h1>
@@ -39,6 +40,13 @@
             </div>
         </div>
 
-        <div data-include="/commento-section.html"></div>
+        <div id="mid-commento-head" class="mid">
+            Leave a comment to showcase simulations you created or report bugs!<br>
+            Comment section created with Commento
+        </div>
+        <div id="mid-commento" class="mid">
+            <div id="commento"></div>
+            <script defer src="https://commento.hornetsnestguild.com/js/commento.js"></script>
+        </div>
     </body>
 </html>
