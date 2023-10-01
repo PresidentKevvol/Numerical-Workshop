@@ -42,3 +42,9 @@ button:hover {
     width: 80vw;
     margin: 1.8em auto;
 }
+
+#mid-commento-head {
+    font-size: 1.2em;
+    color: gray;
+    text-align: center;
+}
