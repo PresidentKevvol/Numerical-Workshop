@@ -16,7 +16,7 @@ function load_stock_setups() {
 function generate_onclick(i) {
     return function() {
         import_setup(stock_setup_list[i]["obj"]);
-        console.log("import stock setup...");
+        //console.log("import stock setup...");
     };
 }
 

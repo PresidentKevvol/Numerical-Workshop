@@ -20,7 +20,7 @@ var lorenz = {
     ],
     "dt": 0.001,
     "skips": 10,
-    "trail_length": 0
+    "trail_length": 4800
 };
 
 var thomas = {
@@ -75,7 +75,7 @@ var thomas = {
     ],
     "dt": 0.05,
     "skips": 2,
-    "trail_length": 3600
+    "trail_length": 1200
 };
 
 var aizawa = {
@@ -109,7 +109,7 @@ var aizawa = {
   ],
   "dt": 0.02,
   "skips": 1,
-  "trail_length": 4800
+  "trail_length": 2400
 };
 
 var sprott_b = {
@@ -150,7 +150,7 @@ var sprott_b = {
     ],
     "dt": 0.02,
     "skips": 2,
-    "trail_length": 2400
+    "trail_length": 1800
 };
 
 var sprott_linz_f = {
@@ -184,7 +184,7 @@ var sprott_linz_f = {
     ],
     "dt": 0.01,
     "skips": 5,
-    "trail_length": 4000
+    "trail_length": 1800
 };
 
 

@@ -77,7 +77,7 @@
         </div>
 
         <h1>Chaos Attractor Simulator in VR</h1>
-        <h2>Numerical Workshop</h2>
+        <h2><a href="/">Numerical Workshop</a></h2>
         <h3>Made by <a href="https://www.hornetsnestguild.com/cvs/kevvol">Kevin//DeepFriedPancake🥞</a>
           @ <a href="https://www.hornetsnestguild.com/">The Hornet's Nest</a></h3>
         
@@ -122,7 +122,7 @@
           Trail length(frame): <input type="number" id="anim-trail-length" value="0" step="1"><br>
           (trail length in number of frames, 0 = infinite)<br>
           <br>
-          <!-- <input id="chkbox-precompute" type="checkbox"> <label for="chkbox-precompute">Pre-compute the function values</label> -->
+          <input id="chkbox-precompute" type="checkbox"> <label for="chkbox-precompute"> Static render: generate the function graph with &lt;trail-length&gt; frames all at once, smoother when exploring in VR </label>
         </div>
 
         <!-- import/export -->
@@ -135,15 +135,37 @@
 
         <!-- stock equations -->
         <div id="mid-7" class="mid">
-          Try these classic attractor equations!
-          
+          <div class="sect-title">Try these classic attractor equations!</div>
           <div id="stock-eqns"></div>
+        </div>
+        <!-- control guide -->
+        <div id="mid-8" class="mid">
+          <div id="controls-guide">
+            <div id="controls-guide-title" class="collapsible sect-title">Controls</div>
+            <div class="collapsible-content">
+              <div id="controls-guide-img-contain" >
+                <div id="controls-guide-img-text">
+                  <span style="color: rgb(162, 42, 222);">Move around</span><br>
+                  <span style="color: rgb(230, 28, 192);">Rise up</span><br>
+                  <span style="color: rgb(235, 126, 23);">Fall down</span><br>
+                </div>
+                <div>
+                  desktop
+                  <div id="controls-guide-desktop" class="controls-guide-img"></div>
+                </div>
+                <div>
+                  Oculus (left controller)
+                  <div id="controls-guide-oculus" class="controls-guide-img"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- render the equation to the embedded VR scene -->
         <div id="mid-5" class="mid">
-            
             <button id="start-render">Start simulation!</button>
+            <div id="static-notif" class="display-none">Static render progress: <span id="static-notif-percentage"></span>%</div>
 
             <div id="embedded-vr-scene">
                 <a-scene embedded id="vr-scene" sim-update>

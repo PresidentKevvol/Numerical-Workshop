@@ -88,6 +88,20 @@ function ijs_setup() {
 
     //call when all math fields properly loaded
     equation_fields[2].addEventListener('mount', load_url_setup);
+
+    //for collapsables
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    });
+} 
 }
 
 //load setup described in url param if there is any
@@ -150,7 +164,7 @@ function start_rendering_clicked() {
     time_step = parseFloat(document.getElementById("num-time-step").value);
     skip_tick = parseFloat(document.getElementById("anim-frame-step").value);
     trail_length = parseFloat(document.getElementById("anim-trail-length").value);
-    //precompute = document.getElementById("chkbox-precompute").checked;
+    precompute = document.getElementById("chkbox-precompute").checked;
 
     precompute_count = 1000;
     
@@ -175,22 +189,31 @@ function start_rendering_clicked() {
         scene.appendChild(cur_head);
     }
 
+    //if precompute a trail
     if (precompute) {
-        var t_start = window.performance.now();
+        // var t_start = window.performance.now();
 
-        for (var j=0; j<precompute_count; j++) {
-            for (var i=0; i<current_particles.length; i++) {
-                current_particles[i].progress_tick(time_step, current_equations, skip_tick);
-            }
-        }
+        // document.getElementById("static-notif").classList.remove("display-none");
+        // var cur_percentage = 0;
 
-        var t_end = window.performance.now();
+        // for (var j=0; j<trail_length; j++) {
+        //     // for (var i=0; i<current_particles.length; i++) {
+        //     //     current_particles[i].progress_tick(time_step, current_equations, skip_tick);
+        //     // }
+        //     render_interval_func();
 
-        console.log("precompute " + precompute_count + " frames takes:" + (t_end - t_start));
+        //     var p = Math.floor((j+1) / trail_length * 100);
+        //     if (p > cur_percentage) {
+        //         document.getElementById("static-notif-percentage").innerHTML = "" + p;
+        //         cur_percentage = p;
+        //     }
+        // }
 
-        //test codes
-        //var worker = new Worker('worker_threads.js'); 
+        // var t_end = window.performance.now();
 
+        // console.log("precompute " + trail_length + " frames takes:" + (t_end - t_start));
+
+        precompute_async(trail_length);
         return;
     }
 
@@ -198,6 +221,65 @@ function start_rendering_clicked() {
     //render_interval_obj = setInterval(render_interval_func, 25);
     document.getElementById("pause-render").innerHTML = "Pause";
     animation_playing = true;
+}
+
+var cur_percentage;
+var cur_j;
+var t_start;
+
+function precompute_async(trail_length) {
+    t_start = window.performance.now();
+
+    document.getElementById("static-notif").classList.remove("display-none");
+    cur_percentage = 0;
+    cur_j = 0;
+
+    window.requestAnimationFrame(percentage_update);
+    setTimeout(precompute_step, 0);
+    // for (var j=0; j<trail_length; j++) {
+    //     // for (var i=0; i<current_particles.length; i++) {
+    //     //     current_particles[i].progress_tick(time_step, current_equations, skip_tick);
+    //     // }
+    //     render_interval_func();
+
+    //     var p = Math.floor((j+1) / trail_length * 100);
+    //     if (p > cur_percentage) {
+    //         cur_percentage = p;
+    //         //document.getElementById("static-notif-percentage").innerHTML = "" + cur_percentage;
+    //     }
+    // }
+}
+
+function precompute_step() {
+    while(true){
+        render_interval_func();
+        cur_j += 1;
+
+        var p = Math.floor((cur_j+1) / trail_length * 100);
+        if (p > cur_percentage) {
+            cur_percentage = p;
+            break;
+            //document.getElementById("static-notif-percentage").innerHTML = "" + cur_percentage;
+        }
+
+        if (cur_j >= trail_length) {
+            var t_end = window.performance.now();
+            console.log("precompute " + trail_length + " frames takes:" + (t_end - t_start));
+            return;
+        }
+    }
+
+    setTimeout(precompute_step, 0);
+}
+
+function percentage_update() {
+    document.getElementById("static-notif-percentage").innerHTML = "" + cur_percentage;
+
+    if (cur_percentage >= 100) {
+        return;
+    } else {
+        window.requestAnimationFrame(percentage_update);
+    }
 }
 
 function pause_rendering_clicked(e) {
@@ -232,6 +314,7 @@ function reset_simulation_clicked() {
     cur_frame = 0;
     document.getElementById("pause-render").innerHTML = "Pause";
 
+    document.getElementById("static-notif").classList.add("display-none");
 }
 
 function render_interval_func() {

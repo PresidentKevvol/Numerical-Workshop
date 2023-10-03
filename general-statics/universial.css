@@ -3,9 +3,25 @@ body {
     background-color: #ebfdff;
 }
 
+.display-none {
+    display: none;
+}
+
 h1, h2, h3 {
     font-weight: normal;
     text-align: center;
+}
+
+h1 {
+    font-size: 2.8em;
+    margin-top: 0.8em;
+    margin-bottom: 0.3em;
+}
+
+h2 {
+    margin-bottom: 0.3em;
+}
+h3 {
     margin: 0;
 }
 
@@ -43,8 +59,67 @@ button:hover {
     margin: 1.8em auto;
 }
 
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    background-color: #a4ee95;
+    cursor: pointer;
+    padding: 6px;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+  
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+    background-color: #c0f8bb;
+}
+  
+/* Style the collapsible content. Note: hidden by default */
+.collapsible-content {
+    padding: 0 18px;
+    display: none;
+}
+
+#controls-guide {
+    padding: 0.9em 0;
+}
+
+.sect-title {
+    font-size: 1.6em;
+}
+
+#controls-guide-img-text {
+    font-size: 1.3em;
+
+    line-height: 1.9;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+#controls-guide-img-contain {
+    display: flex;
+    flex-direction: row;
+}
+
+.controls-guide-img {
+    width: 20em;
+    height: 20em;
+    background-size: cover;
+}
+
+#controls-guide-desktop {
+    background-image: url(/general-statics/keyboard.png);
+}
+
+#controls-guide-oculus {
+    background-image: url(/general-statics/oculus-left.png);
+}
+
 #mid-commento-head {
-    font-size: 1.2em;
-    color: gray;
+    font-size: 1.4em;
+    color: rgb(80, 80, 80);
     text-align: center;
 }
