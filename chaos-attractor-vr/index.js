@@ -97,8 +97,10 @@ function ijs_setup() {
         var content = this.nextElementSibling;
         if (content.style.display === "block") {
             content.style.display = "none";
+            this.getElementsByClassName("collapsible-indicator")[0].innerHTML = "+";
         } else {
             content.style.display = "block";
+            this.getElementsByClassName("collapsible-indicator")[0].innerHTML = "-";
         }
     });
 } 
