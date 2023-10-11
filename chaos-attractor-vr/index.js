@@ -193,28 +193,6 @@ function start_rendering_clicked() {
 
     //if precompute a trail
     if (precompute) {
-        // var t_start = window.performance.now();
-
-        // document.getElementById("static-notif").classList.remove("display-none");
-        // var cur_percentage = 0;
-
-        // for (var j=0; j<trail_length; j++) {
-        //     // for (var i=0; i<current_particles.length; i++) {
-        //     //     current_particles[i].progress_tick(time_step, current_equations, skip_tick);
-        //     // }
-        //     render_interval_func();
-
-        //     var p = Math.floor((j+1) / trail_length * 100);
-        //     if (p > cur_percentage) {
-        //         document.getElementById("static-notif-percentage").innerHTML = "" + p;
-        //         cur_percentage = p;
-        //     }
-        // }
-
-        // var t_end = window.performance.now();
-
-        // console.log("precompute " + trail_length + " frames takes:" + (t_end - t_start));
-
         precompute_async(trail_length);
         return;
     }
@@ -253,21 +231,24 @@ function precompute_async(trail_length) {
 }
 
 function precompute_step() {
+    if (cur_j >= trail_length) {
+        var t_end = window.performance.now();
+        console.log("precompute " + trail_length + " frames takes:" + (t_end - t_start));
+        return;
+    }
+
     while(true){
         render_interval_func();
         cur_j += 1;
 
-        var p = Math.floor((cur_j+1) / trail_length * 100);
+        var p = Math.floor((cur_j) / trail_length * 100);
+        if (p > 100) {
+            p = 100;
+        }
         if (p > cur_percentage) {
             cur_percentage = p;
             break;
             //document.getElementById("static-notif-percentage").innerHTML = "" + cur_percentage;
-        }
-
-        if (cur_j >= trail_length) {
-            var t_end = window.performance.now();
-            console.log("precompute " + trail_length + " frames takes:" + (t_end - t_start));
-            return;
         }
     }
 
