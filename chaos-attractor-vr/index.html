@@ -28,6 +28,7 @@
 
         <!-- a-frame vr -->
         <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
         <!-- <script src="https://unpkg.com/aframe-curve-component/dist/aframe-curve-component.min.js"></script> -->
         <script src="../general-statics/wasdqz-controls.js"></script>
         <script src="../general-statics/oculus-thumbstick-controls.js"></script>
@@ -184,7 +185,7 @@
                     <a-entity class="part-heads" geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; " material="color:#00ff00;" position="0 0 0"></a-entity> -->
 
                     <a-sky color="#0f0f0f" hide-on-enter-ar></a-sky>
-                    <a-entity id="rig">
+                    <a-entity id="rig" touch-controls>
                       <a-entity id="aframe-camera" camera wasdqz-controls="acceleration: 20" position="0 1.6 0" look-controls="pointerLockEnabled: false;">
                         <!-- <a-cursor></a-cursor> -->
                       </a-entity>
