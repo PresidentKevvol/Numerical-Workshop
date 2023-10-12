@@ -461,7 +461,7 @@ function flyingspeed_changed(event) {
     var acc = event.target.value;
     document.getElementById("aframe-left-control").setAttribute("oculus-thumbstick-controls", "acceleration: " + acc);
     document.getElementById("aframe-camera").setAttribute("wasdqz-controls", "acceleration: " + acc);
-    document.getElementById("rig").setAttribute("movement-controls", "controls: touch; fly: true; acceleration: " + parseFloat(acc)/200);
+    document.getElementById("rig").setAttribute("movement-controls", "controls: touch; fly: true; speed: " + parseFloat(acc)/200);
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);
