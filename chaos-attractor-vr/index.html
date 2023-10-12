@@ -169,7 +169,8 @@
             <div id="controls-guide-title" class="collapsible sect-title">Settings <span class="collapsible-indicator">+</span></div>
             <div class="collapsible-content">
               Flying speed: <br>
-              <input id="flight-speed" type="range" min="2" max="60" step="0.5" value="20">
+              <input id="flight-speed" type="range" min="0" max="60" step="0.5" value="20"><br>
+              (min value 0 = no movement, useful for tap control on mobile)
             </div>
           </div>
         </div>
@@ -185,7 +186,7 @@
                     <a-entity class="part-heads" geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; " material="color:#00ff00;" position="0 0 0"></a-entity> -->
 
                     <a-sky color="#0f0f0f" hide-on-enter-ar></a-sky>
-                    <a-entity id="rig" movement-controls="controls: touch; speed: 0.2">
+                    <a-entity id="rig" movement-controls="controls: touch; fly: true; speed: 0.1">
                       <a-entity id="aframe-camera" camera wasdqz-controls="acceleration: 20" position="0 1.6 0" look-controls="pointerLockEnabled: false;">
                         <!-- <a-cursor></a-cursor> -->
                       </a-entity>
