@@ -113,6 +113,10 @@ button.important-btn {
     flex-direction: row;
 }
 
+#controls-guide-img-contain .control-guide-platform {
+    text-align: center;
+}
+
 .controls-guide-img {
     width: 20em;
     height: 20em;
