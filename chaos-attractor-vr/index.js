@@ -86,6 +86,8 @@ function ijs_setup() {
     document.getElementById("export-sim-url").addEventListener("mouseout", outFunc);
     document.getElementById("import-sim").addEventListener("click", import_btn_clicked);
 
+    document.getElementById("flight-speed").addEventListener("input", flyingspeed_changed);
+
     //call when all math fields properly loaded
     equation_fields[2].addEventListener('mount', load_url_setup);
 
@@ -452,6 +454,13 @@ function import_setup(ob) {
     if (ob.hasOwnProperty('dt')) { document.getElementById("num-time-step").value = ob.dt; }
     if (ob.hasOwnProperty('skips')) { document.getElementById("anim-frame-step").value = ob.skips; }
     if (ob.hasOwnProperty('trail_length')) { document.getElementById("anim-trail-length").value = ob.trail_length; }
+}
+
+function flyingspeed_changed(event) {
+    //set the acceleration speed value of the VR control to the slider's value
+    var acc = event.target.value;
+    document.getElementById("aframe-left-control").setAttribute("oculus-thumbstick-controls", "acceleration: " + acc);
+    document.getElementById("aframe-camera").setAttribute("wasdqz-controls", "acceleration: " + acc);
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);
