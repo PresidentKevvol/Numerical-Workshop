@@ -1,0 +1,130 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Root finding methods - Numerical Workshop</title>
+        <div data-include="/header-universal.html"></div>
+
+        <!-- cortex js math engine -->
+        <!--
+        <script defer src="https://unpkg.com/mathlive"></script>
+        <script defer src="https://unpkg.com/@cortex-js/compute-engine"></script>
+        -->
+        <script defer type="module">
+          window.addEventListener('DOMContentLoaded', () =>
+          import('https://unpkg.com/mathlive?module').then( (mathlive) => mathlive.renderMathInDocument()) );
+        </script>
+        <!-- <script type="module">
+          import { ComputeEngine } from 'https://unpkg.com/@cortex-js/compute-engine?module';
+          const ce = new ComputeEngine();
+        </script> -->
+        <script src="//unpkg.com/@cortex-js/compute-engine"></script>
+        <script>
+          window.onload = function() {
+            ce = new ComputeEngine.ComputeEngine();
+            console.log(ce.parse("e^{i\\pi}").N().latex);
+            // ➔ "-1"
+          }
+        </script>
+
+        <script src="index.js"></script>
+        <!-- <script src="stock_setups.js"></script>
+        <script src="load_stock_setups.js"></script> -->
+
+        <!-- <script src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
+        <script>
+          async function main(){
+            let pyodide = await loadPyodide();
+            console.log(pyodide.runPython("1 + 2"));
+          }
+          main();
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
+
+        <link rel="stylesheet" href="index.css">
+
+        <!-- meta tags -->
+        <meta property="og:title" content="Root finding methods (1 variable) - Numerical Workshop">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="scrshots/thomas.png">
+        <meta property="og:description" content="Numerical Methods for root finding (1 variable).">
+        
+        <script src="../../general-statics/csi.min.js"></script>
+      </head>
+    <body>
+      <!-- the templates for html elements -->
+        <div id="templates" hidden>
+            <div class="particle-init-entry">
+                  particle color: <input type="color" class="particle-color" value="#66FF66">
+                  trail color: <input type="color" class="trail-color" value="#FFFFFF">
+                  x: <input type="number" class="coord-init" value="0" step="0.0000001">
+                  y: <input type="number" class="coord-init" value="1" step="0.0000001">
+                  z: <input type="number" class="coord-init" value="0" step="0.0000001">
+
+                  <div class="remove-x">x</div>
+            </div>
+            <div class="stock-eqn-showcase">
+              <div class="stock-eqn-name"></div>
+              <div class="stock-eqn-img"></div>
+            </div>
+        </div>
+
+        <h1>Root finding methods (1 variable)</h1>
+        <h2><a href="/">Numerical Workshop</a></h2>
+        <h3>Made by <a href="https://www.hornetsnestguild.com/cvs/kevvol">Kevin//DeepFriedPancake🥞</a>
+          @ <a href="https://www.hornetsnestguild.com/">The Hornet's Nest</a></h3>
+        
+        <!-- include the subheader with bmc and github buttons -->
+        <div data-include="/page-subheader.html"></div>
+
+        <!-- the input for the differential equation system -->
+        <div id="mid-2" class="mid">
+            <table>
+                <tr>
+                    <td><span class="flavourtext">The function:</span></td>
+                    <td><span class="eqn-input">\( f(x) = \) <math-field class="equation-field">x^2 - 3</math-field></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- import/export -->
+        <div id="mid-6" class="mid">
+          <button id="export-sim">Export simulation settings</button>
+          <button id="export-sim-url" class="tooltip"><span class="tooltiptext" id="url-copied-tooltip">Copy to clipboard</span>Export setup as url</button><br>
+          <textarea id="setting-json"></textarea><br>
+          <button id="import-sim">Import simulation settings</button>
+        </div>
+
+        <!-- stock equations -->
+        <div id="mid-7" class="mid">
+          <div class="sect-title">Different numerical methods:</div>
+          <div id="stock-eqns"></div>
+        </div>
+        <!-- control guide -->
+        <div id="mid-8" class="mid">
+          <div id="method-bisection">
+            <div id="" class="collapsible sect-title">Bisection Method<span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content">
+                a: <input type="number" id="method-bisection-param-a" value="0" step="1"><br>
+                b: <input type="number" id="method-bisection-param-b" value="10" step="1"><br>
+                <button>Go</button>
+            </div>
+          </div>
+
+          
+        </div>
+
+        <!-- render the equation to the embedded VR scene -->
+        <div id="mid-5" class="mid">
+            
+        </div>
+
+        <div id="mid-commento-head" class="mid">
+          Leave a comment to showcase simulations you created or report bugs!<br>
+          Comment section created with Commento
+      </div>
+      <div id="mid-commento" class="mid">
+          <div id="commento"></div>
+          <script defer src="https://commento.hornetsnestguild.com/js/commento.js"></script>
+      </div>
+    </body>
+</html>

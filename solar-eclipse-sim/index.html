@@ -1,0 +1,215 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Solar Eclipse Simulator in VR - Numerical Workshop</title>
+        <div data-include="/header-universal.html"></div>
+
+        <!-- cortex js math engine -->
+        <!--
+        <script defer src="https://unpkg.com/mathlive"></script>
+        <script defer src="https://unpkg.com/@cortex-js/compute-engine"></script>
+        -->
+        <!-- <script defer type="module">
+          window.addEventListener('DOMContentLoaded', () =>
+          import('https://unpkg.com/mathlive?module').then( (mathlive) => mathlive.renderMathInDocument()) );
+        </script> -->
+        <!-- <script type="module">
+          import { ComputeEngine } from 'https://unpkg.com/@cortex-js/compute-engine?module';
+          const ce = new ComputeEngine();
+        </script> -->
+        <!-- <script src="//unpkg.com/@cortex-js/compute-engine"></script> -->
+        <!-- <script>
+          window.onload = function() {
+            ce = new ComputeEngine.ComputeEngine();
+            console.log(ce.parse("e^{i\\pi}").N().latex);
+            // ➔ "-1"
+          }
+        </script> -->
+
+        <!-- a-frame vr -->
+        <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+        <!-- <script src="https://unpkg.com/aframe-curve-component/dist/aframe-curve-component.min.js"></script> -->
+        <script src="../general-statics/wasdqz-controls.js"></script>
+        <script src="../general-statics/oculus-thumbstick-controls.js"></script>
+        <script src="../general-statics/timer_funcs.js"></script>
+
+        <script src="shaders.js"></script>
+        <script src="sim-update-component.js"></script>
+        <script src="test_data.js"></script>
+        <script src="fetch_nasa.js"></script>
+        <script src="objects_math.js"></script>
+
+        <script src="index.js"></script>
+        <!-- <script src="stock_setups.js"></script>
+        <script src="load_stock_setups.js"></script> -->
+
+        <!-- <script src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
+        <script>
+          async function main(){
+            let pyodide = await loadPyodide();
+            console.log(pyodide.runPython("1 + 2"));
+          }
+          main();
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
+
+        <link rel="stylesheet" href="index.css">
+
+        <!-- meta tags -->
+        <meta property="og:title" content="Chaos Attractor Simulator in VR (with real NASA data!) - Numerical Workshop">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="scrshots/thomas.png">
+        <meta property="og:description" content="Missed out on a solar eclipse? Watch it in VR simulated with actual NASA data!">
+        
+        <script src="../general-statics/csi.min.js"></script>
+      </head>
+    <body>
+      <!-- the templates for html elements -->
+        <div id="templates" hidden>
+        </div>
+
+        <h1>Solar Eclipse Simulator in VR</h1>
+        <h1>With real NASA data</h1>
+        <h2><a href="/">Numerical Workshop</a></h2>
+        <h3>Made by <a href="https://www.hornetsnestguild.com/cvs/kevvol">Kevin//DeepFriedPancake🥞</a>
+          @ <a href="https://www.hornetsnestguild.com/">The Hornet's Nest</a></h3>
+        
+        <!-- include the subheader with bmc and github buttons -->
+        <div data-include="/page-subheader.html"></div>
+
+        <!-- choose which eclipse to view and where to view it -->
+        <div id="mid-2" class="mid">
+            Select which solar eclipse to view!<br>
+            <select id="select-eclipse">
+              <!-- <option value="2024-na">2017 North American Total Eclipse</option> -->
+              <option value="2024-na">2024 North American Total Eclipse - Buffalo, NY (-78.8784, 42.8864)</option>
+            </select>
+
+            
+        </div>
+
+        <!--  -->
+        <div id="mid-3" class="mid">
+            
+        </div>
+
+        <!-- simulation speed -->
+        <div id="mid-4" class="mid">
+          Simulation speed:<br>
+          <input id="sim-speed" type="range" min="1" max="60" step="1" value="1"> <span id="sim-speed-span">1x</span><br>
+        </div>
+
+        <!-- import/export -->
+        <!-- <div id="mid-6" class="mid">
+          <button id="export-sim">Export simulation settings</button>
+          <button id="export-sim-url" class="tooltip"><span class="tooltiptext" id="url-copied-tooltip">Copy to clipboard</span>Export setup as url</button><br>
+          <textarea id="setting-json"></textarea><br>
+          <button id="import-sim">Import simulation settings</button>
+        </div> -->
+
+        <!-- control guide -->
+        <div id="mid-8" class="mid">
+          <div id="controls-guide">
+            <div id="controls-guide-title" class="collapsible sect-title">Controls <span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content">
+              <div id="controls-guide-img-contain" >
+                <div id="controls-guide-img-text">
+                  <span style="color: rgb(162, 42, 222);">Move around</span><br>
+                  <span style="color: rgb(230, 28, 192);">Rise up</span><br>
+                  <span style="color: rgb(235, 126, 23);">Fall down</span><br>
+                </div>
+                <div class="control-guide-platform">
+                  desktop
+                  <div id="controls-guide-desktop" class="controls-guide-img"></div>
+                  (fps games controls)
+                </div>
+                <div class="control-guide-platform">
+                  Oculus
+                  <div id="controls-guide-oculus" class="controls-guide-img"></div>
+                  (use left controller)
+                </div>
+                <div class="control-guide-platform">
+                  Mobile
+                  <div id="controls-guide-mobile" class="controls-guide-img"></div>
+                  (tap screen to fly)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div id="controls-guide">
+            <div id="controls-guide-title" class="collapsible sect-title">Settings <span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content">
+              Flying speed: <br>
+              <input id="flight-speed" type="range" min="0" max="60" step="0.5" value="20"><br>
+              (min value 0 = no movement, useful for tap control on mobile)
+            </div>
+          </div> -->
+        </div>
+
+        <!-- render the equation to the embedded VR scene -->
+        <div id="mid-5" class="mid">
+            <button id="start-render" class="important-btn">Load simulation!</button><br>
+
+            Camera settings (scope/zoom in like a telescope, flat displays only):<br>
+            FOV: <input id="sim-camfov" type="range" min="16" max="80" step="0.1" value="80"> <span id="sim-camfov-span">80</span><br>
+            Zoom: <input id="sim-camzoom" type="range" min="1" max="5" step="0.1" value="1"> <span id="sim-camzoom-span">1x</span><br>
+            
+            <div id="embedded-vr-scene">
+                <a-scene embedded id="vr-scene" sim-update>
+                    <!-- <a-entity class="trajectory-lines"></a-entity>
+                    <a-entity class="part-heads" geometry="primitive: cone; radiusBottom: 0.06; radiusTop: 0.0; height:0.12; segmentsRadial:3; " material="color:#00ff00;" position="0 0 0"></a-entity> -->
+
+                    <a-sky id="sky-sphere" color="#0f0f0f" hide-on-enter-ar radius="100000000"></a-sky>
+                    <!-- <a-sky id="sky-sphere" color="#87CEEB" hide-on-enter-ar radius="100000000"></a-sky> -->
+
+                    <a-sphere id="Sol" color="white" radius="15" material="shader: flat;" position="0 303 76" src="" segments-width="32" segments-height="64">
+                        <!-- <a-entity light="type: point; intensity: 9; distance: 1000; decay: 2; castShadow: true;" position="0 0 0"></a-entity> -->
+                        <a-cylinder id="Sol-corona" color="" height="0.1" radius="80" position="0 0 0" segments-height="1" segments-radial="36" open-ended="false" shadow="receive: false; cast: false;" material="shader: corona; color: white; opacity: 1.0; cutoff: 0.2; transparent: true;"></a-cylinder>
+
+                    </a-sphere>
+                    <a-sphere id="Luna" color="#0f0f0f" radius="3" position="0 61 14" shadow="receive: false; cast: false;" src="" segments-width="32" segments-height="64" material="shader: flat;"></a-sphere>
+                    <!-- <a-sphere id="Luna" color="rgb(135, 206, 235)" radius="3" position="0 61 14" shadow="receive: false; cast: false;" src="" segments-width="32" segments-height="64" material="shader: flat;"></a-sphere> -->
+
+                    <a-entity light="type: ambient; color: #fff; intensity: 0.5;"></a-entity>
+
+                    <!-- the floor -->
+                    <!-- <a-cylinder color="green" height="1" radius="60" position="0 -0.5 0" segments-height="2" segments-radial="36" open-ended="false" shadow="receive: false; " material="shader: custom-shader-1; color: blue; opacity: 0.7; transparent: true"></a-cylinder> -->
+                    
+
+                    <!-- <a-cylinder color="green" height="1" radius="60" position="0 -10 0" segments-height="2" segments-radial="36" open-ended="false" shadow="receive: false; " material="shader: custom-shader-1; color: blue; opacity: 0.9; transparent: true"></a-cylinder> -->
+                    <!-- <a-sphere id="Luna_2" color="black" radius="10" position="0 -10 0" shadow="receive: false;" src="" segments-width="32" segments-height="64"></a-sphere> -->
+                    <!-- <a-cylinder id="floor" color="green" height="1" radius="60" position="0 -10 0" segments-height="2" segments-radial="36" open-ended="false" shadow="receive: false; " material="shader: corona; color: white; opacity: 1.0; cutoff: 0.2; transparent: true;"></a-cylinder> -->
+                    <a-cylinder id="floor" color="green" height="1" radius="30" position="0 -1 0" segments-height="2" segments-radial="36" open-ended="false" shadow="receive: false; "></a-cylinder>
+                    <!-- the pins signifying the cardinal directions, red = +ve x = north -->
+                    <a-box color="red" depth="0.5" height="8" width="0.5" position="30 0 0"></a-box>
+                    <a-box color="blue" depth="0.5" height="8" width="0.5" position="-30 0 0"></a-box>
+                    <a-box color="white" depth="0.5" height="8" width="0.5" position="0 0 -30"></a-box>
+                    <a-box color="white" depth="0.5" height="8" width="0.5" position="0 0 30"></a-box>
+
+                    <a-entity id="rig" movement-controls="">
+                      <a-entity id="aframe-camera" camera="far: 120000000; fov: 80; zoom: 1;" wasdqz-controls="acceleration: 0" position="0 0.5 0" look-controls="pointerLockEnabled: false;">
+                        <!-- <a-cursor></a-cursor> -->
+                      </a-entity>
+                      <a-entity oculus-touch-controls="hand: left" id="aframe-left-control" oculus-thumbstick-controls="acceleration: 0"></a-entity>
+                      <a-entity oculus-touch-controls="hand: right" ></a-entity>
+                    </a-entity>
+            </a-scene>
+              </div>
+              Simulation time: <span id="sim-time-span"></span><br>
+              <input id="sim-time" type="range" min="1" max="21600" step="1" value="1"> <br>
+              <button id="pause-render" class="important-btn">Pause</button>
+              <button id="play-sim" class="important-btn">Play</button>
+        </div>
+
+        <div id="mid-commento-head" class="mid">
+          Leave a comment to showcase simulations you created or report bugs!<br>
+          Comment section created with Commento
+      </div>
+      <div id="mid-commento" class="mid">
+          <div id="commento"></div>
+          <script defer src="https://commento.hornetsnestguild.com/js/commento.js"></script>
+      </div>
+    </body>
+</html>
