@@ -159,9 +159,7 @@
             </div>
             <button id="start-render" class="important-btn">Load simulation!</button><br>
             <br>
-            Simulation speed:<br>
-            <input id="sim-speed" type="range" min="1" max="60" step="1" value="1"> <span id="sim-speed-span">1x</span><br>
-            <br>
+            
 
             Camera settings (scope/zoom in like a telescope, flat displays/non-headset only):<br>
             FOV: <input id="sim-camfov" type="range" min="16" max="80" step="0.1" value="80"> <span id="sim-camfov-span">80</span> &nbsp; &nbsp; &nbsp;
@@ -208,6 +206,9 @@
                     </a-entity>
             </a-scene>
               </div>
+              Simulation speed:<br>
+            <input id="sim-speed" type="range" min="1" max="60" step="1" value="1"> <span id="sim-speed-span">1x</span><br>
+            <br>
               Simulation time: <span id="sim-time-span">--:--:--</span><br>
               <input id="sim-time" type="range" min="1" max="21600" step="1" value="1"> <br>
               <button id="pause-render" class="important-btn">Pause</button>

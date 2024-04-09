@@ -71,6 +71,18 @@ function cam_zoom_change(e) {
     window.dispatchEvent(new Event('resize'));
 }
 
+// manually change zoom, called by other code
+function change_zoom(z) {
+    cam_zoom = z;
+    document.getElementById("sim-camzoom-span").innerHTML = z + 'x';
+    document.getElementById("aframe-camera").setAttribute("camera", `fov: ${cam_fov}; zoom: ${cam_zoom};`);
+
+    document.getElementById("sim-camzoom").value = z;
+
+    //trigger resize event to fix aspect ratio in embed mode
+    window.dispatchEvent(new Event('resize'));
+}
+
 //when sim time i.e. the play progress bar dragged
 function sim_time_change(e) {
     if (cur_setup_data === false) {
@@ -225,6 +237,15 @@ function load_sim_pressed() {
         cur_simulation_time = 0;
         set_play_bar(cur_simulation_time, cur_setup_data.start_time_local, true);
         render_simworld_at_time(cur_simulation_time);
+
+        //point the camera at sun
+        document.getElementById("aframe-camera").setAttribute('look-controls', {enabled: false});
+        var sol_pos = document.getElementById("Sol").getAttribute("position");
+        document.getElementById("aframe-camera").sceneEl.camera.lookAt(sol_pos.x, sol_pos.y, sol_pos.z);
+        document.getElementById("aframe-camera").setAttribute('look-controls', {enabled: true});
+
+        //focus on sol
+        change_zoom(4.5);
     }
 }
 
