@@ -135,11 +135,11 @@ function render_simworld_at_time(t) {
     var array_time_greenwich = cur_setup_data.start_time_dataset + t;
     var sol_a = sol_angle_hermites.get_angles(array_time_greenwich)
     var lun_a = luna_angle_hermites.get_angles(array_time_greenwich)
-    set_body_pos("Sol", sol_a[0], sol_a[1], sol_distance_2024_04_08_totality / scale_factor);
-    set_body_pos("Luna", lun_a[0], lun_a[1], luna_distance_2024_04_08_totality / scale_factor);
+    set_body_pos("Sol", sol_a[0], sol_a[1], cur_setup_data.sol_dist / scale_factor);
+    set_body_pos("Luna", lun_a[0], lun_a[1], cur_setup_data.luna_dist / scale_factor);
 
     //TODO: calculate coverage ratio and change sky color accordingly
-    var coverage = calc_coverage_ratio(sol_a, lun_a, sol_distance_2024_04_08_totality, luna_distance_2024_04_08_totality);
+    var coverage = calc_coverage_ratio(sol_a, lun_a, cur_setup_data.sol_dist, cur_setup_data.luna_dist);
     //test code
     //console.log(coverage);
     //thus, calculate the sky's color and match luna's color to it
@@ -276,13 +276,6 @@ function ijs_setup() {
     //place them under the floor for start
     set_body_pos("Sol", 0, -90, sol_distance_2024_04_08_totality / scale_factor);
     set_body_pos("Luna", 0, -90, luna_distance_2024_04_08_totality / scale_factor);
-
-
-    //
-    //generate the hermite polynomials
-    sol_angle_hermites = generate_hermite_polys(sol_data_test, 5);
-    luna_angle_hermites = generate_hermite_polys(luna_data_test, 5);
-
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);

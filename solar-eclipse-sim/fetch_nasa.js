@@ -7,6 +7,8 @@ var luna_radius = 1737400;
 //url to get observer table from nasa horizon api
 var nasa_horizons_observer_url = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27{{id}}%27&OBJ_DATA=%27NO%27&CENTER=%27COORD%27&SITE_COORD=%27{{long}},{{lat}},0%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272024-04-08%27&STOP_TIME=%272024-04-09%27&EXTRA_PREC=%27yes%27&STEP_SIZE=%27{{step}}%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27deg%27&QUANTITIES=%274,5%27";
 
+//function for getting ephemeris data
+//not used due to need to solve CORS proxying first
 function get_observer_ephemeris(body_id, lat, long, step, callback) {
     var url = nasa_horizons_observer_url.replace("{{id}}", body_id).replace("{{lat}}", lat).replace("{{long}}", long).replace("{{step}}", step);
     httpGetAsync(url, callback);
@@ -40,12 +42,8 @@ function observer_ephemeris_toarray(text) {
 
 //from midnight between 04-07 and 04-08 to the next midnight
 //data are stored in 5 minute intervals
-var sol_data_test = observer_ephemeris_toarray(test_sol_data_20240408);
-var luna_data_test = observer_ephemeris_toarray(test_luna_data_20240408);
-
+// var sol_data_test = observer_ephemeris_toarray(test_sol_data_20240408);
+// var luna_data_test = observer_ephemeris_toarray(test_luna_data_20240408);
 
 //scale universe distance by this factor and use it for the vr world's coords
 var scale_factor = 20000;
-
-//the latitude and longitude of buffalo, NY
-var buffalo = [-78.8784, 42.8864];
