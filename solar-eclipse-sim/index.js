@@ -57,12 +57,18 @@ function sim_speed_change(e) {
 function cam_fov_change(e) {
     cam_fov = e.target.value;
     document.getElementById("sim-camfov-span").innerHTML = e.target.value;
-    document.getElementById("aframe-camera").setAttribute("camera", `far: 120000000; fov: ${cam_fov}; zoom: ${cam_zoom};`);
+    document.getElementById("aframe-camera").setAttribute("camera", `fov: ${cam_fov}; zoom: ${cam_zoom};`);
+
+    //trigger resize event to fix aspect ratio in embed mode
+    window.dispatchEvent(new Event('resize'));
 }
 function cam_zoom_change(e) {
     cam_zoom = e.target.value;
     document.getElementById("sim-camzoom-span").innerHTML = e.target.value + 'x';
-    document.getElementById("aframe-camera").setAttribute("camera", `far: 120000000; fov: ${cam_fov}; zoom: ${cam_zoom};`);
+    document.getElementById("aframe-camera").setAttribute("camera", `fov: ${cam_fov}; zoom: ${cam_zoom};`);
+
+    //trigger resize event to fix aspect ratio in embed mode
+    window.dispatchEvent(new Event('resize'));
 }
 
 //when sim time i.e. the play progress bar dragged
@@ -70,7 +76,7 @@ function sim_time_change(e) {
     if (cur_setup_data === false) {
         return;
     }
-    
+
     var time_new = parseFloat(e.target.value);
     set_play_bar(time_new, cur_setup_data.start_time_local, false);
 

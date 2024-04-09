@@ -160,8 +160,9 @@
             <button id="start-render" class="important-btn">Load simulation!</button><br>
             <br>
             Simulation speed:<br>
-            <br>
             <input id="sim-speed" type="range" min="1" max="60" step="1" value="1"> <span id="sim-speed-span">1x</span><br>
+            <br>
+
             Camera settings (scope/zoom in like a telescope, flat displays/non-headset only):<br>
             FOV: <input id="sim-camfov" type="range" min="16" max="80" step="0.1" value="80"> <span id="sim-camfov-span">80</span> &nbsp; &nbsp; &nbsp;
             Zoom: <input id="sim-camzoom" type="range" min="1" max="15" step="0.1" value="1"> <span id="sim-camzoom-span">1x</span><br>
@@ -199,7 +200,7 @@
                     <a-box color="white" depth="0.5" height="8" width="0.5" position="0 0 30"></a-box>
 
                     <a-entity id="rig" movement-controls="">
-                      <a-entity id="aframe-camera" camera="far: 120000000; fov: 80; zoom: 1;" wasdqz-controls="acceleration: 0" position="0 0.5 0" look-controls="pointerLockEnabled: false;">
+                      <a-entity id="aframe-camera" camera="far: 120000000; fov: 80; zoom: 1; wasd-controls-enabled: false;" wasdqz-controls="acceleration: 0" position="0 0.5 0" look-controls="pointerLockEnabled: false;">
                         <!-- <a-cursor></a-cursor> -->
                       </a-entity>
                       <a-entity oculus-touch-controls="hand: left" id="aframe-left-control" oculus-thumbstick-controls="acceleration: 0"></a-entity>

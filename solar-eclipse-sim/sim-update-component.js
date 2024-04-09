@@ -7,6 +7,7 @@ AFRAME.registerComponent('sim-update', {
       this.default_interval = 0;
       this.tick_ct = 0;
       this.real_timedelta = 0;
+      this.total_time = 0;
 
       this.frameskip_ratio = 2;
     },
@@ -18,7 +19,9 @@ AFRAME.registerComponent('sim-update', {
 
             //update every n frame
             if (this.tick_ct === 0) {
-                render_interval_func(time, this.real_timedelta);
+                this.total_time += this.real_timedelta;
+
+                render_interval_func(this.total_time, this.real_timedelta);
                 this.real_timedelta = 0;
             }
 

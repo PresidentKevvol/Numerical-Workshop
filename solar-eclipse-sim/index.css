@@ -28,8 +28,8 @@ span.caution-large {
 }
 
 a-scene {
-    height: 56vw;
-    width: 84vw;
+    /* height: 56vw; */
+    width: 72vw;
     margin: auto;
 }
 
