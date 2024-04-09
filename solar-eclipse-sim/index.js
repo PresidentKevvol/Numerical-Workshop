@@ -238,14 +238,16 @@ function load_sim_pressed() {
         set_play_bar(cur_simulation_time, cur_setup_data.start_time_local, true);
         render_simworld_at_time(cur_simulation_time);
 
-        //point the camera at sun
-        document.getElementById("aframe-camera").setAttribute('look-controls', {enabled: false});
-        var sol_pos = document.getElementById("Sol").getAttribute("position");
-        document.getElementById("aframe-camera").sceneEl.camera.lookAt(sol_pos.x, sol_pos.y, sol_pos.z);
-        document.getElementById("aframe-camera").setAttribute('look-controls', {enabled: true});
+        // //point the camera at sun
+        // document.getElementById("aframe-camera").setAttribute('look-controls', {enabled: false});
+        // var sol_pos = document.getElementById("Sol").getAttribute("position");
+        // document.getElementById("aframe-camera").sceneEl.camera.lookAt(sol_pos.x, sol_pos.y, sol_pos.z);
+        // document.getElementById("aframe-camera").setAttribute('look-controls', {enabled: true});
 
-        //focus on sol
-        change_zoom(4.5);
+        // document.getElementById("aframe-camera").setAttribute("rotation", "0 0 0");
+
+        // //focus on sol
+        // change_zoom(4.5);
     }
 }
 
