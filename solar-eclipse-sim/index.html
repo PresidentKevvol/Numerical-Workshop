@@ -153,13 +153,17 @@
               Even though this simulation allow you to look directly at a virtual sun and moon, <br>
               <span class="caution-large">Never stare at the sun directly in real life</span>.
             </div>
-            <input type="checkbox" id="caution-understood"> I understood.<br>
+            <br>
+            <div id="understood-div">
+              <input type="checkbox" id="caution-understood"> <label for="caution-understood">I understood.</label><br>
+            </div>
             <button id="start-render" class="important-btn">Load simulation!</button><br>
             <br>
             Simulation speed:<br>
+            <br>
             <input id="sim-speed" type="range" min="1" max="60" step="1" value="1"> <span id="sim-speed-span">1x</span><br>
-            Camera settings (scope/zoom in like a telescope, flat displays only):<br>
-            FOV: <input id="sim-camfov" type="range" min="16" max="80" step="0.1" value="80"> <span id="sim-camfov-span">80</span><br>
+            Camera settings (scope/zoom in like a telescope, flat displays/non-headset only):<br>
+            FOV: <input id="sim-camfov" type="range" min="16" max="80" step="0.1" value="80"> <span id="sim-camfov-span">80</span> &nbsp; &nbsp; &nbsp;
             Zoom: <input id="sim-camzoom" type="range" min="1" max="15" step="0.1" value="1"> <span id="sim-camzoom-span">1x</span><br>
             
             <div id="embedded-vr-scene">

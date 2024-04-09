@@ -20,6 +20,13 @@ span.caution-large {
     color: crimson;
 }
 
+#understood-div {
+    font-size: 1.3em;
+}
+#caution-understood {
+    transform: scale(1.5);
+}
+
 a-scene {
     height: 56vw;
     width: 84vw;

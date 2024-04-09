@@ -65,7 +65,12 @@ function cam_zoom_change(e) {
     document.getElementById("aframe-camera").setAttribute("camera", `far: 120000000; fov: ${cam_fov}; zoom: ${cam_zoom};`);
 }
 
+//when sim time i.e. the play progress bar dragged
 function sim_time_change(e) {
+    if (cur_setup_data === false) {
+        return;
+    }
+    
     var time_new = parseFloat(e.target.value);
     set_play_bar(time_new, cur_setup_data.start_time_local, false);
 
@@ -201,6 +206,7 @@ function load_setup(setup_obj) {
     setup_obj.luna_pos_ary = observer_ephemeris_toarray(setup_obj.luna_pos_data);
     sol_angle_hermites = generate_hermite_polys(setup_obj.sol_pos_ary, 5);
     luna_angle_hermites = generate_hermite_polys(setup_obj.luna_pos_ary, 5);
+    document.getElementById("sim-time").setAttribute("max", setup_obj.duration);
 }
 
 function load_sim_pressed() {
@@ -227,8 +233,18 @@ function ijs_setup() {
     
     document.getElementById("sim-time").addEventListener("input", sim_time_change);
 
-    document.getElementById("pause-render").addEventListener("click", function() {animation_playing = false;});
-    document.getElementById("play-sim").addEventListener("click", function() {animation_playing = true;});
+    document.getElementById("pause-render").addEventListener("click", function() {
+        if (cur_setup_data === false) {
+            return;
+        }    
+        animation_playing = false;
+    });
+    document.getElementById("play-sim").addEventListener("click", function() {
+        if (cur_setup_data === false) {
+            return;
+        }    
+        animation_playing = true;
+    });
 
     document.getElementById("start-render").addEventListener("click", load_sim_pressed);
 

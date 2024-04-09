@@ -607,6 +607,7 @@ var buffalo_2024_04_08_data = {
     luna_dist: luna_distance_2024_04_08_totality,
     start_time_dataset: buffalo_2024_04_08_start_time_dataset,
     start_time_local: buffalo_2024_04_08_start_time_local,
+    duration: 3.5 * 3600
 };
 
 var setups_map = {"2024-na-buffalo": buffalo_2024_04_08_data};
