@@ -590,3 +590,23 @@ $$EOE
 ********************************************************************************
 `;
 
+//the distances from earth to sol/luna at totality 
+var sol_distance_2024_04_08_totality = 149825144253.51667;
+var luna_distance_2024_04_08_totality = 359883990.08684483;
+
+//the simulation for buffalo starts at 1:30pm at U -4 time zone
+var buffalo_2024_04_08_start_time_dataset = (1.5+12 + 4) * 3600;
+var buffalo_2024_04_08_start_time_local = (1.5+12) * 3600;
+
+
+//data at buffalo at 2024 apr 8th
+var buffalo_2024_04_08_data = {
+    sol_pos_data: test_sol_data_20240408,
+    luna_pos_data: test_luna_data_20240408,
+    sol_dist: sol_distance_2024_04_08_totality,
+    luna_dist: luna_distance_2024_04_08_totality,
+    start_time_dataset: buffalo_2024_04_08_start_time_dataset,
+    start_time_local: buffalo_2024_04_08_start_time_local,
+};
+
+var setups_map = {"2024-na-buffalo": buffalo_2024_04_08_data};

@@ -70,6 +70,8 @@ uniform float cutoff;
 
 uniform float timeMsec; // A-Frame time in milliseconds.
 
+uniform float trueTimeMsec; //true aframe time, does not get reset when 'material' attribute change
+
 // the position vector variable passed from vertex shader
 varying vec2 pos;
 
@@ -138,9 +140,9 @@ void main () {
     float a1 = angleShift(angl, 4.2134);
     float a2 = angleShift(angl, 0.3645);
     float a3 = angleShift(angl, 1.9701);
-    vec2 p1 = vec2(a1, (timeMsec /1000. /30.) + 12.45);
-    vec2 p2 = vec2(a2, (timeMsec /1000. /60.) - 7.401);
-    vec2 p3 = vec2(a3, (timeMsec /1000. /90.) - 66.93);
+    vec2 p1 = vec2(a1, (trueTimeMsec /1000. /30.) + 12.45);
+    vec2 p2 = vec2(a2, (trueTimeMsec /1000. /60.) - 7.401);
+    vec2 p3 = vec2(a3, (trueTimeMsec /1000. /90.) - 66.93);
     float perl1 = pNoise(p1, 5);
     float perl2 = pNoise(p2, 4);
     float perl3 = pNoise(p3, 3);

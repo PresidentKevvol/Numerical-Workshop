@@ -83,7 +83,7 @@
             Select which solar eclipse to view!<br>
             <select id="select-eclipse">
               <!-- <option value="2024-na">2017 North American Total Eclipse</option> -->
-              <option value="2024-na">2024 North American Total Eclipse - Buffalo, NY (-78.8784, 42.8864)</option>
+              <option value="2024-na-buffalo">2024 North American Total Eclipse - Buffalo, NY (-78.8784, 42.8864)</option>
             </select>
 
             
@@ -96,8 +96,7 @@
 
         <!-- simulation speed -->
         <div id="mid-4" class="mid">
-          Simulation speed:<br>
-          <input id="sim-speed" type="range" min="1" max="60" step="1" value="1"> <span id="sim-speed-span">1x</span><br>
+          
         </div>
 
         <!-- import/export -->
@@ -109,7 +108,7 @@
         </div> -->
 
         <!-- control guide -->
-        <div id="mid-8" class="mid">
+        <!-- <div id="mid-8" class="mid">
           <div id="controls-guide">
             <div id="controls-guide-title" class="collapsible sect-title">Controls <span class="collapsible-indicator">+</span></div>
             <div class="collapsible-content">
@@ -138,23 +137,30 @@
             </div>
           </div>
 
-          <!-- <div id="controls-guide">
+          <div id="controls-guide">
             <div id="controls-guide-title" class="collapsible sect-title">Settings <span class="collapsible-indicator">+</span></div>
             <div class="collapsible-content">
               Flying speed: <br>
               <input id="flight-speed" type="range" min="0" max="60" step="0.5" value="20"><br>
               (min value 0 = no movement, useful for tap control on mobile)
             </div>
-          </div> -->
-        </div>
+          </div>
+        </div> -->
 
         <!-- render the equation to the embedded VR scene -->
         <div id="mid-5" class="mid">
+            <div id="caution-hint">
+              Even though this simulation allow you to look directly at a virtual sun and moon, <br>
+              <span class="caution-large">Never stare at the sun directly in real life</span>.
+            </div>
+            <input type="checkbox" id="caution-understood"> I understood.<br>
             <button id="start-render" class="important-btn">Load simulation!</button><br>
-
+            <br>
+            Simulation speed:<br>
+            <input id="sim-speed" type="range" min="1" max="60" step="1" value="1"> <span id="sim-speed-span">1x</span><br>
             Camera settings (scope/zoom in like a telescope, flat displays only):<br>
             FOV: <input id="sim-camfov" type="range" min="16" max="80" step="0.1" value="80"> <span id="sim-camfov-span">80</span><br>
-            Zoom: <input id="sim-camzoom" type="range" min="1" max="5" step="0.1" value="1"> <span id="sim-camzoom-span">1x</span><br>
+            Zoom: <input id="sim-camzoom" type="range" min="1" max="15" step="0.1" value="1"> <span id="sim-camzoom-span">1x</span><br>
             
             <div id="embedded-vr-scene">
                 <a-scene embedded id="vr-scene" sim-update>
@@ -166,7 +172,7 @@
 
                     <a-sphere id="Sol" color="white" radius="15" material="shader: flat;" position="0 303 76" src="" segments-width="32" segments-height="64">
                         <!-- <a-entity light="type: point; intensity: 9; distance: 1000; decay: 2; castShadow: true;" position="0 0 0"></a-entity> -->
-                        <a-cylinder id="Sol-corona" color="" height="0.1" radius="80" position="0 0 0" segments-height="1" segments-radial="36" open-ended="false" shadow="receive: false; cast: false;" material="shader: corona; color: white; opacity: 1.0; cutoff: 0.2; transparent: true;"></a-cylinder>
+                        <a-cylinder id="Sol-corona" color="" height="0.1" radius="80" position="0 0 0" segments-height="1" segments-radial="36" open-ended="false" shadow="receive: false; cast: false;" material="shader: corona; color: white; opacity: 0.0; cutoff: 0.2; transparent: true;"></a-cylinder>
 
                     </a-sphere>
                     <a-sphere id="Luna" color="#0f0f0f" radius="3" position="0 61 14" shadow="receive: false; cast: false;" src="" segments-width="32" segments-height="64" material="shader: flat;"></a-sphere>
@@ -197,7 +203,7 @@
                     </a-entity>
             </a-scene>
               </div>
-              Simulation time: <span id="sim-time-span"></span><br>
+              Simulation time: <span id="sim-time-span">--:--:--</span><br>
               <input id="sim-time" type="range" min="1" max="21600" step="1" value="1"> <br>
               <button id="pause-render" class="important-btn">Pause</button>
               <button id="play-sim" class="important-btn">Play</button>

@@ -20,6 +20,10 @@ function to_coord_string(xyz) {
     return `${xyz[0]} ${xyz[1]} ${xyz[2]}`;
 }
 
+function to_color_str(rgb) {
+    return `rgb(${Math.floor(rgb[0])}, ${Math.floor(rgb[1])}, ${Math.floor(rgb[2])})`;
+}
+
 //get the hermite 2,2 interpolation polynomial from the 4 points
 //returns the coefficients of a cubic polynomial
 function hermite_2_2(f0, f1, df0, df1) {
@@ -64,6 +68,8 @@ function generate_hermite_polys(body_angles, delta_mins) {
     var result = {
         delta: delta_mins * 60,
         polys: res,
+        //get the angles of a body based on hermite interpolation
+        //t is in seconds, counting from the beginning of the data the hermite polynomial set is based on
         get_angles: function(t) {
             //which array index to use
             var i = Math.floor(t / this.delta);
@@ -77,12 +83,6 @@ function generate_hermite_polys(body_angles, delta_mins) {
     };
 
     return result;
-}
-
-//get the angles of a body based on hermite interpolation
-//t is in seconds, counting from the beginning of the data the hermite polynomial set is based on
-function get_angles_from_hermites(herm_polys, t) {
-
 }
 
 /*
@@ -105,10 +105,6 @@ function set_body_radius(html_id, r) {
 function set_luna_color(rgb) {
     document.getElementById("Luna").setAttribute("color", rgb);
 }
-
-//the sky color at max/min brightness
-var sky_max_color = [135, 206, 235];
-var sky_min_color = [23, 33, 54];
 
 //interpolate between two colors
 //x range from 0 to 1
@@ -154,7 +150,7 @@ function calc_coverage_ratio(sol_azel, luna_azel, sol_dist, luna_dist) {
     var rl2 = luna_radius_scaled * luna_radius_scaled;
     var d2 = d * d;
 
-    var area = rs2 * Math.acos((d2 + rs2 - rl2) / 2*d*rs) + rl2 * Math.acos((d2 + rl2 - rs2) / 2*d*rl) - 0.5 * Math.sqrt((-d+rs+rl) * (d+rs-rl) * (d-rs+rl) * (d+rs+rl));
+    var area = rs2 * Math.acos((d2 + rs2 - rl2) / (2*d*rs)) + rl2 * Math.acos((d2 + rl2 - rs2) / (2*d*rl)) - 0.5 * Math.sqrt((-d+rs+rl) * (d+rs-rl) * (d-rs+rl) * (d+rs+rl));
 
     //overlap area / sol virtual area
     return area / (Math.PI * rs2);

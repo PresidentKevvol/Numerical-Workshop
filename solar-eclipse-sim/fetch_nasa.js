@@ -43,9 +43,6 @@ function observer_ephemeris_toarray(text) {
 var sol_data_test = observer_ephemeris_toarray(test_sol_data_20240408);
 var luna_data_test = observer_ephemeris_toarray(test_luna_data_20240408);
 
-//the distances from earth to sol/luna at totality 
-var sol_distance_2024_04_08_totality = 149825144253.51667;
-var luna_distance_2024_04_08_totality = 359883990.08684483;
 
 //scale universe distance by this factor and use it for the vr world's coords
 var scale_factor = 20000;

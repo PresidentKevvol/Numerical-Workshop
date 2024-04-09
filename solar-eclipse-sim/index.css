@@ -15,6 +15,11 @@ div#mid-5 {
     text-align: center;
 }
 
+span.caution-large {
+    font-size: 1.4em;
+    color: crimson;
+}
+
 a-scene {
     height: 56vw;
     width: 84vw;
