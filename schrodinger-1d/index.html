@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Schrodinger's sandbox / 1D Quantum Wave Functions Simulator - Numerical Workshop</title>
+        <div data-include="/header-universal.html"></div>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY1Z9PCN9N"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-TY1Z9PCN9N');
+        </script>
+        
+        <!--
+        <script defer src="https://unpkg.com/mathlive"></script>
+        <script defer src="https://unpkg.com/@cortex-js/compute-engine"></script>
+        -->
+        <script defer type="module">
+          window.addEventListener('DOMContentLoaded', () =>
+          import('https://unpkg.com/mathlive?module').then( (mathlive) => mathlive.renderMathInDocument()) );
+        </script>
+        <script type="module">
+          import { ComputeEngine } from 'https://unpkg.com/@cortex-js/compute-engine?module';
+          const ce = new ComputeEngine();
+        </script>
+        <script src="index.js"></script>
+        <script src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
+        <script>
+          async function main(){
+            let pyodide = await loadPyodide();
+            console.log(pyodide.runPython("1 + 2"));
+          }
+          main();
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <link href="https://fonts.cdnfonts.com/css/now" rel="stylesheet">
+        <link rel="stylesheet" href="index.css">
+
+        <!-- meta tags -->
+        <meta property="og:title" content="1D Quantum Wave Functions Simulator - Numerical Workshop">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="metaimg.png">
+        <meta property="og:description" content="Interactive quantum wave functions simulator by numerically solving the Schrodinger's equation. Input your own custom potential and initial wave function!">
+        
+        <script src="../general-statics/csi.min.js"></script>
+    </head>
+    <body>
+        <div hidden="hidden" id="templates">
+          <div class="equation-piece">
+            <math-field class="equation-piece-field"></math-field>
+            \(x \in [ \) <input type="number" value="-10" step="0.01" class="range-low">, <input type="number" value="10" step="0.01" class="range-high"> \( ] \)
+            &nbsp;&nbsp;&nbsp;
+            <div class="remove-x">x</div>
+          </div>
+        </div>
+
+        <h1>Schrodinger's sandbox / 1D Quantum Wave Functions Simulator</h1>
+        <h2><a href="/">Numerical Workshop</a></h2>
+        <h3>Made by <a href="https://www.deepfriedpancake.com/cvs">Kevin//DeepFriedPancake🥞</a></h3>
+
+        <div id="mid-1" class="mid">
+            The Schrodinger equation
+            <div class="eqn-centered">
+              \[ i\hbar \frac{\partial \Psi}{\partial t} = -\frac{\hbar^2}{2m} \frac{\partial^2\Psi}{\partial x^2} + V \Psi \]
+            </div>
+            <br>
+        </div>
+
+        <div id="mid-2" class="mid">
+          The potential energy function:<br>
+          \( V(x) = \)
+          <div class="equation-pieces-set" id="equation-pieces-set-v">
+            <div class="equation-piece">
+              <math-field class="equation-piece-field">\frac{1}{2}x^2</math-field>
+              \(x \in [ \) <input type="number" value="-10" step="0.01" class="range-low">, <input type="number" value="10" step="0.01" class="range-high"> \( ] \)
+            </div>
+          </div>
+          <button class="add-function-piece-btn">+ add function piece</button>
+        </div>
+
+        <div id="mid-3" class="mid">
+          <button id="plot-v-btn" class="plot">plot potential energy</button>
+          <div class="graph-contain">
+            <canvas id="plot-potential" class="func-plots" width="2000" height="1400"></canvas>
+          </div>
+        </div>
+
+        <div id="mid-4" class="mid">
+          <button id="solve-eigenfuncs" class="plot">Solve for standing waves</button><br>
+          (After solutions appear, move the slider to see different standing wave functions!)<br>
+          <input type="range" id="eigenfunc-display-slider" min="0" max="0" value="0" step="1"><br>
+          <div class="graph-contain">
+            <canvas id="plot-eigen-waves" class="func-plots" width="2000" height="1400"></canvas>
+          </div>
+        </div>
+
+        <div id="mid-5" class="mid">
+          The initial wave function:<br>
+          \( \psi(x) = \)
+          <div class="equation-pieces-set" id="equation-pieces-set-psi">
+            <div class="equation-piece">
+              <math-field class="equation-piece-field">4 - \frac{(x+4)^2}{4}</math-field>
+              \(x \in [ \) <input type="number" value="-8" step="0.01" class="range-low">, <input type="number" value="0" step="0.01" class="range-high"> \( ] \)
+            </div>
+          </div>
+          <button class="add-function-piece-btn">+ add function piece</button>
+        </div>
+
+        <div id="mid-6" class="mid">
+          <button id="plot-init-psi-btn" class="plot">plot initial wave function</button><br>
+          (It will be normalized automatically)
+          <div class="graph-contain">
+            <canvas id="plot-init-wave" class="func-plots" width="2000" height="1400"></canvas>
+          </div>
+        </div>
+
+        <div id="mid-7" class="mid">
+          <button id="plot-init-psi-transform-btn" class="plot">plot wave function</button><br>
+          t = <input type="number" value="0" min="0" step="0.01" id="wave-t"> <button id="play-wave">play</button> <br>
+          (animation speed: dt = <input type="number" value="0.01" min="0.001" max="1" step="0.001" id="wave-anim-speed">)
+          <div class="graph-contain">
+            <canvas id="plot-wave-progression" class="func-plots" width="2000" height="1400"></canvas>
+          </div>
+          <div class="graph-contain">
+            <canvas id="plot-prob-dist-progression" class="func-plots" width="2000" height="1400"></canvas>
+          </div>
+        </div>
+
+        <div id="mid-8" class="mid">
+        </div>
+        <div id="mid-9" class="mid">
+        </div>
+
+        <div id="mid-commento-head" class="mid">
+          Leave a comment to showcase simulations you created or report bugs!<br>
+          Comment section created with Commento
+        </div>
+        <div id="mid-commento" class="mid">
+          <div id="commento"></div>
+          <script defer src="https://commento.hornetsnestguild.com/js/commento.js"></script>
+        </div>
+
+        <div data-include="/footer-universal.html"></div>
+    </body>
+</html>

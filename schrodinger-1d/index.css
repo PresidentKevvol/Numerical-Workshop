@@ -1,0 +1,111 @@
+body {
+  font-family: 'Now', sans-serif;
+  background-color: #ebfdff;
+
+  text-align: center;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2.8em;
+  margin-top: 1em;
+  margin-bottom: 0.4em;
+}
+
+.mid {
+  width: 80vw;
+  text-align: center;
+  margin: 2.4em auto;
+}
+
+button {
+  border: 2px solid #0f5e83;
+  color: black;
+  border-radius: 6px;
+  background-color: #00000000;
+
+  padding: 5px;
+
+  transition: 0.4s ease;
+  margin: 6px;
+}
+
+button:hover {
+  border: 2px solid #08374d;
+  color: white;
+  background-color: #08374d;
+}
+/* 
+button:focus {
+  border: 2px solid #20688a;
+  color: #20688a;
+  background-color: #0f5e8381;
+} */
+
+button.add-function-piece-btn {
+  font-size: 0.8em;
+}
+
+button.plot {
+  font-size: 1.1em;
+}
+
+.remove-x {
+  color: gray;
+  display: inline-block;
+  font-size: 1.15em;
+  cursor: pointer;
+  /* float: right; */
+}
+.remove-x:hover {
+  color: crimson;
+}
+
+div.eqn-centered {
+  font-size: 1.5em;
+  margin: auto;
+  width: fit-content;
+}
+
+.mid input[type='number']{
+  width: 4.5em;
+}
+
+div#mid-2, div#mid-5 {
+  font-size: 1.35em;
+}
+
+div.equation-pieces-set {
+  border: 1px solid green;
+  border-radius: 5px;
+  width: fit-content;
+  margin: auto;
+  padding: 0.4em;
+}
+
+div.graph-contain {
+  max-width: 70vh;
+  max-height: 49vh;
+
+  background-color: white;
+  margin: auto;
+}
+
+/*
+canvas.func-plots {
+  height: 25em;
+}
+*/
+
+input#eigenfunc-display-slider {
+  max-width: 70vh;
+  width: 87.5%;
+}
+
+input#wave-t {
+  width: 7em;
+}

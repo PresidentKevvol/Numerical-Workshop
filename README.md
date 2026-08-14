@@ -12,9 +12,9 @@ with focus on rich, modern web features including:
 - Demonstrations in 3D graphics with VR/AR compatibility using [A-frame](https://aframe.io/)
 
 As of now it includes:
+- A solar eclipse simulator made for VR
 - A sandbox for visualizing system of differential equations in 3d VR space
 - A sandbox for simulating quantum wave functions in 1 dimension
-  - (Schrodinger's sandbox, external link to another repo)
 - ...more to come!
 
-Created by [DeepFriedPancakes/PresidentKevvol 🥞](https://www.hornetsnestguild.com/cvs/kevvol)  @ [The Hornet's Nest](https://www.hornetsnestguild.com/)
+Created by [DeepFriedPancakes/PresidentKevvol 🥞](https://www.deepfriedpancake.com/cvs)

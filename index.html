@@ -6,6 +6,17 @@
         <div data-include="/header-universal.html"></div>
         <link rel="stylesheet" href="index.css">
 
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY1Z9PCN9N"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-TY1Z9PCN9N');
+        </script>
+        
+
         <!-- meta tags -->
         <meta property="og:title" content="Numerical Workshop">
         <meta property="og:type" content="website">
@@ -17,8 +28,7 @@
     <body>
         <h1>Numerical Workshop</h1>
         <h2>Simulation Sandboxes &bull; Numerical Methods &bull; Visualizations</h2>
-        <h3>Made by <a href="https://www.hornetsnestguild.com/cvs/kevvol">Kevin//DeepFriedPancake🥞</a>
-            @ <a href="https://www.hornetsnestguild.com/">The Hornet's Nest</a></h3>
+        <h3>Made by <a href="https://www.deepfriedpancake.com/cvs">Kevin//DeepFriedPancake🥞</a></h3>
         
         <!-- include the subheader with bmc and github buttons -->
         <div data-include="/page-subheader.html"></div>
@@ -42,11 +52,11 @@
                 </div>
             </div>
             <div class="item">
-                <div class="item-title"><a href="https://schrodinger.hornetsnestguild.com/">Schrodinger's Sandbox</a></div>
+                <div class="item-title"><a href="schrodinger-1d/">Schrodinger's Sandbox</a></div>
                 <div class="item-desc">
-                    An interactive website simulating the progression of a quantum wave function by numerically solving the Schrodinger's equation in 1D. Users can input a custom potential energy function and initial wave function.
+                    Interactive simulator of the progression of a quantum wave function by numerically solving the Schrodinger's equation in 1D. Users can input a custom potential energy function and initial wave function.
                 </div>
-                <div class="item-img" style="background-image: url(https://www.hornetsnestguild.com/cvs/schrodinger.png);">
+                <div class="item-img" style="background-image: url(schrodinger-1d/metaimg.png);">
                 </div>
             </div>
             <div class="item coming-soon">
