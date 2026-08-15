@@ -1,6 +1,6 @@
 # Numerical-Workshop
 
-## [Live page here](https://numerical.hornetsnestguild.com/)
+## [Live page here](https://numerical.deepfriedpancake.com/)
 
 Support us:
 [BuyMeACoffee](https://www.buymeacoffee.com/rfemiaxys)
