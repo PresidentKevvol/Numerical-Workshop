@@ -17,6 +17,8 @@ function resize() {
     canvas.width = window.innerWidth * 0.6;
     canvas.height = window.innerHeight * 0.8;
     gl.viewport(0, 0, canvas.width, canvas.height);
+
+    requestAnimationFrame(render);
 }
 
 // simple vertex shader that covers the whole screen
@@ -91,9 +93,8 @@ function canvasMouseMove(event)
         pitch = Math.max(-Math.PI / 2 + 0.0001, Math.min(Math.PI / 2 - 0.0001, pitch));
 
         dragOrig = {x: event.clientX, y: event.clientY};
+        requestAnimationFrame(render);
     }
-
-    requestAnimationFrame(render);
 }
 
 // below are for extracting numerical values from latex boxes
