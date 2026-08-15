@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Atomic Orbitals Visualizer - Numerical Workshop</title>
+        <script src="index.js"></script>
+        
+        <div data-include="/header-universal.html"></div>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY1Z9PCN9N"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-TY1Z9PCN9N');
+        </script>
+
+        <!-- cortex js math engine -->
+        <script defer type="module">
+            window.addEventListener('DOMContentLoaded', () =>
+            import('https://unpkg.com/mathlive?module').then( (mathlive) => mathlive.renderMathInDocument()) );
+        </script>
+        <script src="//unpkg.com/@cortex-js/compute-engine"></script>
+        <script>
+            window.onload = function() {
+              ce = new ComputeEngine.ComputeEngine();
+              console.log(ce.parse("e^{i\\pi}").N().latex);
+              // ➔ "-1"
+            }
+        </script>
+
+        <link rel="stylesheet" href="index.css">
+
+        <!-- meta tags -->
+        <meta property="og:title" content="Atomic Orbitals Visualizer - Numerical Workshop">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="scrshot.png">
+        <meta property="og:description" content="Atomic orbital visualizer using volumetric ray tracing with customizable amplitude settings to visualize raw spherical harmonics, real valued orbitals, and superpositions of orbitals.">
+        
+        <script src="../general-statics/csi.min.js"></script>
+        <script src="../general-statics/collapsible.js"></script>
+    </head>
+    <body>
+        <!-- the templates for html elements -->
+        <div id="templates" hidden>
+        </div>
+
+        <h1>Atomic Orbitals Visualizer</h1>
+        <h2>With Custom Wave Function Superposition Expressions</h2>
+        <h2><a href="/">Numerical Workshop</a></h2>
+        <h3>Made by <a href="https://www.deepfriedpancake.com/cvs">Kevin//DeepFriedPancake🥞</a></h3>
+
+        <!-- include the subheader with bmc and github buttons -->
+        <div data-include="/page-subheader.html"></div>
+
+        <div id="mid-2" class="mid">
+            <div class="collapsible sect-title">Spherical Harmonic Orbitals <span class="collapsible-indicator">+</span></div>
+            <div id="select-orb-raw" class="collapsible-content">
+                <!-- <div class="sect-title">Select a spherical harmonic orbital to view:</div> -->
+                <button class="select-orbitals" orbital="0">\( 1s \)</button> <br>
+                <button class="select-orbitals" orbital="1">\( 2s \)</button>
+                <button class="select-orbitals" orbital="2">\( 2p_{0} \)</button>
+                <button class="select-orbitals" orbital="3">\( 2p_{-1} \)</button>
+                <button class="select-orbitals" orbital="4">\( 2p_{+1} \)</button> <br>
+                <button class="select-orbitals" orbital="5">\( 3s \)</button>
+                <button class="select-orbitals" orbital="6">\( 3p_{0} \)</button>
+                <button class="select-orbitals" orbital="7">\( 3p_{-1} \)</button>
+                <button class="select-orbitals" orbital="8">\( 3p_{+1} \)</button>
+                <button class="select-orbitals" orbital="9">\( 3d_{0} \)</button>
+                <button class="select-orbitals" orbital="10">\( 3d_{-1} \)</button>
+                <button class="select-orbitals" orbital="11">\( 3d_{+1} \)</button>
+                <button class="select-orbitals" orbital="12">\( 3d_{-2} \)</button>
+                <button class="select-orbitals" orbital="13">\( 3d_{+2} \)</button>
+            </div>
+            <div class="collapsible sect-title">Real Valued Orbitals <span class="collapsible-indicator">+</span></div>
+            <div id="select-orb-real" class="collapsible-content">
+                <!-- <div class="sect-title">Select a real valued orbital to view:</div> -->
+                <button class="select-orbitals" orbital="0">\( 1s \)</button> <br>
+                <button class="select-orbitals" orbital="1">\( 2s \)</button>
+                <button class="select-orbitals" orbital="2">\( 2p_{z} \)</button>
+                <button class="select-orbitals" orbital="a,3,4">\( 2p_{x} \)</button>
+                <button class="select-orbitals" orbital="s,3,4">\( 2p_{y} \)</button> <br>
+                <button class="select-orbitals" orbital="5">\( 3s \)</button>
+                <button class="select-orbitals" orbital="6">\( 3p_{z} \)</button>
+                <button class="select-orbitals" orbital="a,7,8">\( 3p_{x} \)</button>
+                <button class="select-orbitals" orbital="s,7,8">\( 3p_{y} \)</button>
+                <button class="select-orbitals" orbital="9">\( 3d_{z^2} \)</button>
+                <button class="select-orbitals" orbital="a,10,11">\( 3d_{xz} \)</button>
+                <button class="select-orbitals" orbital="s,10,11">\( 3d_{yz} \)</button>
+                <button class="select-orbitals" orbital="a,12,13">\( 3d_{x^2-y^2} \)</button>
+                <button class="select-orbitals" orbital="s,12,13">\( 3d_{xy} \)</button>
+            </div>
+
+            <div class="collapsible sect-title">Advanced mode <span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content">
+            <div class="sect-title">Tinker with weights (complex amplitudes) of orbitals and observe superpositions of them:</div>
+            <br>
+
+            <div class="collapsible sect-title">1st Energy Level <span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content">
+                <table>
+                    <tr>
+                        <td> \( 1s \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="collapsible sect-title">2nd Energy Level <span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content">
+                <table>
+                    <tr>
+                        <td> \( 2s      \) </td>
+                        <td> <math-field class="equation-field">0</math-field></td>
+                    </tr>
+                    <tr>
+                        <td> \( 2p_{0}  \) </td>
+                        <td> <math-field class="equation-field">0</math-field></td>
+                        <td> \( 2p_{-1} \) </td>
+                        <td> <math-field class="equation-field">0</math-field></td>
+                        <td> \( 2p_{+1} \) </td>
+                        <td> <math-field class="equation-field">0</math-field></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="collapsible sect-title">3rd Energy Level <span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content">
+                <table>
+                    <tr>
+                        <td> \( 3s      \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                    </tr>
+                    <tr>
+                        <td> \( 3p_{0}  \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                        <td> \( 3p_{-1} \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                        <td> \( 3p_{+1} \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                    </tr>
+                
+                    <tr>
+                        <td> \( 3d_{0} \)  </td>
+                        <td> <math-field class="equation-field">1</math-field> </td>
+                        <td> \( 3d_{-1} \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                        <td> \( 3d_{+1} \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                        <td> \( 3d_{-2} \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                        <td> \( 3d_{+2} \) </td>
+                        <td> <math-field class="equation-field">0</math-field> </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="center-children">
+                <button id="render" class="important-btn">Render</button>
+            </div>
+            </div>
+        </div>
+
+        <div id="mid-3" class="mid">
+            <canvas id="gl-canvas"></canvas>
+        </div>
+
+        <div id="mid-commento-head" class="mid">
+            Leave a comment to showcase simulations you created or report bugs!<br>
+            Comment section created with Commento
+        </div>
+        <div id="mid-commento" class="mid">
+            <div id="commento"></div>
+            <script defer src="https://commento.deepfriedpancake.com/js/commento.js"></script>
+        </div>
+  
+        <div data-include="/footer-universal.html"></div>
+    </body>
+</html>
