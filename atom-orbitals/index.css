@@ -20,3 +20,11 @@ div#mid-3 {
 div#mid-3 #gl-canvas {
     text-align: center;
 }
+
+div#mid-4 {
+    text-align: center;
+}
+
+div#mid-4 input.rot-slider {
+    width: 65vw;
+}

@@ -14,7 +14,7 @@ var orbAmplitudesLocation;
 
 // Resize canvas to fit screen
 function resize() {
-    canvas.width = window.innerWidth * 0.6;
+    canvas.width = window.innerWidth * 0.7;
     canvas.height = window.innerHeight * 0.8;
     gl.viewport(0, 0, canvas.width, canvas.height);
 
@@ -91,6 +91,10 @@ function canvasMouseMove(event)
         yaw += dx * sensitivity;
         pitch -= dy * sensitivity;
         pitch = Math.max(-Math.PI / 2 + 0.0001, Math.min(Math.PI / 2 - 0.0001, pitch));
+
+        document.getElementById("slider-pitch").value = pitch;
+        const t = (Math.PI * 2);
+        document.getElementById("slider-yaw").value = ((yaw % t) + t) % t;
 
         dragOrig = {x: event.clientX, y: event.clientY};
         requestAnimationFrame(render);
@@ -193,6 +197,14 @@ function select_orbitals_basic(event) {
     requestAnimationFrame(render);
 }
 
+function rotation_slider_input() {
+    pitch = parseFloat(document.getElementById("slider-pitch").value);
+    yaw = parseFloat(document.getElementById("slider-yaw").value);
+
+    // update render
+    requestAnimationFrame(render);
+}
+
 async function ijs_setup() {
     //the cortex js fields for latex expressions
     //access the expressions contained inside by equation_fields[i].expression
@@ -240,6 +252,9 @@ async function ijs_setup() {
     }
 
     document.getElementById("render").addEventListener("click", mid2_render_pressed);
+
+    document.getElementById("slider-pitch").addEventListener("input", rotation_slider_input);
+    document.getElementById("slider-yaw").addEventListener("input", rotation_slider_input);
 
     // default image: 3dz^2 orbital
     var res = new Float32Array(NUM_ORB_FUNCS * 2);
