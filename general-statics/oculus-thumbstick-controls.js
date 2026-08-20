@@ -18,9 +18,6 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         moveDownButton: {default: 'grip'}
     },
     init: function () {
-        var moveUpButton;
-        var moveDownButton;
-
         this.easing = 1.1;
         this.velocity = new THREE.Vector3(0, 0, 0);
         this.tsData = new THREE.Vector2(0, 0);
@@ -35,10 +32,10 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         this.gripDown = this.gripDown.bind(this);
         this.gripUp = this.gripUp.bind(this);
 
-        this.el.addEventListener(moveUpButton + 'down', this.triggerDown);
-        this.el.addEventListener(moveUpButton + 'up', this.triggerUp);
-        this.el.addEventListener(moveDownButton + 'down', this.gripDown);
-        this.el.addEventListener(moveDownButton + 'up', this.gripUp);
+        this.el.addEventListener(this.moveUpButton + 'down', this.triggerDown);
+        this.el.addEventListener(this.moveUpButton + 'up', this.triggerUp);
+        this.el.addEventListener(this.moveDownButton + 'down', this.gripDown);
+        this.el.addEventListener(this.moveDownButton + 'up', this.gripUp);
     },
     update: function() {
         this.rigElement = document.querySelector(this.data.rigSelector)
@@ -157,9 +154,9 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
     },
     remove: function () {
         this.el.removeEventListener('thumbstickmoved', this.thumbstickMoved);
-        this.el.removeEventListener(moveUpButton + 'down', this.triggerDown);
-        this.el.removeEventListener(moveUpButton + 'up', this.triggerUp);
-        this.el.removeEventListener(moveDownButton + 'down', this.gripDown);
-        this.el.removeEventListener(moveDownButton + 'up', this.gripUp);
+        this.el.removeEventListener(this.moveUpButton + 'down', this.triggerDown);
+        this.el.removeEventListener(this.moveUpButton + 'up', this.triggerUp);
+        this.el.removeEventListener(this.moveDownButton + 'down', this.gripDown);
+        this.el.removeEventListener(this.moveDownButton + 'up', this.gripUp);
     }
 });
