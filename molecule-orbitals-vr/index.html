@@ -13,6 +13,10 @@
         <script src="../general-statics/wasdqz-controls.js"></script>
         <script src="../general-statics/oculus-thumbstick-controls.js"></script>
         <script src="../general-statics/timer_funcs.js"></script>
+        <!-- for Ada Rose's aframe html panels -->
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.12/build/handy-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.12/build/magnet-helpers.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@2.7.0/build/aframe-html.min.js"></script>
 
         <script src="index.js"></script>
         <script src="sim-update-component.js"></script>
@@ -92,9 +96,15 @@
                     <!-- the floor -->
                     <a-box color="#5f5f5f" depth="20" height="0.3" width="20" position="0 -0.15 0"></a-box>
 
+                    <!-- cursor indicator sphere for aframe html controls -->
+                    <a-sphere color="#bfbfbf" radius="0.005" id="cursor" material="shader:flat" visible="false" ></a-sphere>
+                    <!-- the control panel -->
+                    <a-entity html="html:#html-panel; cursor:#cursor;" position="-0.8 1.0 -0.8" rotation="0 45 0"></a-entity>
+
                     <!-- emotional support dodecahedron -->
                     <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.1" position="1.2 1.0 -1.2"></a-dodecahedron>
-                    <a-box mixin="interactable-objects" position="0 1.2 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;"></a-box>
+                    <!-- the box that renders the raytracer -->
+                    <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;"></a-box>
 
                     <a-sky color="#ececec" hide-on-enter-ar></a-sky>
                     <a-entity id="rig" movement-controls="controls: touch; fly: true; speed: 0.1">
@@ -108,8 +118,47 @@
                         <!-- <a-entity id="rightHand" hand-tracking-controls="hand: right;" hand-tracking-grab-controls="hand: right; hoverEnabled: true;"></a-entity> -->
                         <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"></a-entity>
                         <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right"></a-entity>
+
+                        <!-- Hand tracking for aframe html -->
+                        <a-entity handy-controls="materialOverride:both;" material="color:gold;metalness:1;roughness:0;">
+                            <!-- These also do teleportaion for Blink controls in VR -->
+                            <!-- These are present for hand tracking but hands don't have joysticks so do nothing -->
+                            <a-entity data-right="ray" mixin="blink" cursor raycaster="showLine: true; far: 100; lineColor: red; objects: [html]; interval:100;"></a-entity>
+                            <a-entity data-left="ray" mixin="blink" cursor raycaster="showLine: true; far: 100; lineColor: red; objects: [html]; interval:100;"></a-entity>
+
+                            <!-- Use the finger tips for teleporting when the user points in VR with hand tracking -->
+                            <a-entity data-right="index-finger-tip" mixin="blink"
+                                blink-controls="startEvents:pose_point;cancelEvents:pose_cancel_point;endEvents:pose_point_fuseLong;">
+                            </a-entity>
+                            <a-entity data-left="index-finger-tip" mixin="blink"
+                                blink-controls="startEvents:pose_point;cancelEvents:pose_cancel_point;endEvents:pose_point_fuseLong;">
+                            </a-entity>
+
+                            <!-- These get drawn towards grabable objects, moving the whole hand and the attached elements-->
+                            <a-entity id="left-magnet" position="0 0.6 0" class="avatar-hand-left" data-left="grip"
+                                data-magnet="magnet-left"
+                                grab-magnet-target="startEvents:squeezestart,pose_fist;stopEvents:pose_flat_fuseShort,squeezeend;noMagnetEl:#left-no-magnet;">
+                            </a-entity>
+                            <a-entity id="right-magnet" position="0 0.6 0" class="avatar-hand-right" data-right="grip"
+                                data-magnet="magnet-right"
+                                grab-magnet-target="startEvents:squeezestart,pose_fist;stopEvents:pose_flat_fuseShort,squeezeend;noMagnetEl:#right-no-magnet;">
+                            </a-entity>
+
+                            <!-- markers to let us know the real location of the hands, you probably want to make them visible="false" or just make them empty <a-entities> -->
+                            <a-entity id="left-no-magnet" data-left="grip" data-no-magnet radius="0.01">
+                                <a-entity html="cursor:#cursor;html:#my-interface" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0" scale="0.5 0.5 0.5"></a-entity>
+                            </a-entity>
+                            <a-entity id="right-no-magnet" data-right="grip" data-no-magnet radius="0.01"></a-entity>
+                        </a-entity>
                     </a-entity>
                 </a-scene>
+            </div>
+            <div class="hide-by-off-screen">
+                <div id="html-panel">
+                    Welcome to Web2VR!
+                    <button id="btn">Click me!</button>
+                    <div id="info"></div>
+                </div>
             </div>
         </div>
 

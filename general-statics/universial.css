@@ -198,3 +198,9 @@ button.important-btn {
 .footr {
     text-align: center;
 }
+
+/* for hiding aframe html panels by yeeting them off screen */
+.hide-by-off-screen {
+    position:absolute;
+    left:-9999px
+}
