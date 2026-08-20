@@ -77,7 +77,7 @@
                 <a-scene embedded id="vr-scene" sim-update>
                     <a-assets>
                         <a-mixin id="physics-hands"
-                        sphere-collider="objects: a-box, a-dodecahedron;" 
+                        sphere-collider="objects: [mixin~='interactable-objects'];" 
                         super-hands="grabStartButtons: gripdown; 
                         grabEndButtons: 
                         gripup; stretchStartButtons: 
@@ -92,7 +92,7 @@
                     <a-box color="#5f5f5f" depth="20" height="0.3" width="20" position="0 -0.15 0"></a-box>
 
                     <!-- emotional support dodecahedron -->
-                    <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.1" position="1.2 1.5 -1.2"></a-dodecahedron>
+                    <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.1" position="1.2 1.0 -1.2"></a-dodecahedron>
                     <a-box mixin="interactable-objects" position="0 1.2 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;"></a-box>
 
                     <a-sky color="#ececec" hide-on-enter-ar></a-sky>
@@ -100,7 +100,7 @@
                         <a-entity id="aframe-camera" camera position="0 1.6 0" wasdqz-controls="acceleration: 20" look-controls="pointerLockEnabled: false;">
                             <!-- <a-cursor></a-cursor> -->
                         </a-entity>
-                        <a-entity oculus-touch-controls="hand: left" id="aframe-left-control" oculus-thumbstick-controls="acceleration: 20"></a-entity>
+                        <a-entity oculus-touch-controls="hand: left" id="aframe-left-control" oculus-thumbstick-controls="acceleration: 20; moveUpButton: xbutton; moveDownButton: ybutton;"></a-entity>
                         <!-- <a-entity oculus-touch-controls="hand: right"></a-entity> -->
 
                         <!-- <a-entity id="leftHand" hand-tracking-grab-controls="hand: left;"></a-entity> -->

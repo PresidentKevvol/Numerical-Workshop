@@ -13,9 +13,14 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         wsEnabled: {default: true},
         wsInverted: {default: false},
         qzEnabled: {default: true},
-        qzInverted: {default: false}
+        qzInverted: {default: false},
+        moveUpButton: {default: 'trigger'},
+        moveDownButton: {default: 'grip'}
     },
     init: function () {
+        var moveUpButton;
+        var moveDownButton;
+
         this.easing = 1.1;
         this.velocity = new THREE.Vector3(0, 0, 0);
         this.tsData = new THREE.Vector2(0, 0);
@@ -30,10 +35,10 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         this.gripDown = this.gripDown.bind(this);
         this.gripUp = this.gripUp.bind(this);
 
-        this.el.addEventListener('triggerdown', this.triggerDown);
-        this.el.addEventListener('triggerup', this.triggerUp);
-        this.el.addEventListener('gripdown', this.gripDown);
-        this.el.addEventListener('gripup', this.gripUp);
+        this.el.addEventListener(moveUpButton + 'down', this.triggerDown);
+        this.el.addEventListener(moveUpButton + 'up', this.triggerUp);
+        this.el.addEventListener(moveDownButton + 'down', this.gripDown);
+        this.el.addEventListener(moveDownButton + 'up', this.gripUp);
     },
     update: function() {
         this.rigElement = document.querySelector(this.data.rigSelector)
@@ -152,9 +157,9 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
     },
     remove: function () {
         this.el.removeEventListener('thumbstickmoved', this.thumbstickMoved);
-        this.el.removeEventListener('triggerdown', this.triggerDown);
-        this.el.removeEventListener('triggerup', this.triggerUp);
-        this.el.removeEventListener('gripdown', this.gripDown);
-        this.el.removeEventListener('gripup', this.gripUp);
+        this.el.removeEventListener(moveUpButton + 'down', this.triggerDown);
+        this.el.removeEventListener(moveUpButton + 'up', this.triggerUp);
+        this.el.removeEventListener(moveDownButton + 'down', this.gripDown);
+        this.el.removeEventListener(moveDownButton + 'up', this.gripUp);
     }
 });
