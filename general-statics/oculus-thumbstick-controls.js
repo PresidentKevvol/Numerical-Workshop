@@ -32,10 +32,10 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
         this.gripDown = this.gripDown.bind(this);
         this.gripUp = this.gripUp.bind(this);
 
-        this.el.addEventListener(this.moveUpButton + 'down', this.triggerDown);
-        this.el.addEventListener(this.moveUpButton + 'up', this.triggerUp);
-        this.el.addEventListener(this.moveDownButton + 'down', this.gripDown);
-        this.el.addEventListener(this.moveDownButton + 'up', this.gripUp);
+        this.el.addEventListener(this.data.moveUpButton + 'down', this.triggerDown);
+        this.el.addEventListener(this.data.moveUpButton + 'up', this.triggerUp);
+        this.el.addEventListener(this.data.moveDownButton + 'down', this.gripDown);
+        this.el.addEventListener(this.data.moveDownButton + 'up', this.gripUp);
     },
     update: function() {
         this.rigElement = document.querySelector(this.data.rigSelector)
@@ -154,9 +154,9 @@ AFRAME.registerComponent('oculus-thumbstick-controls', {
     },
     remove: function () {
         this.el.removeEventListener('thumbstickmoved', this.thumbstickMoved);
-        this.el.removeEventListener(this.moveUpButton + 'down', this.triggerDown);
-        this.el.removeEventListener(this.moveUpButton + 'up', this.triggerUp);
-        this.el.removeEventListener(this.moveDownButton + 'down', this.gripDown);
-        this.el.removeEventListener(this.moveDownButton + 'up', this.gripUp);
+        this.el.removeEventListener(this.data.moveUpButton + 'down', this.triggerDown);
+        this.el.removeEventListener(this.data.moveUpButton + 'up', this.triggerUp);
+        this.el.removeEventListener(this.data.moveDownButton + 'down', this.gripDown);
+        this.el.removeEventListener(this.data.moveDownButton + 'up', this.gripUp);
     }
 });
