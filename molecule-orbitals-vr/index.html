@@ -4,7 +4,12 @@
         <title>Molecular Orbitals in VR - Numerical Workshop</title>
         <!-- a-frame vr -->
         <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+        <!-- use superhands for grab controls -->
+        <script>
+            delete AFRAME.components["grabbable"];
+        </script>
         <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.7.0/dist/aframe-extras.min.js"></script>
+        <script src="https://unpkg.com/super-hands@^3.0.6/dist/super-hands.min.js"></script>
         <script src="../general-statics/wasdqz-controls.js"></script>
         <script src="../general-statics/oculus-thumbstick-controls.js"></script>
         <script src="../general-statics/timer_funcs.js"></script>
@@ -74,9 +79,9 @@
                     <!-- the floor -->
                     <a-box color="#5f5f5f" depth="20" height="0.3" width="20" position="0 -0.15 0"></a-box>
 
-                    <a-dodecahedron grabbable color="#bfffff" radius="0.1" position="3 1.5 -3"></a-dodecahedron>
+                    <a-dodecahedron hoverable grabbable stretchable draggable color="#bfffff" radius="0.1" position="1.2 1.5 -1.2"></a-dodecahedron>
                     <!-- <a-box volumetric-orbital interactable-grab-component position="0 1.2 -2" id="orbital-box"></a-box> -->
-                    <a-box grabbable position="0 1.2 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;"></a-box>
+                    <a-box hoverable grabbable stretchable draggable position="0 1.2 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;"></a-box>
 
                     <a-sky color="#ececec" hide-on-enter-ar></a-sky>
                     <a-entity id="rig" movement-controls="controls: touch; fly: true; speed: 0.1">
@@ -87,7 +92,8 @@
                         <!-- <a-entity oculus-touch-controls="hand: right"></a-entity> -->
 
                         <!-- <a-entity id="leftHand" hand-tracking-grab-controls="hand: left;"></a-entity> -->
-                        <a-entity id="rightHand" hand-tracking-grab-controls="hand: right; hoverEnabled: true;"></a-entity>
+                        <!-- <a-entity id="rightHand" hand-tracking-controls="hand: right;" hand-tracking-grab-controls="hand: right; hoverEnabled: true;"></a-entity> -->
+                        <a-entity id="rightHand" sphere-collider="objects: a-box, a-dodecahedron;" super-hands hand-controls="hand: right"></a-entity>
                     </a-entity>
                 </a-scene>
             </div>
