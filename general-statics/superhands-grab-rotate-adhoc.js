@@ -34,7 +34,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         // if it it being grabbed
         if (this.el.being_grabbed) {
             // log rotation on screen
-            // const rotDeg = this.gabber_hand.getAttribute('rotation');
+            const rotDeg = this.el.gabber_hand.getAttribute('rotation');
 
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
             debug_div.innerHTML = JSON.stringify(this.el.gabber_hand);
