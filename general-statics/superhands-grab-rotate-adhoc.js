@@ -5,6 +5,9 @@ since rotation is broken on super-hands 3.0.6
 AFRAME.registerComponent('super-hands-rotate-adhoc', {
     init: function () {
       const el = this.el;
+
+    this.gabber_hand = null;
+    this.being_grabbed = false;
   
       // Triggered when the controller begins grabbing the object
       el.addEventListener('grab-start', function (evt) {
@@ -13,7 +16,8 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         
         var hand = evt.detail.hand;
         this.gabber_hand = hand;
-      });
+        this.being_grabbed = true;
+    });
   
       // Triggered when the controller releases the object
       el.addEventListener('grab-end', function (evt) {
@@ -22,12 +26,13 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
 
         // var hand = evt.detail.hand;
         this.gabber_hand = null;
-      });
+        this.being_grabbed = false;
+    });
     },
 
     tick: function () {
         // if it it being grabbed
-        if (this.gabber_hand) {
+        if (this.being_grabbed) {
             // log rotation on screen
             // const rotDeg = this.gabber_hand.getAttribute('rotation');
 
