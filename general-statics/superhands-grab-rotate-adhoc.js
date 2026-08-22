@@ -8,7 +8,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
   
       // Triggered when the controller begins grabbing the object
       el.addEventListener('grab-start', function (evt) {
-        // el.setAttribute('material', 'color', 'red');
+        el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
         document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
         
         // Access the controller/hand entity that initiated the gesture
@@ -18,7 +18,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
   
       // Triggered when the controller releases the object
       el.addEventListener('grab-end', function (evt) {
-        // el.setAttribute('material', 'color', 'blue');
+        el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
         document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
 
         // Access the controller/hand entity that initiated the gesture
