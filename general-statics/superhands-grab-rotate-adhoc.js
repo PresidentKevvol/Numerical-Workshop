@@ -13,10 +13,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
             // document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
             
-            var hand = evt;
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            // debug_div.innerHTML = JSON.stringify(hand);
-            debug_div.innerHTML = Object.hasOwn(evt, "detail");
+            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
             // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
 
             this.el.being_grabbed = true;
@@ -27,8 +24,6 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
             // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
 
-            // var hand = evt.detail.hand;
-            this.el.gabber_hand = null;
             this.el.being_grabbed = false;
         });
     },
@@ -37,11 +32,11 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         // if it it being grabbed
         if (this.el.being_grabbed) {
             // log rotation on screen
-            const rotDeg = this.el.gabber_hand.getAttribute('rotation');
+            // const rotDeg = this.el.gabber_hand.getAttribute('rotation');
 
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            debug_div.innerHTML = JSON.stringify(this.el.gabber_hand);
-            debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            // debug_div.innerHTML = JSON.stringify(this.el.gabber_hand);
+            // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
 
         }
     }
@@ -50,12 +45,11 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
 AFRAME.registerComponent('super-hands-rotate-adhoc-hands', {
     init: function () {
         const el = this.el;
-
-        this.el.gabber_hand = null;
-        this.el.being_grabbed = false;
     
         // Triggered when the controller begins grabbing the object
         el.addEventListener('grab-start', function (evt) {
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            debug_div.innerHTML = "id: " + el.id;
             if (el.id === "leftHand") {
                 document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
             } else if (el.id === "rightHand") {
@@ -68,20 +62,6 @@ AFRAME.registerComponent('super-hands-rotate-adhoc-hands', {
         // Triggered when the controller releases the object
         el.addEventListener('grab-end', function (evt) {
             document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
-
         });
     },
-
-    tick: function () {
-        // if it it being grabbed
-        if (this.el.being_grabbed) {
-            // log rotation on screen
-            const rotDeg = this.el.gabber_hand.getAttribute('rotation');
-
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            debug_div.innerHTML = JSON.stringify(this.el.gabber_hand);
-            debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
-
-        }
-    }
 });
