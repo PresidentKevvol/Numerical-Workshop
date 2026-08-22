@@ -1,4 +1,4 @@
-var MARCH_MAX_STEP = 80;
+var MARCH_MAX_STEP = 50;
 
 // use ajax request to load fragment shader
 async function loadShader(url) {

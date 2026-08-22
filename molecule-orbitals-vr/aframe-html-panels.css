@@ -6,6 +6,16 @@
     position: absolute;
     width: 500px;
     height: 600px;
-    background-color: gainsboro;
+    background-color: #ebfdff;
     text-align: center;
+    font-size: 1.2em;
+}
+
+#html-panel button {
+    font-size: 1.15em;
+}
+
+#html-panel .tips {
+    position: absolute;
+    bottom: 1em;
 }

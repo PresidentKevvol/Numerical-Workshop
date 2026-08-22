@@ -93,7 +93,7 @@
 
         <div id="mid-3" class="mid">
             <div id="embedded-vr-scene">
-                <a-scene embedded id="vr-scene" sim-update cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;">
+                <a-scene embedded id="vr-scene" sim-update cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;" xr-mode-ui="XRMode: xr;">
                     <a-assets>
                         <a-mixin id="physics-hands"
                         sphere-collider="objects: [mixin~='interactable-objects'];" 
@@ -106,6 +106,7 @@
                         <a-mixin id="interactable-objects"
                         hoverable grabbable stretchable dynamic-body>
                         </a-mixin>
+                        <img id="skyTexture" src="/general-statics/sky_sphere.png">
                     </a-assets>
 
                     <!-- the floor -->
@@ -118,14 +119,14 @@
                     <a-entity html="html:#html-panel; cursor:#cursor;" position="-0.8 1.0 -0.8" rotation="0 45 0"></a-entity>
 
                     <!-- emotional support dodecahedron -->
-                    <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.1" position="1.2 1.0 -1.2"></a-dodecahedron>
+                    <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.05" position="0.6 1.0 -0.1"></a-dodecahedron>
                     <!-- the box that renders the raytracer -->
-                    <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;">
+                    <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;" rotation="-90 0 0" scale="0.4 0.4 0.4">
                     </a-box>
                     <!-- <a-box id="bounding-box" position="0 1.0 -0.8" material="transparent: true; depthWrite: false; side: double;" opacity="0.1" color="green"></a-box> -->
 
 
-                    <a-sky color="#ececec" hide-on-enter-ar></a-sky>
+                    <a-sky color="#ececec" src="#skyTexture" hide-on-enter-ar></a-sky>
                     <a-entity id="rig" movement-controls="controls: touch; fly: true; speed: 0.1">
                         <a-entity id="aframe-camera" camera position="0 1.6 0" wasdqz-controls="acceleration: 20" look-controls="pointerLockEnabled: false;">
                             <!-- <a-cursor></a-cursor> -->
@@ -179,6 +180,10 @@
                     <br>
                     Choose molecular orbital <br>
                     <div class="mo-selection"></div>
+
+                    <div class="tips">
+                        Tips: On VR headsets, grab and resize <br>the molecule using the grip button.
+                    </div>
                 </div>
             </div>
         </div>
