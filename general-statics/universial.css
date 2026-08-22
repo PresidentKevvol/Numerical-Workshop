@@ -202,5 +202,5 @@ button.important-btn {
 /* for hiding aframe html panels by yeeting them off screen */
 .hide-by-off-screen {
     position:absolute;
-    left:-9999px
+    /* left:-9999px; */
 }

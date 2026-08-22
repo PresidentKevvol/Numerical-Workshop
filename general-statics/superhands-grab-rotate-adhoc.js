@@ -11,10 +11,10 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
     
         // Triggered when the controller begins grabbing the object
         el.addEventListener('grab-start', function (evt) {
-            // el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
+            el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
             // document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
             
-            var hand = evt.detail.hand;
+            var hand = evt.detail;
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
             debug_div.innerHTML = JSON.stringify(hand);
             debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
@@ -25,7 +25,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
     
         // Triggered when the controller releases the object
         el.addEventListener('grab-end', function (evt) {
-            // el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
+            el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
             // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
 
             // var hand = evt.detail.hand;
