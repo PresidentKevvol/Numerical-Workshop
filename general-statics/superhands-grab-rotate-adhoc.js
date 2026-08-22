@@ -8,22 +8,29 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
   
       // Triggered when the controller begins grabbing the object
       el.addEventListener('grab-start', function (evt) {
-        el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
-        document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
+        // el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
+        // document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
         
-        // Access the controller/hand entity that initiated the gesture
         var hand = evt.detail.hand;
-        hand.setAttribute('color', '#bfffbf');
+        this.gabber_hand = hand;
       });
   
       // Triggered when the controller releases the object
       el.addEventListener('grab-end', function (evt) {
-        el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
-        document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
+        // el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
+        // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
 
-        // Access the controller/hand entity that initiated the gesture
-        var hand = evt.detail.hand;
-        hand.setAttribute('color', '#ffffff');
+        // var hand = evt.detail.hand;
+        this.gabber_hand = null;
       });
+    },
+
+    tick: function () {
+        // if it it being grabbed
+        if (this.gabber_hand) {
+            // log rotation on screen
+            const rotDeg = this.gabber_hand.getAttribute('rotation');
+            document.getElementById("html-panel").getElementsByClassName("debug")[0].innerHTML = `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+        }
     }
   });
