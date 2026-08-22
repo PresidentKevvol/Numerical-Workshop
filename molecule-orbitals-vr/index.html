@@ -97,6 +97,7 @@
                 <a-scene embedded id="vr-scene" sim-update cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;" xr-mode-ui="XRMode: xr;">
                     <a-assets>
                         <a-mixin id="physics-hands"
+                        super-hands-rotate-adhoc-hands
                         sphere-collider="objects: [mixin~='interactable-objects'];" 
                         super-hands="grabStartButtons: gripdown; 
                         grabEndButtons: 
