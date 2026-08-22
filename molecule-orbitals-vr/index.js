@@ -126,8 +126,21 @@ function set_box_mo_coeffs(coeffs) {
     targ.setAttribute("material", mo_schema);
 }
 
-function ijs_setup() {
+// for when manual rotation by using html <input type="range"> elements
+function rotation_slider_input() {
+    var rl = document.getElementById("slider-roll").value;
+    var pt = document.getElementById("slider-pitch").value;
+    var yw = document.getElementById("slider-yaw").value;
 
+    const targ = document.getElementById('orbital-box');
+    targ.setAttribute("rotation", {x: rl, y: pt, z: yw});
+}
+
+
+function ijs_setup() {
+    document.getElementById("slider-roll").addEventListener("input", rotation_slider_input);
+    document.getElementById("slider-pitch").addEventListener("input", rotation_slider_input);
+    document.getElementById("slider-yaw").addEventListener("input", rotation_slider_input);
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);

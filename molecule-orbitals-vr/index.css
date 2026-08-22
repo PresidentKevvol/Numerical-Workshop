@@ -24,3 +24,7 @@
     background-position: center;
     display: inline-block;
 }
+
+div#mid-4 input.rot-slider {
+    width: 65vw;
+}

@@ -66,7 +66,7 @@
 
         <script src="../general-statics/csi.min.js"></script>
         <script src="../general-statics/collapsible.js"></script>
-        <script src="../general-statics/superhands-grab-rotate-adhoc.js"></script>
+        <!-- <script src="../general-statics/superhands-grab-rotate-adhoc.js"></script> -->
         <script src="index.js"></script>
     </head>
     <body>
@@ -87,17 +87,16 @@
 
         <div id="mid-2" class="mid">
             <div class="collapsible sect-title">Choose molecule <span class="collapsible-indicator">+</span></div>
-            <div id="stock-molecules" class="collapsible-content">
-
+            <div class="collapsible-content" >
+                <div id="stock-molecules"></div>
             </div>
         </div>
 
         <div id="mid-3" class="mid">
             <div id="embedded-vr-scene">
-                <a-scene embedded id="vr-scene" sim-update cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;" xr-mode-ui="XRMode: xr;">
+                <a-scene embedded id="vr-scene" cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;" xr-mode-ui="XRMode: xr;">
                     <a-assets>
                         <a-mixin id="physics-hands"
-                        super-hands-rotate-adhoc-hands
                         sphere-collider="objects: [mixin~='interactable-objects'];" 
                         super-hands="grabStartButtons: gripdown; 
                         grabEndButtons: 
@@ -106,7 +105,7 @@
                         static-body="shape: sphere; sphereRadius: 0.02">
                         </a-mixin>
                         <a-mixin id="interactable-objects"
-                        hoverable grabbable stretchable dynamic-body super-hands-rotate-adhoc>
+                        hoverable grabbable stretchable dynamic-body>
                         </a-mixin>
                         <img id="skyTexture" src="/general-statics/sky_sphere.png">
                     </a-assets>
@@ -123,7 +122,7 @@
                     <!-- emotional support dodecahedron -->
                     <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.05" position="0.6 1.0 -0.1" id="support-dodecahedron"></a-dodecahedron>
                     <!-- the box that renders the raytracer -->
-                    <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;" rotation="-90 0 0" scale="0.4 0.4 0.4">
+                    <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;" rotation="-90 0 0" width="5" height="5" depth="5" scale="0.08 0.08 0.08">
                     </a-box>
                     <!-- <a-box id="bounding-box" position="0 1.0 -0.8" material="transparent: true; depthWrite: false; side: double;" opacity="0.1" color="green"></a-box> -->
 
@@ -182,12 +181,28 @@
                     <br>
                     Choose molecular orbital <br>
                     <div class="mo-selection"></div>
-                    debug <br>
-                    <div class="debug"></div>
+                    <!-- debug <br>
+                    <div class="debug"></div> -->
 
                     <div class="tips">
-                        Tips: On VR headsets, grab and resize <br>the molecule using the grip button.
+                        Tips: On VR headsets, grab and resize <br>the orbital cloud using the grip button.
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mid-4" class="mid">
+            <div class="collapsible sect-title">Rotation support <span class="collapsible-indicator">+</span></div>
+            <div id="stock-molecules" class="collapsible-content" style="display: none;">
+                <div id="rotate-support">
+                    Rotational support for mobile and desktop. <br>
+                    <span class="smol-note">Rotation inside VR world by controller grabbing currently unusable due to bug in framework.</span> <br>
+                    <br>
+                    <table>
+                        <tr> <td>roll </td> <td>(x):</td> <td><input type="range" min="-180.0" max="180.0" step="0.01" value="-90.0" id="slider-roll" class="rot-slider"> </td></tr>
+                        <tr> <td>pitch</td> <td>(y):</td> <td><input type="range" min="-180.0" max="180.0" step="0.01" value="0.0" id="slider-pitch" class="rot-slider">  </td></tr>
+                        <tr> <td>yaw  </td> <td>(z):</td> <td><input type="range" min="-180.0" max="180.0" step="0.01" value="0.0" id="slider-yaw" class="rot-slider">    </td></tr>
+                    </table>
                 </div>
             </div>
         </div>

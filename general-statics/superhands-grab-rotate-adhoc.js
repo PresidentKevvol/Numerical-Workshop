@@ -10,9 +10,12 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
     
         // Triggered when the controller begins grabbing the object
         el.addEventListener('grab-start', function (evt) {
-            el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
-            // document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
+            // el gives the entity element to which you can set its attribute
+            // el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
             
+            // however evt only gives an object that is {isTrusted: false}
+            // and you cannot use evt.detail.hand to access the hand's info
+
             // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
             // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
 
@@ -21,8 +24,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
     
         // Triggered when the controller releases the object
         el.addEventListener('grab-end', function (evt) {
-            el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
-            // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
+            // el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
 
             this.el.being_grabbed = false;
         });
@@ -32,10 +34,9 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         // if it it being grabbed
         if (this.el.being_grabbed) {
             // log rotation on screen
-            // const rotDeg = this.el.gabber_hand.getAttribute('rotation');
 
             // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            // debug_div.innerHTML = JSON.stringify(this.el.gabber_hand);
+            // debug_div.innerHTML = JSON.stringify(this.gabber_hand);
             // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
 
         }
@@ -46,8 +47,11 @@ AFRAME.registerComponent('super-hands-rotate-adhoc-hands', {
     init: function () {
         const el = this.el;
     
+        // these following code just does not work at all
+        // grab-start event is not fired for the hand entity when it grabs an object
+
         // Triggered when the controller begins grabbing the object
-        el.addEventListener('gripdown', function (evt) {
+        el.addEventListener('grab-start', function (evt) {
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
             debug_div.innerHTML = "event: " + JSON.stringify(evt);
 
@@ -61,7 +65,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc-hands', {
         });
     
         // Triggered when the controller releases the object
-        el.addEventListener('gripup', function (evt) {
+        el.addEventListener('grab-end', function (evt) {
             document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
         });
     },

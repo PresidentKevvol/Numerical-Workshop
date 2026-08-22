@@ -22,7 +22,7 @@ void main() {
 AFRAME.registerShader('volumetric', {
     schema: {
       opacity: {type: 'number', is: 'uniform', default: 1.0},
-      boxDim: {type: 'vec3', is: 'uniform', default: {x: 1.0, y: 1.0, z: 1.0}},
+      boxDim: {type: 'vec3', is: 'uniform', default: {x: 5.0, y: 5.0, z: 5.0}},
       posColor: {type: 'vec3', is: 'uniform', default: {x: 0.9, y: 0.5, z: 0.1}},
       negColor: {type: 'vec3', is: 'uniform', default: {x: 0.2, y: 0.6, z: 0.9}}
     },
@@ -30,8 +30,9 @@ AFRAME.registerShader('volumetric', {
     fragmentShader: `
 #define PI 3.1415926535897932384626433832795
 #define SQRT_PI_INV 0.5641895835477562869480794515607725858
-// Bohr radius in Angstroms
-#define a0 0.529177
+
+#define MARCH_MAX_STEP 100.0
+// #define BOX_COORD_DT length(boxDim) / MARCH_MAX_STEP
 
 uniform mat4 modelMatrix;
 varying vec3 vWorldPosition;
@@ -57,57 +58,58 @@ vec3 cartToSphe(vec3 p) {
 // functions for the orbitals
 // all of these takes in a vector point in spherical coordinate and gives a complex
 float orb_1s(vec3 p, float Z) {
-    float rh = Z * p.x / a0;
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
     float R = exp(-rh);
-    float Y = SQRT_PI_INV * pow(Z/a0, 1.5);
+    float Y = SQRT_PI_INV * Z_1_5;
     return R*Y;
 }
 float orb_2s(vec3 p, float Z) {
-    float rh = Z * p.x / a0;
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
     float R = (2.0 - rh) * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 1.5);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5;
     return R*Y;
 }
 float orb_2pz(vec3 p, float Z) {
-    float r = p.x;
-    float rh = Z * p.x / a0;
-    float R = r * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 2.5) * cos(p.y);
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * exp(-rh/2.0);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5 * cos(p.y);
     return R*Y;
 }
 float orb_2px(vec3 p, float Z) {
-    float r = p.x;
-    float rh = Z * p.x / a0;
-    float R = r * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 2.5) * sin(p.y) * cos(p.z);
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * exp(-rh/2.0);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.z);
     return R*Y;
 }
 float orb_2py(vec3 p, float Z) {
-    float r = p.x;
-    float rh = Z * p.x / a0;
-    float R = r * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 2.5) * sin(p.y) * sin(p.z);
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * exp(-rh/2.0);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5 * sin(p.y) * sin(p.z);
     return R*Y;
 }
 
 // wave function of 3d0 aka 3dz^2 orbital (one with 2 lobes and a hula hoop)
 // real value only
-float orb_3d0(vec3 p, float Z) {
-    float r = p.x;
+float orb_3dz2(vec3 p, float Z) {
     float rh = Z * p.x;
-    float R = r*r * exp(-rh/3.0);
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
     float cos_theta = cos(p.y);
-    float Y = 1.0/(81.0*sqrt(6.0)) * SQRT_PI_INV * pow(Z, 3.5) * (3.0 * cos_theta*cos_theta - 1.0);
+    float Y = 1.0/(81.0*sqrt(6.0)) * SQRT_PI_INV * Z_1_5 * (3.0 * cos_theta*cos_theta - 1.0);
     return R*Y;
 }
 
 // evaluate an overall wavefunction at a point
 float getWaveFunction(vec3 p) {
-    p = p * 6.25;
     vec3 p_sp = cartToSphe(p);
-    float psi = orb_3d0(p_sp, 8.0);
+    float psi = orb_3dz2(p_sp, 10.0);
 
-    return psi * 1.5;
+    return psi;
 }
 
 void main() {
@@ -143,7 +145,7 @@ void main() {
         vec3 acc_color = vec3(0.0);
         float transmittance = 1.0;
         // float densityTotal = 0.0;
-        float dt = 0.01;   // Step size (smaller = better quality, slower render)
+        float dt = length(boxDim) / MARCH_MAX_STEP;   // Step size (smaller = better quality, slower render)
 
         float tStart = max(0.0, tNear);
 

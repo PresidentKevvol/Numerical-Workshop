@@ -204,3 +204,8 @@ button.important-btn {
     position:absolute;
     left:-9999px;
 }
+
+span.smol-note {
+    color: grey;;
+    font-size: 0.75em;
+}
