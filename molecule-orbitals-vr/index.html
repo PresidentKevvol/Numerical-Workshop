@@ -66,6 +66,7 @@
 
         <script src="../general-statics/csi.min.js"></script>
         <script src="../general-statics/collapsible.js"></script>
+        <script src="../general-statics/superhands-grab-rotate-adhoc.js"></script>
         <script src="index.js"></script>
     </head>
     <body>
@@ -104,7 +105,7 @@
                         static-body="shape: sphere; sphereRadius: 0.02">
                         </a-mixin>
                         <a-mixin id="interactable-objects"
-                        hoverable grabbable stretchable>
+                        hoverable grabbable stretchable dynamic-body super-hands-rotate-adhoc>
                         </a-mixin>
                         <img id="skyTexture" src="/general-statics/sky_sphere.png">
                     </a-assets>
@@ -119,7 +120,7 @@
                     <a-entity html="html:#html-panel; cursor:#cursor;" position="-0.8 1.0 -0.8" rotation="0 45 0"></a-entity>
 
                     <!-- emotional support dodecahedron -->
-                    <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.05" position="0.6 1.0 -0.1"></a-dodecahedron>
+                    <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.05" position="0.6 1.0 -0.1" id="support-dodecahedron"></a-dodecahedron>
                     <!-- the box that renders the raytracer -->
                     <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;" rotation="-90 0 0" scale="0.4 0.4 0.4">
                     </a-box>
