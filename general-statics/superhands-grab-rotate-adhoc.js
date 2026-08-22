@@ -14,10 +14,10 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
             // document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
             
-            var hand = evt.detail;
+            var hand = evt;
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
             debug_div.innerHTML = JSON.stringify(hand);
-            debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+            // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
 
             this.el.gabber_hand = hand;
             this.el.being_grabbed = true;
