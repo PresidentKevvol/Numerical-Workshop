@@ -29,8 +29,12 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         // if it it being grabbed
         if (this.gabber_hand) {
             // log rotation on screen
-            const rotDeg = this.gabber_hand.getAttribute('rotation');
-            document.getElementById("html-panel").getElementsByClassName("debug")[0].innerHTML = `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+            // const rotDeg = this.gabber_hand.getAttribute('rotation');
+
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            debug_div.innerHTML = JSON.stringify(this.gabber_hand);
+            debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+
         }
     }
   });
