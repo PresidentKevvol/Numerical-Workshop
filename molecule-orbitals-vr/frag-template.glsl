@@ -123,12 +123,12 @@ void main() {
         vec3 acc_color = vec3(0.0);
         float transmittance = 1.0;
         // float densityTotal = 0.0;
-        float dt = 0.01;   // Step size (smaller = better quality, slower render)
+        float dt = 0.025;   // Step size (smaller = better quality, slower render)
 
         float tStart = max(0.0, tNear);
 
         // raymarching loop
-        for(int i = 0; i <= 180; i++) {
+        for(int i = 0; i <= 80; i++) {
             // ray length from local_ro
             float t = tStart + dt * float(i);
             // Calculate current position in 3D space
