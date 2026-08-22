@@ -3,8 +3,16 @@
 // Bohr radius in Angstroms
 #define a0 0.529177
 
+#define ORB_ARRAY_SIZE %%ORB_ARRAY_SIZE%%
+#define SPATIAL_SCALE %%SPATIAL_SCALE%%
+#define AMPLITUDE_SCALE pow(SPATIAL_SCALE, 1.0/3.0)
+
+%%NUC_POS_DEFS%%
+
 uniform mat4 modelMatrix;
 varying vec3 vWorldPosition;
+
+%%MO_COEFF_UNIFORMS%%
 
 // size of the box
 uniform vec3 boxDim;
@@ -73,11 +81,13 @@ float orb_3d0(vec3 p, float Z) {
 
 // evaluate an overall wavefunction at a point
 float getWaveFunction(vec3 p) {
-    p = p * 6.25;
-    vec3 p_sp = cartToSphe(p);
-    float psi = orb_3d0(p_sp, 8.0);
+    // from box in aframe coordinate to actual bounding box coordinate
+    p = p * SPATIAL_SCALE;
+    float psi = 0.0;
 
-    return psi * 1.5;
+    %%WAVE_FUNCTION_CODE%%
+
+    return psi * AMPLITUDE_SCALE;
 }
 
 void main() {

@@ -1,9 +1,26 @@
-#html-panel{
-    font-family: 'Now', sans-serif;
-    padding: 1em;
-    position: absolute;
-    width: 500px;
-    height: 600px;
-    background-color: gainsboro;
+#stock-molecules {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+}
+
+.stock-molecule-showcase {
+    flex: 1;
     text-align: center;
+    padding: 0 0.6em;
+}
+
+.stock-mol-name {
+    font-size: 1.4em;
+    text-align: center;
+}
+
+.stock-mol-img {
+    width: 10em;
+    height: 10em;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
 }

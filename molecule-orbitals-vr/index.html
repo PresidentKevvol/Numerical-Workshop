@@ -2,6 +2,10 @@
     <head>
         <meta charset="utf-8" />
         <title>Molecular Orbitals in VR - Numerical Workshop</title>
+        <link rel="stylesheet" href="/general-statics/universial.css">
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="aframe-html-panels.css">
+
         <!-- a-frame vr -->
         <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
         <!-- use superhands for grab controls -->
@@ -18,8 +22,9 @@
         <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.12/build/magnet-helpers.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@2.7.0/build/aframe-html.min.js"></script>
 
-        <script src="index.js"></script>
         <script src="sim-update-component.js"></script>
+        <script src="stock_molecules.js"></script>
+        <script src="load_stock_molecules.js"></script>
         <script src="volumetric-component.js"></script>
         
         <div data-include="/header-universal.html"></div>
@@ -47,8 +52,6 @@
             }
         </script> -->
 
-        <link rel="stylesheet" href="index.css">
-
         <!-- meta tags -->
         <meta property="og:title" content="Molecular Orbitals in VR - Numerical Workshop by DeepFriedPancake">
         <meta property="og:type" content="website">
@@ -63,10 +66,15 @@
 
         <script src="../general-statics/csi.min.js"></script>
         <script src="../general-statics/collapsible.js"></script>
+        <script src="index.js"></script>
     </head>
     <body>
         <!-- the templates for html elements -->
         <div id="templates" hidden>
+            <div class="stock-molecule-showcase">
+                <div class="stock-mol-name"></div>
+                <div class="stock-mol-img"></div>
+            </div>
         </div>
 
         <h1>Molecular Orbitals in VR</h1>
@@ -76,9 +84,16 @@
         <!-- include the subheader with bmc and github buttons -->
         <div data-include="/page-subheader.html"></div>
 
+        <div id="mid-2" class="mid">
+            <div class="collapsible sect-title">Choose molecule <span class="collapsible-indicator">+</span></div>
+            <div id="stock-molecules" class="collapsible-content">
+
+            </div>
+        </div>
+
         <div id="mid-3" class="mid">
             <div id="embedded-vr-scene">
-                <a-scene embedded id="vr-scene" sim-update>
+                <a-scene embedded id="vr-scene" sim-update  cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;">
                     <a-assets>
                         <a-mixin id="physics-hands"
                         sphere-collider="objects: [mixin~='interactable-objects'];" 
@@ -155,9 +170,11 @@
             </div>
             <div class="hide-by-off-screen">
                 <div id="html-panel">
-                    Aframe html demo: <br>
-                    <button id="btn">Click me!</button>
-                    <div id="info"></div>
+                    Choose atomic orbital <br>
+                    <div class="ao-selection"></div>
+                    <br>
+                    Choose molecular orbital <br>
+                    <div class="mo-selection"></div>
                 </div>
             </div>
         </div>

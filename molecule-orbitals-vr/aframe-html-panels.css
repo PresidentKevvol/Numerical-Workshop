@@ -1,0 +1,11 @@
+/* for the panels used as 2d UI inside VR world */
+
+#html-panel{
+    font-family: 'Now', sans-serif;
+    padding: 1em;
+    position: absolute;
+    width: 500px;
+    height: 600px;
+    background-color: gainsboro;
+    text-align: center;
+}
