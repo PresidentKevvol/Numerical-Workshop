@@ -16,7 +16,8 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             
             var hand = evt;
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            debug_div.innerHTML = JSON.stringify(hand);
+            // debug_div.innerHTML = JSON.stringify(hand);
+            debug_div.innerHTML = Object.hasOwn(evt, "detail");
             // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
 
             this.el.gabber_hand = hand;
