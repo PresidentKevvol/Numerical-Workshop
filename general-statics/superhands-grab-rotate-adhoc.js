@@ -15,6 +15,10 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             // document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
             
             var hand = evt.detail.hand;
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            debug_div.innerHTML = JSON.stringify(hand);
+            debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+
             this.el.gabber_hand = hand;
             this.el.being_grabbed = true;
         });
