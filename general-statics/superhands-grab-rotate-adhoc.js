@@ -47,26 +47,22 @@ AFRAME.registerComponent('super-hands-rotate-adhoc-hands', {
         const el = this.el;
     
         // Triggered when the controller begins grabbing the object
-        el.addEventListener('stateadded', function (evt) {
+        el.addEventListener('gripdown', function (evt) {
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
             debug_div.innerHTML = "event: " + JSON.stringify(evt);
 
-            if (evt.detail === 'grabbed') {
-                if (el.id === "leftHand") {
-                    document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
-                } else if (el.id === "rightHand") {
-                    document.getElementById("support-dodecahedron").setAttribute('color', '#ffffbf');
-                } else {
-                    document.getElementById("support-dodecahedron").setAttribute('color', '#bfbfbf');
-                }
+            if (el.id === "leftHand") {
+                document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
+            } else if (el.id === "rightHand") {
+                document.getElementById("support-dodecahedron").setAttribute('color', '#ffffbf');
+            } else {
+                document.getElementById("support-dodecahedron").setAttribute('color', '#bfbfbf');
             }
         });
     
         // Triggered when the controller releases the object
-        el.addEventListener('stateremoved', function (evt) {
-            if (evt.detail === 'grabbed') {
-                document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
-            }
+        el.addEventListener('gripup', function (evt) {
+            document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
         });
     },
 });
