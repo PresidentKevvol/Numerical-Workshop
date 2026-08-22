@@ -26,18 +26,27 @@ async function import_setup(ob) {
     var diag = Math.hypot(...dims);
     // we want to scale it down such that the diagonal i.e. length of the potential longest ray does not exceed 2.0
     // in the box's perspective coordinates (if you strech or shrinks it it changes the scale aframe param but the box's size to itself does not change)
-    var scale_factor = 2.0 / diag;
+    var scale_factor = 1.0 / diag;
 
-    var new_box = {x: dims[0]*scale_factor, y: dims[1]*scale_factor, z: dims[2]*scale_factor};
+    var new_box = {x: dims[0], y: dims[1], z: dims[2]};
+    var box_scale = {x: scale_factor, y: scale_factor, z: scale_factor};
 
     // we are putting the molecule into this a-box
     const targ = document.getElementById('orbital-box');
-
+    
     //set its a-box dimensions as well as the shader's uniform
     targ.setAttribute("width", new_box.x);
     targ.setAttribute("height", new_box.y);
     targ.setAttribute("depth", new_box.z);
     targ.setAttribute("material", {boxDim: new_box});
+    targ.setAttribute("scale", box_scale);
+
+    // for debug
+    // const targ_d = document.getElementById('bounding-box');
+    // targ_d.setAttribute("width", new_box.x);
+    // targ_d.setAttribute("height", new_box.y);
+    // targ_d.setAttribute("depth", new_box.z);
+    // targ_d.setAttribute("scale", box_scale);
 
     // shift the atoms to this new 0 centered bounding box
     var atoms_new = [];
@@ -48,25 +57,40 @@ async function import_setup(ob) {
     }
 
     // code injection for efficiency!
-    // we essentially create a nnew shader
-    await register_shader_injection(atoms_new, diag/2.0, ob.orbital_indices);
+    // we essentially create new shader for each orbital
+    for (var i=0; i<ob.mo_coeffs.length; i++) {
+        // inject a shader for molecular orbital
+        var mo_coeffs = ob.mo_coeffs[i];
+        var mo_shader_name = `mo-${i}`;
+        await register_shader_injection_specific(atoms_new, ob.orbital_indices, diag, mo_shader_name, mo_coeffs);
 
-    targ.setAttribute("material", {shader: "volumetric-new"});
+        // also one for raw atomic orbital
+        var ao_coeffs = new Float32Array(ob.mo_coeffs.length);
+        ao_coeffs[i] = 1.0;
+        var ao_shader_name = `ao-${i}`;
+        await register_shader_injection_specific(atoms_new, ob.orbital_indices, diag, ao_shader_name, ao_coeffs);
+    }
+    // await register_shader_injection(atoms_new, diag/2.0, ob.orbital_indices);
+
+    targ.setAttribute("material", {shader: "volumetric-new-mo-0"});
     // cache for later function call access
     cur_molecule_mo_coeffs = ob.mo_coeffs;
-
-    // set the box to have first MO
-    set_box_mo_coeffs(ob.mo_coeffs[0]);
 
     create_choose_orbital_panel(ob.mo_coeffs.length);
 }
 
 function generate_select_mo_eventlistener(i) {
-    return function () {set_box_mo_coeffs(cur_molecule_mo_coeffs[i]);};
+    return function () {
+        const targ = document.getElementById('orbital-box');
+        targ.setAttribute("material", {shader: `volumetric-new-mo-${i}`});
+    };
 }
 
 function generate_select_ao_eventlistener(i, num_ao) {
-    return function () {var a = new Float32Array(num_ao); a[i] = 1.0; set_box_mo_coeffs(a);};
+    return function () {
+        const targ = document.getElementById('orbital-box');
+        targ.setAttribute("material", {shader: `volumetric-new-ao-${i}`});
+    };
 }
 
 //generate the panel for choosing which mo to visualize

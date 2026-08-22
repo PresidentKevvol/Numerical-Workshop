@@ -1,3 +1,5 @@
+var MARCH_MAX_STEP = 80;
+
 // use ajax request to load fragment shader
 async function loadShader(url) {
     const response = await fetch(url);
@@ -250,6 +252,86 @@ async function register_shader_injection(atoms, spatial_scale, orbital_indices) 
     console.log(shader_code_template);
 
     AFRAME.registerShader('volumetric-new', {
+        schema: schema,
+        vertexShader: default_vertshade,
+        fragmentShader: shader_code_template
+    });
+}
+
+// code injection to create a new custom glsl shader and register it to aframe
+// using code generated from a template
+// this one's for a specific atomic/molecular orbital
+async function register_shader_injection_specific(atoms, orbital_indices, box_diag, sh_name, mo_coeffs) {
+    // discard old ones
+    try{
+        delete AFRAME.shaders['volumetric-new-' + sh_name];
+    } finally {}
+
+    // fetch the code template
+    var shader_code_template = await loadShader("frag-template.glsl");
+    // spaatial scale not needed, every length normalized to bohr units
+    
+    // we use marching step settings instead
+    shader_code_template = shader_code_template.replaceAll("%%MARCH_MAX_STEP%%", MARCH_MAX_STEP);
+    shader_code_template = shader_code_template.replaceAll("%%BOX_COORD_DT%%", box_diag / MARCH_MAX_STEP);
+
+
+    // now for the nuclei positions, we can hard code them as NUC_0, NUC_1, etc. since we are generate a new code every time anyways
+    var nuclei_pos_hardcode = "";
+    for (var i=0; i<atoms.length; i++) {
+        var atom = atoms[i];
+        nuclei_pos_hardcode += `#define NUC_${i} vec3(${atom.coord[0]}, ${atom.coord[1]}, ${atom.coord[2]})\n`;
+    }
+    shader_code_template = shader_code_template.replaceAll("%%NUC_POS_DEFS%%", nuclei_pos_hardcode);
+
+    var schema = {
+        opacity: {type: 'number', is: 'uniform', default: 1.0},
+        boxDim: {type: 'vec3', is: 'uniform', default: {x: 1.0, y: 1.0, z: 1.0}},
+        posColor: {type: 'vec3', is: 'uniform', default: {x: 0.9, y: 0.5, z: 0.1}},
+        negColor: {type: 'vec3', is: 'uniform', default: {x: 0.2, y: 0.6, z: 0.9}}
+    };
+
+    // for the code evaluating the wave function at a point
+    // skip the for loop, we can hard code a direct waterfall of code since we know exactly how many orbitals we are adding
+    var wavefunction_add_hardcode = "";
+    // hardcoded uniforms as aframe cannot plug arrays to uniforms
+    var mo_coeff_uniforms_hardcode = "";
+    // keep track of atoms whose spherical coordinates we had calculated already
+    var cached_sphe_coord_atoms = new Set();
+    for (var i=0; i<orbital_indices.length; i++) {
+        // this shader will be specific to a combination of mo_coeffs,
+        // so we literally hard code each line
+        if (mo_coeffs[i] === 0) {
+            // skip if just 0 weight
+            continue;
+        }
+
+        const atom_ind = orbital_indices[i][0];
+        const atomic_number = atoms[atom_ind].elem;
+        const orb_ind = orbital_indices[i][1];
+        const orb_name = atomic_orbital_indices[orb_ind];
+
+        // cache the spherical coord so the code only need to call it once
+        if (!cached_sphe_coord_atoms.has(atom_ind)) {
+            cached_sphe_coord_atoms.add(atom_ind);
+            wavefunction_add_hardcode += `vec3 nuc_${atom_ind}_sphe = cartToSphe(p - NUC_${atom_ind}); \n`;
+        }
+        // an if statement to prevent wasted cycle then evaluate directly
+        // evaluate the wave function of <name> orbital centered at <atom> at the point in space, keeping in regard that the atom has atomic number/nucleus charge of this many
+        wavefunction_add_hardcode += `psi += ${mo_coeffs[i].toFixed(9)} * orb_${orb_name}(nuc_${atom_ind}_sphe, ${atomic_number.toFixed(1)}); \n`;
+
+        // not used in specific code gen
+        // define a hard coded uniform and add to schema too
+        // mo_coeff_uniforms_hardcode += `uniform float mo_coeff_${i};\n`;
+        // schema[`mo_coeff_${i}`] = {type: 'float', is: 'uniform', default: 0.0};
+    }
+    shader_code_template = shader_code_template.replaceAll("%%WAVE_FUNCTION_CODE%%", wavefunction_add_hardcode);
+    // not used in specific code gen
+    shader_code_template = shader_code_template.replaceAll("%%MO_COEFF_UNIFORMS%%", mo_coeff_uniforms_hardcode);
+
+    // console.log(shader_code_template);
+
+    AFRAME.registerShader('volumetric-new-' + sh_name, {
         schema: schema,
         vertexShader: default_vertshade,
         fragmentShader: shader_code_template

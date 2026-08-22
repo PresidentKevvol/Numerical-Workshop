@@ -1,11 +1,18 @@
 #define PI 3.1415926535897932384626433832795
 #define SQRT_PI_INV 0.5641895835477562869480794515607725858
 // Bohr radius in Angstroms
-#define a0 0.529177
+// not used, all length units ar now in bohr
+// #define a0 0.529177
 
-#define ORB_ARRAY_SIZE %%ORB_ARRAY_SIZE%%
-#define SPATIAL_SCALE %%SPATIAL_SCALE%%
-#define AMPLITUDE_SCALE pow(SPATIAL_SCALE, 1.0/3.0)
+// #define ORB_ARRAY_SIZE %%ORB_ARRAY_SIZE%%
+// #define SPATIAL_SCALE %%SPATIAL_SCALE%%
+// #define AMPLITUDE_SCALE pow(SPATIAL_SCALE, 1.0/3.0)
+
+// the marching step length of each step in each ray
+// should be a hard code injection where the longest ray should not be more than MARCH_MAX_STEP steps
+// i.e. BOX_COORD_DT = bounding_box_diagonal / MARCH_MAX_STEP
+#define MARCH_MAX_STEP %%MARCH_MAX_STEP%%
+#define BOX_COORD_DT %%BOX_COORD_DT%%
 
 %%NUC_POS_DEFS%%
 
@@ -34,37 +41,40 @@ vec3 cartToSphe(vec3 p) {
 
 // functions for the orbitals
 // all of these takes in a vector point in spherical coordinate and gives a complex
+// Z_1_5 should be pow(Z, 1.5) = Z * sqrt(Z)
 float orb_1s(vec3 p, float Z) {
-    float rh = Z * p.x / a0;
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
     float R = exp(-rh);
-    float Y = SQRT_PI_INV * pow(Z/a0, 1.5);
+    float Y = SQRT_PI_INV * Z_1_5;
     return R*Y;
 }
 float orb_2s(vec3 p, float Z) {
-    float rh = Z * p.x / a0;
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
     float R = (2.0 - rh) * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 1.5);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5;
     return R*Y;
 }
 float orb_2pz(vec3 p, float Z) {
-    float r = p.x;
-    float rh = Z * p.x / a0;
-    float R = r * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 2.5) * cos(p.y);
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * exp(-rh/2.0);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5 * cos(p.y);
     return R*Y;
 }
 float orb_2px(vec3 p, float Z) {
-    float r = p.x;
-    float rh = Z * p.x / a0;
-    float R = r * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 2.5) * sin(p.y) * cos(p.z);
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * exp(-rh/2.0);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.z);
     return R*Y;
 }
 float orb_2py(vec3 p, float Z) {
-    float r = p.x;
-    float rh = Z * p.x / a0;
-    float R = r * exp(-rh/2.0);
-    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * pow(Z/a0, 2.5) * sin(p.y) * sin(p.z);
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * exp(-rh/2.0);
+    float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5 * sin(p.y) * sin(p.z);
     return R*Y;
 }
 
@@ -81,13 +91,11 @@ float orb_3d0(vec3 p, float Z) {
 
 // evaluate an overall wavefunction at a point
 float getWaveFunction(vec3 p) {
-    // from box in aframe coordinate to actual bounding box coordinate
-    p = p * SPATIAL_SCALE;
     float psi = 0.0;
 
     %%WAVE_FUNCTION_CODE%%
 
-    return psi * AMPLITUDE_SCALE;
+    return psi;
 }
 
 void main() {
@@ -123,7 +131,7 @@ void main() {
         vec3 acc_color = vec3(0.0);
         float transmittance = 1.0;
         // float densityTotal = 0.0;
-        float dt = 0.025;   // Step size (smaller = better quality, slower render)
+        float dt = BOX_COORD_DT;   // Step size (smaller = better quality, slower render)
 
         float tStart = max(0.0, tNear);
 
@@ -154,7 +162,6 @@ void main() {
                 float step_alpha = 1.0 - exp(-density * dt * 50.0);
                 acc_color += phase * step_alpha * transmittance;
                 transmittance *= (1.0 - step_alpha);
-                // color += phase * density * dt * max(densityCap - densityTotal, 0.0) / densityCap * 8.0;
             }
 
             // early exit if the color quota is filled or  ray has passed the area of interest
