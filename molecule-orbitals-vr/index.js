@@ -77,6 +77,10 @@ async function import_setup(ob) {
     cur_molecule_mo_coeffs = ob.mo_coeffs;
 
     create_choose_orbital_panel(ob.mo_coeffs.length);
+
+    // adjust the inside VR panel
+    document.getElementById("standalone-view").classList.add("display-none");
+    document.getElementById("molecule-view").classList.remove("display-none");
 }
 
 function generate_select_mo_eventlistener(i) {
@@ -126,6 +130,29 @@ function set_box_mo_coeffs(coeffs) {
     targ.setAttribute("material", mo_schema);
 }
 
+function select_orbitals_basic(event) {
+    var targ = event.target;
+    // trace back to parent until we are at the button element
+    // (not the elems for latex rendering inside)
+    while (!targ.classList.contains("select-orbitals")) {
+        targ = targ.parentElement;
+    }
+    // then we can select the attribute
+    var orb = targ.getAttribute("orbital");
+
+    // the orbital cloud is put into this a-box
+    const box = document.getElementById('orbital-box');
+    box.setAttribute("material", {shader: "volumetric", orbitalChoice: orb, boxDim: {x: 5, y: 5, z: 5}});
+    box.setAttribute("width", 5);
+    box.setAttribute("height", 5);
+    box.setAttribute("depth", 5);
+    box.setAttribute("scale", {x: 0.08, y: 0.08, z: 0.08});
+
+    // if selected from page html buttons, also set the in VR panel
+    document.getElementById("standalone-view").classList.remove("display-none");
+    document.getElementById("molecule-view").classList.add("display-none");
+}
+
 // for when manual rotation by using html <input type="range"> elements
 function rotation_slider_input() {
     var rl = document.getElementById("slider-roll").value;
@@ -138,6 +165,12 @@ function rotation_slider_input() {
 
 
 function ijs_setup() {
+    // select orbital buttons of basic mode
+    var select_orbs = document.getElementsByClassName('select-orbitals');
+    for (var i=0; i<select_orbs.length; i++) {
+        select_orbs[i].addEventListener('click', select_orbitals_basic);
+    }
+
     document.getElementById("slider-roll").addEventListener("input", rotation_slider_input);
     document.getElementById("slider-pitch").addEventListener("input", rotation_slider_input);
     document.getElementById("slider-yaw").addEventListener("input", rotation_slider_input);

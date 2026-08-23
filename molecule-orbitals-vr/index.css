@@ -1,3 +1,7 @@
+button.select-orbitals {
+    font-size: 1.4em;
+}
+
 #stock-molecules {
     display: flex;
     flex-direction: row;

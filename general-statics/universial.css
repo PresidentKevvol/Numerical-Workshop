@@ -179,6 +179,12 @@ button.important-btn {
 #controls-guide-oculus {
     background-image: url(/general-statics/oculus-left.png);
 }
+#controls-guide-oculus-grab {
+    background-image: url(/general-statics/quest2_controller_guide.png);
+    width: 29em;
+    height: 20em;
+    background-position: center;
+}
 
 #controls-guide-mobile {
     background-image: url(/general-statics/tap-mobile.png);

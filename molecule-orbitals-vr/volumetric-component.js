@@ -21,10 +21,11 @@ void main() {
 
 AFRAME.registerShader('volumetric', {
     schema: {
-      opacity: {type: 'number', is: 'uniform', default: 1.0},
-      boxDim: {type: 'vec3', is: 'uniform', default: {x: 5.0, y: 5.0, z: 5.0}},
-      posColor: {type: 'vec3', is: 'uniform', default: {x: 0.9, y: 0.5, z: 0.1}},
-      negColor: {type: 'vec3', is: 'uniform', default: {x: 0.2, y: 0.6, z: 0.9}}
+        opacity: {type: 'number', is: 'uniform', default: 1.0},
+        boxDim: {type: 'vec3', is: 'uniform', default: {x: 5.0, y: 5.0, z: 5.0}},
+        posColor: {type: 'vec3', is: 'uniform', default: {x: 0.9, y: 0.5, z: 0.1}},
+        negColor: {type: 'vec3', is: 'uniform', default: {x: 0.2, y: 0.6, z: 0.9}},
+        orbitalChoice: {type: 'int', is: 'uniform', default: 9}
     },
     vertexShader: default_vertshade,
     fragmentShader: `
@@ -42,6 +43,9 @@ uniform vec3 boxDim;
 // positive and negative amplitude color
 uniform vec3 posColor;
 uniform vec3 negColor;
+
+// which standalone real valued orbital to render
+uniform int orbitalChoice;
 
 float densityCap = 0.25;
 
@@ -93,6 +97,34 @@ float orb_2py(vec3 p, float Z) {
     return R*Y;
 }
 
+float orb_3s(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = (27.0 - 18.0 * rh + 2.0 * rh*rh) * exp(-rh/3.0);
+    float Y = 1.0/(81.0*sqrt(3.0)) * SQRT_PI_INV * Z_1_5;
+    return R*Y;
+}
+float orb_3pz(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * (6.0 - rh) * exp(-rh/3.0);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * cos(p.y);
+    return R*Y;
+}
+float orb_3px(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * (6.0 - rh) * exp(-rh/3.0);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.z);
+    return R*Y;
+}
+float orb_3py(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * (6.0 - rh) * exp(-rh/3.0);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * sin(p.z);
+    return R*Y;
+}
 // wave function of 3d0 aka 3dz^2 orbital (one with 2 lobes and a hula hoop)
 // real value only
 float orb_3dz2(vec3 p, float Z) {
@@ -103,13 +135,65 @@ float orb_3dz2(vec3 p, float Z) {
     float Y = 1.0/(81.0*sqrt(6.0)) * SQRT_PI_INV * Z_1_5 * (3.0 * cos_theta*cos_theta - 1.0);
     return R*Y;
 }
+float orb_3dxz(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.y) * cos(p.z);
+    return R*Y;
+}
+float orb_3dyz(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.y) * sin(p.z);
+    return R*Y;
+}
+float orb_3dx2y2(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float sin_theta = sin(p.y);
+    float Y = 1.0/(81.0*sqrt(2.0)) * SQRT_PI_INV * Z_1_5 * sin_theta * sin_theta * cos(2.0 * p.z);
+    return R*Y;
+}
+float orb_3dxy(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float sin_theta = sin(p.y);
+    float Y = 1.0/(81.0*sqrt(2.0)) * SQRT_PI_INV * Z_1_5 * sin_theta * sin_theta * sin(2.0 * p.z);
+    return R*Y;
+}
 
 // evaluate an overall wavefunction at a point
 float getWaveFunction(vec3 p) {
     vec3 p_sp = cartToSphe(p);
-    float psi = orb_3dz2(p_sp, 10.0);
+    float Z = 10.0;
 
-    return psi;
+    switch (orbitalChoice) {
+        case 0:  return orb_1s(p_sp, Z);
+        case 1:  return orb_2s(p_sp, Z);
+        case 2:  return orb_2pz(p_sp, Z);
+        case 3:  return orb_2px(p_sp, Z);
+        case 4:  return orb_2py(p_sp, Z);
+        case 5:  return orb_3s(p_sp, Z);
+        case 6:  return orb_3pz(p_sp, Z);
+        case 7:  return orb_3px(p_sp, Z);
+        case 8:  return orb_3py(p_sp, Z);
+        case 9:  return orb_3dz2(p_sp, Z);
+        case 10: return orb_3dxz(p_sp, Z);
+        case 11: return orb_3dyz(p_sp, Z);
+        case 12: return orb_3dx2y2(p_sp, Z);
+        case 13: return orb_3dxy(p_sp, Z);
+        default: return 0.0;
+    }
+
+    return 0.0;
 }
 
 void main() {

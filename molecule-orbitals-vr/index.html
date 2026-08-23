@@ -39,7 +39,7 @@
         </script>
 
         <!-- cortex js math engine -->
-        <!-- <script defer type="module">
+        <script defer type="module">
             window.addEventListener('DOMContentLoaded', () =>
             import('https://unpkg.com/mathlive?module').then( (mathlive) => mathlive.renderMathInDocument()) );
         </script>
@@ -50,7 +50,7 @@
               console.log(ce.parse("e^{i\\pi}").N().latex);
               // ➔ "-1"
             }
-        </script> -->
+        </script>
 
         <!-- meta tags -->
         <meta property="og:title" content="Molecular Orbitals in VR - Numerical Workshop by DeepFriedPancake">
@@ -86,9 +86,59 @@
         <div data-include="/page-subheader.html"></div>
 
         <div id="mid-2" class="mid">
+            <div class="collapsible sect-title">Choose Standalone Atomic Orbitals <span class="collapsible-indicator">+</span></div>
+            <div id="select-orb-real" class="collapsible-content">
+                <!-- <div class="sect-title">Select a real valued orbital to view:</div> -->
+                <button class="select-orbitals" orbital="0">\( 1s \)</button> <br>
+                <button class="select-orbitals" orbital="1">\( 2s \)</button>
+                <button class="select-orbitals" orbital="2">\( 2p_{z} \)</button>
+                <button class="select-orbitals" orbital="3">\( 2p_{x} \)</button>
+                <button class="select-orbitals" orbital="4">\( 2p_{y} \)</button> <br>
+                <button class="select-orbitals" orbital="5">\( 3s \)</button>
+                <button class="select-orbitals" orbital="6">\( 3p_{z} \)</button>
+                <button class="select-orbitals" orbital="7">\( 3p_{x} \)</button>
+                <button class="select-orbitals" orbital="8">\( 3p_{y} \)</button>
+                <button class="select-orbitals" orbital="9">\( 3d_{z^2} \)</button>
+                <button class="select-orbitals" orbital="10">\( 3d_{xz} \)</button>
+                <button class="select-orbitals" orbital="11">\( 3d_{yz} \)</button>
+                <button class="select-orbitals" orbital="12">\( 3d_{x^2-y^2} \)</button>
+                <button class="select-orbitals" orbital="13">\( 3d_{xy} \)</button>
+            </div>
+
             <div class="collapsible sect-title">Choose molecule <span class="collapsible-indicator">+</span></div>
             <div class="collapsible-content" >
                 <div id="stock-molecules"></div>
+            </div>
+        </div>
+
+        <div id="mid-8" class="mid">
+            <div id="controls-guide">
+              <div id="controls-guide-title" class="collapsible sect-title">Controls <span class="collapsible-indicator">+</span></div>
+              <div class="collapsible-content">
+                <div id="controls-guide-img-contain" >
+                  <div id="controls-guide-img-text">
+                    <span style="color: rgb(162, 42, 222);">Move around</span><br>
+                    <span style="color: rgb(230, 28, 192);">Rise up</span><br>
+                    <span style="color: rgb(235, 126, 23);">Fall down</span><br>
+                    <span style="color: rgb(6, 167, 119);">Grab/stretch</span><br>
+                  </div>
+                  <div class="control-guide-platform">
+                    desktop
+                    <div id="controls-guide-desktop" class="controls-guide-img"></div>
+                    (fps games controls)
+                  </div>
+                  <div class="control-guide-platform">
+                    Oculus
+                    <div id="controls-guide-oculus-grab" class="controls-guide-img"></div>
+                    (left controller to move around)
+                  </div>
+                  <div class="control-guide-platform">
+                    Mobile
+                    <div id="controls-guide-mobile" class="controls-guide-img"></div>
+                    (swipe screen or enable gyroscope to look around)
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
 
@@ -128,7 +178,7 @@
 
 
                     <a-sky color="#ececec" src="#skyTexture" hide-on-enter-ar></a-sky>
-                    <a-entity id="rig" movement-controls="controls: touch; fly: true; speed: 0.1">
+                    <a-entity id="rig" movement-controls="controls: touch; fly: true; speed: 0.0;">
                         <a-entity id="aframe-camera" camera position="0 1.0 0" wasdqz-controls="acceleration: 20" look-controls="pointerLockEnabled: false;">
                             <!-- <a-cursor></a-cursor> -->
                         </a-entity>
@@ -176,11 +226,31 @@
             </div>
             <div class="hide-by-off-screen">
                 <div id="html-panel">
-                    Choose atomic orbital <br>
-                    <div class="ao-selection"></div>
-                    <br>
-                    Choose molecular orbital <br>
-                    <div class="mo-selection"></div>
+                    <div id="standalone-view">
+                        Atomic Orbitals <br>
+                        <button class="select-orbitals" orbital="0">\( 1s \)</button> <br>
+                        <button class="select-orbitals" orbital="1">\( 2s \)</button>
+                        <button class="select-orbitals" orbital="2">\( 2p_{z} \)</button>
+                        <button class="select-orbitals" orbital="3">\( 2p_{x} \)</button>
+                        <button class="select-orbitals" orbital="4">\( 2p_{y} \)</button> <br>
+                        <button class="select-orbitals" orbital="5">\( 3s \)</button>
+                        <button class="select-orbitals" orbital="6">\( 3p_{z} \)</button>
+                        <button class="select-orbitals" orbital="7">\( 3p_{x} \)</button>
+                        <button class="select-orbitals" orbital="8">\( 3p_{y} \)</button> <br>
+                        <button class="select-orbitals" orbital="9">\( 3d_{z^2} \)</button>
+                        <button class="select-orbitals" orbital="10">\( 3d_{xz} \)</button>
+                        <button class="select-orbitals" orbital="11">\( 3d_{yz} \)</button>
+                        <button class="select-orbitals" orbital="12">\( 3d_{x^2-y^2} \)</button>
+                        <button class="select-orbitals" orbital="13">\( 3d_{xy} \)</button>
+                    </div>
+
+                    <div id="molecule-view" class="display-none">
+                        Atomic orbital around each atom <br>
+                        <div class="ao-selection"></div>
+                        <br>
+                        Superposed molecular orbital <br>
+                        <div class="mo-selection"></div>
+                    </div>
                     <!-- debug <br>
                     <div class="debug"></div> -->
 
