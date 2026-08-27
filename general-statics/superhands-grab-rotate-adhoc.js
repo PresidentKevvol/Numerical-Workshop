@@ -45,9 +45,9 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         // if it it being grabbed
         if (this.el.being_grabbed) {
             // log rotation on screen
-            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            // var prints = `grabbed`;
-            // debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            var prints = `${left_gripping}, ${right_gripping}`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
 
             var grabber;
             // if both hands gripping, no rotation
@@ -58,6 +58,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             } else if (right_gripping) {
                 grabber = document.getElementById("rightHand");
             }
+
 
             // if the current latest entity being registered as grabbed is this, we proceed
             if (last_entity_grabbed === this.el) {
@@ -105,11 +106,11 @@ AFRAME.registerComponent('rotate-adhoc', {
                 right_gripping = true;
             }
 
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
     
-            var rotDeg = document.getElementById("rightHand").getAttribute('rotation');
-            var prints = `event: ${this.data.hand}, down` + "<br>" + `Rotation - X: ${rotDeg.x.toFixed(2)}, Y: ${rotDeg.y.toFixed(2)}, Z: ${rotDeg.z.toFixed(2)}`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+            // var rotDeg = document.getElementById("rightHand").getAttribute('rotation');
+            // var prints = `event: ${this.data.hand}, down` + "<br>" + `Rotation - X: ${rotDeg.x.toFixed(2)}, Y: ${rotDeg.y.toFixed(2)}, Z: ${rotDeg.z.toFixed(2)}`;
+            // debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
         });
     
         // Triggered when the controller releases the object
@@ -120,11 +121,11 @@ AFRAME.registerComponent('rotate-adhoc', {
                 right_gripping = false;
             }
 
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
     
-            var rotDeg = this.el.getAttribute('rotation');
-            var prints = `event: ${this.data.hand}, up` + "<br>" + `Rotation - X: ${rotDeg.x.toFixed(2)}, Y: ${rotDeg.y.toFixed(2)}, Z: ${rotDeg.z.toFixed(2)}`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+            // var rotDeg = this.el.getAttribute('rotation');
+            // var prints = `event: ${this.data.hand}, up` + "<br>" + `Rotation - X: ${rotDeg.x.toFixed(2)}, Y: ${rotDeg.y.toFixed(2)}, Z: ${rotDeg.z.toFixed(2)}`;
+            // debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
         });
     },
     update: function() {},
