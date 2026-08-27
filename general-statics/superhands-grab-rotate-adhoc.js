@@ -20,11 +20,9 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             // however evt only gives an object that is {isTrusted: false}
             // and you cannot use evt.detail.hand to access the hand's info
 
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            var prints = `${JSON.stringify(evt)}`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-
-            // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            // var prints = `${JSON.stringify(evt)}`;
+            // debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
 
             this.el.being_grabbed = true;
         });
@@ -41,11 +39,9 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         // if it it being grabbed
         if (this.el.being_grabbed) {
             // log rotation on screen
-
-            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            // debug_div.innerHTML = JSON.stringify(this.gabber_hand);
-            // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
-
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            var prints = `grabbed`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
         }
     }
 });
