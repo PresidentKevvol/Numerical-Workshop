@@ -67,23 +67,14 @@ AFRAME.registerComponent('rotate-adhoc', {
     gripdown: function (evt) {
         var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
 
-        // if (el.id === "leftHand") {
-        //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
-        // } else if (el.id === "rightHand") {
-        //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffffbf');
-        // } else {
-        //     document.getElementById("support-dodecahedron").setAttribute('color', '#bfbfbf');
-        // }
-
-        var prints = `data.hand: ${this.data.hand}, event: down`;
+        var prints = `event: down`;
         debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
     },
 
     gripup: function (evt) {
         var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-        // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
 
-        var prints = `data.hand: ${this.data.hand}, event: up`;
+        var prints = `event: up`;
         debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
     }
 });
