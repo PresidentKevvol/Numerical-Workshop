@@ -46,8 +46,8 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         if (this.el.being_grabbed) {
             // log rotation on screen
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            var prints = `${left_gripping}, ${right_gripping}`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+            // var prints = `${left_gripping}, ${right_gripping}`;
+            // debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
 
             var grabber;
             // if both hands gripping, no rotation
@@ -59,9 +59,11 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
                 grabber = document.getElementById("rightHand");
             }
 
+            var prints = `${last_entity_grabbed.id === this.el.id}, ${last_entity_grabbed === this.el}`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
 
             // if the current latest entity being registered as grabbed is this, we proceed
-            if (last_entity_grabbed === this.el) {
+            if (last_entity_grabbed.id === this.el.id) {
                 // original rotation value of the entity
                 var entity_rot_orig = this.el.getAttribute("rotation");
 
