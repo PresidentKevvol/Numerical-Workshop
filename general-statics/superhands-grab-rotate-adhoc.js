@@ -6,6 +6,9 @@ since rotation is broken on super-hands 3.0.6
 var left_gripping = false;
 var right_gripping = false;
 
+var last_entity_grabbed = null;
+var grabber_rotation_values = null;
+
 AFRAME.registerComponent('super-hands-rotate-adhoc', {
     init: function () {
         const el = this.el;
@@ -25,6 +28,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             // debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
 
             this.el.being_grabbed = true;
+            last_entity_grabbed = this.el;
         });
     
         // Triggered when the controller releases the object
@@ -32,6 +36,8 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             // el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
 
             this.el.being_grabbed = false;
+            last_entity_grabbed = null;
+            grabber_rotation_values = null;
         });
     },
 
@@ -39,9 +45,45 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         // if it it being grabbed
         if (this.el.being_grabbed) {
             // log rotation on screen
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            var prints = `grabbed`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            // var prints = `grabbed`;
+            // debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+
+            var grabber;
+            // if both hands gripping, no rotation
+            if (left_gripping && right_gripping) {
+                return;
+            } else if (left_gripping) {
+                grabber = document.getElementById("leftHand");
+            } else if (right_gripping) {
+                grabber = document.getElementById("rightHand");
+            }
+
+            // if the current latest entity being registered as grabbed is this, we proceed
+            if (last_entity_grabbed === this.el) {
+                // original rotation value of the entity
+                var entity_rot_orig = this.el.getAttribute("rotation");
+
+                if (grabber_rotation_values) {
+                    var grabber_new = grabber.getAttribute("rotation");
+                    // change in rotation between last and this tick
+                    var del_theta = {
+                        x: grabber_new.x - grabber_rotation_values.x,
+                        y: grabber_new.y - grabber_rotation_values.y,
+                        z: grabber_new.z - grabber_rotation_values.z,
+                    };
+
+                    var new_rot = {
+                        x: entity_rot_orig.x + del_theta.x,
+                        y: entity_rot_orig.y + del_theta.y,
+                        z: entity_rot_orig.z + del_theta.z,
+                    };
+                    this.el.setAttribute("rotation", new_rot);
+                }
+
+                // record for next tick
+                grabber_rotation_values = grabber.getAttribute("rotation");
+            }
         }
     }
 });
