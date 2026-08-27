@@ -86,7 +86,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
                 }
 
                 // record for next tick
-                grabber_rotation_values = grabber.getAttribute("rotation");
+                grabber_rotation_values = structuredClone(grabber.getAttribute("rotation"));
             }
         }
     }
