@@ -74,7 +74,7 @@ AFRAME.registerComponent('rotate-adhoc', {
     gripup: function (evt) {
         var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
 
-        var prints = `${this.data.hand}, event: up`;
+        var prints = `${JSON.stringify(this.data)}, event: up`;
         debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
     },
     remove : function() {}
