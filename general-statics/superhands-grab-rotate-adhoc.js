@@ -14,6 +14,11 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         const el = this.el;
 
         this.el.being_grabbed = false;
+        // quarternions for calculating rotations
+        this.prevQuaternion = new THREE.Quaternion();
+        this.currentQuaternion = new THREE.Quaternion();
+        this.deltaQuaternion = new THREE.Quaternion();
+        this.isFirstTick = false;
     
         // Triggered when the controller begins grabbing the object
         el.addEventListener('grab-start', (evt) => {
@@ -29,6 +34,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
 
             this.el.being_grabbed = true;
             last_entity_grabbed = this.el;
+            this.isFirstTick = true;
         });
     
         // Triggered when the controller releases the object
@@ -62,31 +68,50 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
             // if the current latest entity being registered as grabbed is this, we proceed
             if (last_entity_grabbed === this.el) {
                 // original rotation value of the entity
-                var entity_rot_orig = this.el.getAttribute("rotation");
+                // var entity_rot_orig = this.el.getAttribute("rotation");
+                grabber.object3D.getWorldQuaternion(this.currentQuaternion);
 
-                if (grabber_rotation_values) {
-                    var grabber_new = grabber.getAttribute("rotation");
-                    // change in rotation between last and this tick
-                    var del_theta = {
-                        x: grabber_new.x - grabber_rotation_values.x,
-                        y: grabber_new.y - grabber_rotation_values.y,
-                        z: grabber_new.z - grabber_rotation_values.z
-                    };
-
-                    var new_rot = {
-                        x: entity_rot_orig.x + del_theta.x,
-                        y: entity_rot_orig.y + del_theta.y,
-                        z: entity_rot_orig.z + del_theta.z
-                    };
-
-                    var prints = `grabber_new: ${JSON.stringify(grabber_new)} <br> grabber_last: ${JSON.stringify(grabber_rotation_values)}`;
-                    debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-
-                    this.el.setAttribute("rotation", new_rot);
+                //first tick of grabbing, just record
+                if (this.isFirstTick) {
+                    this.prevQuaternion.copy(this.currentQuaternion);
+                    this.isFirstTick = false;
+                    return;
                 }
 
+                // calculate delta in angles using quaternion
+                // inverse of previous rotation multiplied by current rotation
+                this.deltaQuaternion.copy(this.prevQuaternion).invert().premultiply(this.currentQuaternion);
+                // absolute angle change in radians
+                // 2 * acos(w) gives the angle of rotation
+                // const angleDelta = 2 * Math.acos(Math.min(Math.max(this.deltaQuaternion.w, -1), 1));
+
+                // apply the change
+                if (angleDelta > 0.0025) {
+                    this.el.object3D.quaternion.premultiply(this.deltaQuaternion);
+                }
+
+                // if (grabber_rotation_values) {
+                //     var grabber_new = grabber.getAttribute("rotation");
+                //     // change in rotation between last and this tick
+                //     var del_theta = {
+                //         x: grabber_new.x - grabber_rotation_values.x,
+                //         y: grabber_new.y - grabber_rotation_values.y,
+                //         z: grabber_new.z - grabber_rotation_values.z
+                //     };
+
+                //     var new_rot = {
+                //         x: entity_rot_orig.x + del_theta.x,
+                //         y: entity_rot_orig.y + del_theta.y,
+                //         z: entity_rot_orig.z + del_theta.z
+                //     };
+
+                //     this.el.setAttribute("rotation", new_rot);
+                // }
+
                 // record for next tick
-                grabber_rotation_values = structuredClone(grabber.getAttribute("rotation"));
+                // note: remember to deep copy as the attribute object changes along the user and scene progresses to next tick
+                // grabber_rotation_values = structuredClone(grabber.getAttribute("rotation"));
+                this.prevQuaternion.copy(this.currentQuaternion);
             }
         }
     }
