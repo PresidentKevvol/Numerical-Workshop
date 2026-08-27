@@ -59,13 +59,14 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
                 grabber = document.getElementById("rightHand");
             }
 
-            var prints = `${last_entity_grabbed.id === this.el.id}, ${last_entity_grabbed === this.el}`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-
             // if the current latest entity being registered as grabbed is this, we proceed
-            if (last_entity_grabbed.id === this.el.id) {
+            if (last_entity_grabbed === this.el) {
                 // original rotation value of the entity
                 var entity_rot_orig = this.el.getAttribute("rotation");
+
+                var prints = `last rot: ${JSON.stringify(grabber_rotation_values)} <br>`;
+                prints += `cur rot: ${JSON.stringify(grabber.getAttribute("rotation"))}`;
+                debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
 
                 if (grabber_rotation_values) {
                     var grabber_new = grabber.getAttribute("rotation");
