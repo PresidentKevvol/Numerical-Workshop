@@ -61,6 +61,12 @@ AFRAME.registerComponent('rotate-adhoc', {
 
         // Triggered when the controller begins grabbing the object
         this.el.addEventListener('gripdown', (evt) => {
+            if (this.data.hand === "left") {
+                left_gripping = true;
+            } else if (this.data.hand === "right") {
+                right_gripping = true;
+            }
+
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
     
             var rotDeg = document.getElementById("rightHand").getAttribute('rotation');
@@ -70,6 +76,12 @@ AFRAME.registerComponent('rotate-adhoc', {
     
         // Triggered when the controller releases the object
         this.el.addEventListener('gripup', (evt) => {
+            if (this.data.hand === "left") {
+                left_gripping = false;
+            } else if (this.data.hand === "right") {
+                right_gripping = false;
+            }
+
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
     
             var rotDeg = this.el.getAttribute('rotation');
