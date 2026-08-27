@@ -87,8 +87,16 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
 
                 // apply the change
                 if (angleDelta > 0.0025) {
-                    this.el.object3D.quaternion.premultiply(this.deltaQuaternion);
-                    this.el.object3D.matrixWorldNeedsUpdate = true;
+                    var entityQuaternion = new THREE.Quaternion();
+                    // apply rotation through quarternion multiplication
+                    this.el.object3D.getWorldQuaternion(entityQuaternion);
+                    entityQuaternion.premultiply(this.deltaQuaternion);
+
+                    const x = THREE.MathUtils.radToDeg(entityQuaternion.x);
+                    const y = THREE.MathUtils.radToDeg(entityQuaternion.y);
+                    const z = THREE.MathUtils.radToDeg(entityQuaternion.z);
+
+                    this.el.setAttribute("rotation", {x:x, y:y, z:z});
                 }
 
                 // if (grabber_rotation_values) {
