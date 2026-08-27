@@ -61,7 +61,7 @@ AFRAME.registerComponent('rotate-adhoc', {
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
     
             var rotDeg = document.getElementById("rightHand").getAttribute('rotation');
-            var prints = `event: down` + "<br>" + `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+            var prints = `event: ${this.data.hand}, down` + "<br>" + `Rotation - X: ${rotDeg.x.toFixed(2)}, Y: ${rotDeg.y.toFixed(2)}, Z: ${rotDeg.z.toFixed(2)}`;
             debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
         });
     
@@ -69,24 +69,12 @@ AFRAME.registerComponent('rotate-adhoc', {
         this.el.addEventListener('gripup', (evt) => {
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
     
-            var prints = `${JSON.stringify(this.data)}, event: up`;
+            var rotDeg = this.el.getAttribute('rotation');
+            var prints = `event: ${this.data.hand}, up` + "<br>" + `Rotation - X: ${rotDeg.x.toFixed(2)}, Y: ${rotDeg.y.toFixed(2)}, Z: ${rotDeg.z.toFixed(2)}`;
             debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
         });
     },
     update: function() {},
     tick: function() {},
-    gripdown: function (evt) {
-        var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-
-        var rotDeg = document.getElementById("rightHand").getAttribute('rotation');
-        var prints = `event: down` + "<br>" + `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
-        debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-    },
-    gripup: function (evt) {
-        var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-
-        var prints = `${JSON.stringify(this.data)}, event: up`;
-        debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-    },
     remove : function() {}
 });
