@@ -149,9 +149,8 @@
                         <a-mixin id="physics-hands"
                         sphere-collider="objects: [mixin~='interactable-objects'];" 
                         super-hands="grabStartButtons: gripdown; 
-                        grabEndButtons: 
-                        gripup; stretchStartButtons: 
-                        gripdown; stretchEndButtons: gripup;"
+                        grabEndButtons: gripup;
+                        stretchStartButtons: gripdown; stretchEndButtons: gripup;"
                         static-body="shape: sphere; sphereRadius: 0.02">
                         </a-mixin>
                         <a-mixin id="interactable-objects"
@@ -170,7 +169,7 @@
                     <a-entity html="html:#html-panel; cursor:#cursor;" position="-0.8 1.0 -0.8" rotation="0 45 0"></a-entity>
 
                     <!-- emotional support dodecahedron -->
-                    <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.05" position="0.6 1.0 -0.1" id="support-dodecahedron"></a-dodecahedron>
+                    <!-- <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.05" position="0.6 1.0 -0.1" id="support-dodecahedron"></a-dodecahedron> -->
                     <!-- the box that renders the raytracer -->
                     <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;" rotation="-90 0 0" width="5" height="5" depth="5" scale="0.08 0.08 0.08">
                     </a-box>
