@@ -144,7 +144,7 @@
 
         <div id="mid-3" class="mid">
             <div id="embedded-vr-scene">
-                <a-scene embedded id="vr-scene" cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;" xr-mode-ui="XRMode: xr;">
+                <a-scene embedded id="vr-scene" cursor="rayOrigin: mouse" raycaster="objects: [html]; interval:100;" xr-mode-ui="XRMode: xr;" physics="debug: true; gravity: 0;">
                     <a-assets>
                         <a-mixin id="physics-hands"
                         sphere-collider="objects: [mixin~='interactable-objects'];" 
@@ -155,7 +155,7 @@
                         static-body="shape: sphere; sphereRadius: 0.02">
                         </a-mixin>
                         <a-mixin id="interactable-objects"
-                        hoverable grabbable stretchable dynamic-body super-hands-rotate-adhoc>
+                        hoverable grabbable stretchable dynamic-body>
                         </a-mixin>
                         <img id="skyTexture" src="/general-statics/sky_sphere.png">
                     </a-assets>
