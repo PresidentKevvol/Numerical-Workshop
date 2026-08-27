@@ -2,6 +2,10 @@
 for adding ad hoc rotation to super-hands grabbing
 since rotation is broken on super-hands 3.0.6
 */
+
+var left_gripping = false;
+var right_gripping = false;
+
 AFRAME.registerComponent('super-hands-rotate-adhoc', {
     init: function () {
         const el = this.el;
@@ -43,7 +47,10 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
     }
 });
 
-AFRAME.registerComponent('super-hands-rotate-adhoc-hands', {
+AFRAME.registerComponent('rotate-adhoc', {
+    schema: {
+        hand: {type: "string"}
+    },
     init: function () {
         const el = this.el;
     
@@ -51,22 +58,28 @@ AFRAME.registerComponent('super-hands-rotate-adhoc-hands', {
         // grab-start event is not fired for the hand entity when it grabs an object
 
         // Triggered when the controller begins grabbing the object
-        el.addEventListener('grab-start', function (evt) {
+        el.addEventListener('gripdown', function (evt) {
             var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            debug_div.innerHTML = "event: " + JSON.stringify(evt);
 
-            if (el.id === "leftHand") {
-                document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
-            } else if (el.id === "rightHand") {
-                document.getElementById("support-dodecahedron").setAttribute('color', '#ffffbf');
-            } else {
-                document.getElementById("support-dodecahedron").setAttribute('color', '#bfbfbf');
-            }
+            // if (el.id === "leftHand") {
+            //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
+            // } else if (el.id === "rightHand") {
+            //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffffbf');
+            // } else {
+            //     document.getElementById("support-dodecahedron").setAttribute('color', '#bfbfbf');
+            // }
+
+            var prints = `id: ${el.id}, data.hand: ${this.data.hand}, event: down`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
         });
     
         // Triggered when the controller releases the object
-        el.addEventListener('grab-end', function (evt) {
-            document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
+        el.addEventListener('gripup', function (evt) {
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
+
+            var prints = `id: ${el.id}, data.hand: ${this.data.hand}, event: up`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
         });
     },
 });

@@ -66,7 +66,7 @@
 
         <script src="../general-statics/csi.min.js"></script>
         <script src="../general-statics/collapsible.js"></script>
-        <!-- <script src="../general-statics/superhands-grab-rotate-adhoc.js"></script> -->
+        <script src="../general-statics/superhands-grab-rotate-adhoc.js"></script>
         <script src="index.js"></script>
     </head>
     <body>
@@ -187,8 +187,8 @@
 
                         <!-- <a-entity id="leftHand" hand-tracking-grab-controls="hand: left;"></a-entity> -->
                         <!-- <a-entity id="rightHand" hand-tracking-controls="hand: right;" hand-tracking-grab-controls="hand: right; hoverEnabled: true;"></a-entity> -->
-                        <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"></a-entity>
-                        <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right"></a-entity>
+                        <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"  rotate-adhoc="hand: left"></a-entity>
+                        <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right" rotate-adhoc="hand: right"></a-entity>
 
                         <!-- Hand tracking for aframe html -->
                         <a-entity handy-controls="materialOverride:both;" material="color:gold;metalness:1;roughness:0;">
