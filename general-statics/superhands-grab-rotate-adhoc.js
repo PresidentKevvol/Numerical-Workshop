@@ -51,7 +51,6 @@ AFRAME.registerComponent('rotate-adhoc', {
     schema: {
         hand: {type: "string"}
     },
-
     init: function () {
         // const el = this.el;
         // these following code just does not work at all
@@ -63,18 +62,20 @@ AFRAME.registerComponent('rotate-adhoc', {
         // Triggered when the controller releases the object
         this.el.addEventListener('gripup', this.gripup);
     },
-
+    update: function() {},
+    tick: function() {},
     gripdown: function (evt) {
         var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
 
-        var prints = `event: down`;
+        var rotDeg = document.getElementById("rightHand").getAttribute('rotation');
+        var prints = `event: down` + "<br>" + `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
         debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
     },
-
     gripup: function (evt) {
         var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
 
         var prints = `event: up`;
         debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-    }
+    },
+    remove : function() {}
 });
