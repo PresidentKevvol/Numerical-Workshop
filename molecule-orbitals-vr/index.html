@@ -185,12 +185,6 @@
                         <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"  oculus-touch-controls="hand: left"  rotate-adhoc="hand: left"  oculus-thumbstick-controls="acceleration: 17; moveUpButton: ybutton; moveDownButton: xbutton;"></a-entity>
                         <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right" oculus-touch-controls="hand: right" rotate-adhoc="hand: right"></a-entity>
 
-                        <!-- <a-entity id="leftHand" hand-tracking-grab-controls="hand: left;"></a-entity> -->
-                        <!-- <a-entity id="rightHand" hand-tracking-controls="hand: right;" hand-tracking-grab-controls="hand: right; hoverEnabled: true;"></a-entity> -->
-                         
-                        <!-- <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"></a-entity>
-                        <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right"></a-entity> -->
-
                         <!-- Hand tracking for aframe html -->
                         <a-entity handy-controls="materialOverride:both;" material="color:gold;metalness:1;roughness:0;">
                             <!-- These also do teleportaion for Blink controls in VR -->
@@ -217,10 +211,10 @@
                             </a-entity>
 
                             <!-- markers to let us know the real location of the hands, you probably want to make them visible="false" or just make them empty <a-entities> -->
-                            <a-entity id="left-no-magnet" data-left="grip" data-no-magnet radius="0.01">
+                            <a-entity id="left-no-magnet" data-left="grip" data-no-magnet radius="0.01" visible="false">
                                 <a-entity html="cursor:#cursor;html:#my-interface" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0" scale="0.5 0.5 0.5"></a-entity>
                             </a-entity>
-                            <a-entity id="right-no-magnet" data-right="grip" data-no-magnet radius="0.01"></a-entity>
+                            <a-entity id="right-no-magnet" data-right="grip" data-no-magnet radius="0.01" visible="false"></a-entity>
                         </a-entity>
                     </a-entity>
                 </a-scene>

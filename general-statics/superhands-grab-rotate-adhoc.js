@@ -51,35 +51,39 @@ AFRAME.registerComponent('rotate-adhoc', {
     schema: {
         hand: {type: "string"}
     },
+
     init: function () {
-        const el = this.el;
-    
+        // const el = this.el;
         // these following code just does not work at all
         // grab-start event is not fired for the hand entity when it grabs an object
 
         // Triggered when the controller begins grabbing the object
-        el.addEventListener('gripdown', function (evt) {
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-
-            // if (el.id === "leftHand") {
-            //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
-            // } else if (el.id === "rightHand") {
-            //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffffbf');
-            // } else {
-            //     document.getElementById("support-dodecahedron").setAttribute('color', '#bfbfbf');
-            // }
-
-            var prints = `id: ${el.id}, data.hand: ${this.data.hand}, event: down`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-        });
+        this.el.addEventListener('gripdown', this.gripdown);
     
         // Triggered when the controller releases the object
-        el.addEventListener('gripup', function (evt) {
-            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
-            // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
-
-            var prints = `id: ${el.id}, data.hand: ${this.data.hand}, event: up`;
-            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-        });
+        this.el.addEventListener('gripup', this.gripup);
     },
+
+    gripdown: function (evt) {
+        var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+
+        // if (el.id === "leftHand") {
+        //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffbfbf');
+        // } else if (el.id === "rightHand") {
+        //     document.getElementById("support-dodecahedron").setAttribute('color', '#ffffbf');
+        // } else {
+        //     document.getElementById("support-dodecahedron").setAttribute('color', '#bfbfbf');
+        // }
+
+        var prints = `data.hand: ${this.data.hand}, event: down`;
+        debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+    },
+
+    gripup: function (evt) {
+        var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+        // document.getElementById("support-dodecahedron").setAttribute('color', '#bfffff');
+
+        var prints = `data.hand: ${this.data.hand}, event: up`;
+        debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+    }
 });
