@@ -13,21 +13,24 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
         this.el.being_grabbed = false;
     
         // Triggered when the controller begins grabbing the object
-        el.addEventListener('grab-start', function (evt) {
+        el.addEventListener('grab-start', (evt) => {
             // el gives the entity element to which you can set its attribute
             // el.setAttribute('material', 'posColor', {x: 1.0, y: 0.1, z: 0.1});
             
             // however evt only gives an object that is {isTrusted: false}
             // and you cannot use evt.detail.hand to access the hand's info
 
-            // var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+            var prints = `${JSON.stringify(evt)}`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+
             // debug_div.innerHTML += `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
 
             this.el.being_grabbed = true;
         });
     
         // Triggered when the controller releases the object
-        el.addEventListener('grab-end', function (evt) {
+        el.addEventListener('grab-end', (evt) => {
             // el.setAttribute('material', 'posColor', {x: 0.9, y: 0.5, z: 0.1});
 
             this.el.being_grabbed = false;
