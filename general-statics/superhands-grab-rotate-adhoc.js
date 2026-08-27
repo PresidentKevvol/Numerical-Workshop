@@ -79,7 +79,7 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
                         z: entity_rot_orig.z + del_theta.z
                     };
 
-                    var prints = `apply rot: ${JSON.stringify(del_theta)}`;
+                    var prints = `grabber_new: ${JSON.stringify(grabber_new)} <br> grabber_last: ${JSON.stringify(grabber_rotation_values)}`;
                     debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
 
                     this.el.setAttribute("rotation", new_rot);
