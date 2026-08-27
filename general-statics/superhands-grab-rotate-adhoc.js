@@ -64,24 +64,24 @@ AFRAME.registerComponent('super-hands-rotate-adhoc', {
                 // original rotation value of the entity
                 var entity_rot_orig = this.el.getAttribute("rotation");
 
-                var prints = `last rot: ${JSON.stringify(grabber_rotation_values)} <br>`;
-                prints += `cur rot: ${JSON.stringify(grabber.getAttribute("rotation"))}`;
-                debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
-
                 if (grabber_rotation_values) {
                     var grabber_new = grabber.getAttribute("rotation");
                     // change in rotation between last and this tick
                     var del_theta = {
                         x: grabber_new.x - grabber_rotation_values.x,
                         y: grabber_new.y - grabber_rotation_values.y,
-                        z: grabber_new.z - grabber_rotation_values.z,
+                        z: grabber_new.z - grabber_rotation_values.z
                     };
 
                     var new_rot = {
                         x: entity_rot_orig.x + del_theta.x,
                         y: entity_rot_orig.y + del_theta.y,
-                        z: entity_rot_orig.z + del_theta.z,
+                        z: entity_rot_orig.z + del_theta.z
                     };
+
+                    var prints = `apply rot: ${JSON.stringify(new_rot)}`;
+                    debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+
                     this.el.setAttribute("rotation", new_rot);
                 }
 
