@@ -57,10 +57,21 @@ AFRAME.registerComponent('rotate-adhoc', {
         // grab-start event is not fired for the hand entity when it grabs an object
 
         // Triggered when the controller begins grabbing the object
-        this.el.addEventListener('gripdown', this.gripdown);
+        this.el.addEventListener('gripdown', (evt) => {
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+    
+            var rotDeg = document.getElementById("rightHand").getAttribute('rotation');
+            var prints = `event: down` + "<br>" + `Rotation - X: ${rotDeg.x}, Y: ${rotDeg.y}, Z: ${rotDeg.z}`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+        });
     
         // Triggered when the controller releases the object
-        this.el.addEventListener('gripup', this.gripup);
+        this.el.addEventListener('gripup', (evt) => {
+            var debug_div = document.getElementById("html-panel").getElementsByClassName("debug")[0];
+    
+            var prints = `${JSON.stringify(this.data)}, event: up`;
+            debug_div.innerHTML = prints + "<br>" + debug_div.innerHTML;
+        });
     },
     update: function() {},
     tick: function() {},
