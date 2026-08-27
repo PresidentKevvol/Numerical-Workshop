@@ -182,13 +182,14 @@
                         <a-entity id="aframe-camera" camera position="0 1.0 0" wasdqz-controls="acceleration: 20" look-controls="pointerLockEnabled: false;">
                             <!-- <a-cursor></a-cursor> -->
                         </a-entity>
-                        <a-entity oculus-touch-controls="hand: left"  rotate-adhoc="hand: left" id="aframe-left-control" oculus-thumbstick-controls="acceleration: 17; moveUpButton: ybutton; moveDownButton: xbutton;"></a-entity>
-                        <a-entity oculus-touch-controls="hand: right" rotate-adhoc="hand: right"></a-entity>
+                        <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"  oculus-touch-controls="hand: left"  rotate-adhoc="hand: left"  oculus-thumbstick-controls="acceleration: 17; moveUpButton: ybutton; moveDownButton: xbutton;"></a-entity>
+                        <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right" oculus-touch-controls="hand: right" rotate-adhoc="hand: right"></a-entity>
 
                         <!-- <a-entity id="leftHand" hand-tracking-grab-controls="hand: left;"></a-entity> -->
                         <!-- <a-entity id="rightHand" hand-tracking-controls="hand: right;" hand-tracking-grab-controls="hand: right; hoverEnabled: true;"></a-entity> -->
-                        <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"></a-entity>
-                        <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right"></a-entity>
+                         
+                        <!-- <a-entity id="leftHand"   mixin="physics-hands" hand-controls="hand: left"></a-entity>
+                        <a-entity id="rightHand"  mixin="physics-hands" hand-controls="hand: right"></a-entity> -->
 
                         <!-- Hand tracking for aframe html -->
                         <a-entity handy-controls="materialOverride:both;" material="color:gold;metalness:1;roughness:0;">
