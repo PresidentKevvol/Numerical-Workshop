@@ -374,7 +374,8 @@ async function register_shader_injection_specific(atoms, orbital_indices, box_di
         opacity: {type: 'number', is: 'uniform', default: 1.0},
         boxDim: {type: 'vec3', is: 'uniform', default: {x: 1.0, y: 1.0, z: 1.0}},
         posColor: {type: 'vec3', is: 'uniform', default: {x: 0.9, y: 0.5, z: 0.1}},
-        negColor: {type: 'vec3', is: 'uniform', default: {x: 0.2, y: 0.6, z: 0.9}}
+        negColor: {type: 'vec3', is: 'uniform', default: {x: 0.2, y: 0.6, z: 0.9}},
+        reducedOpacityForNucDots: {type: 'int', is: 'uniform', default: 1}
     };
 
     // for the code evaluating the wave function at a point

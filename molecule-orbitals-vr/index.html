@@ -171,7 +171,8 @@
                     <!-- emotional support dodecahedron -->
                     <!-- <a-dodecahedron mixin="interactable-objects" color="#bfffff" radius="0.05" position="0.6 1.0 -0.1" id="support-dodecahedron"></a-dodecahedron> -->
                     <!-- the box that renders the raytracer -->
-                    <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: double;" rotation="-90 0 0" width="5" height="5" depth="5" scale="0.08 0.08 0.08">
+                    <a-box mixin="interactable-objects" position="0 1.0 -0.8" id="orbital-box" material="shader: volumetric; transparent: true; depthWrite: false; side: back; reducedOpacityForNucDots: 1;" rotation="-90 0 0" width="5" height="5" depth="5" scale="0.08 0.08 0.08">
+                        <a-entity class="nuclei-dots"></a-entity>
                     </a-box>
                     <!-- <a-box id="bounding-box" position="0 1.0 -0.8" material="transparent: true; depthWrite: false; side: double;" opacity="0.1" color="green"></a-box> -->
 
@@ -244,6 +245,8 @@
                         <br>
                         Superposed molecular orbital <br>
                         <div class="mo-selection"></div>
+                        <br>
+                        <input type="checkbox" id="show-nuclei-checkbox" checked> Show atom nuclei
                     </div>
 
                     <!-- <div id="debug-section">

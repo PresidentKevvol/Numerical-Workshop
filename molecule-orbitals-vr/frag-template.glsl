@@ -26,6 +26,7 @@ uniform vec3 boxDim;
 // positive and negative amplitude color
 uniform vec3 posColor;
 uniform vec3 negColor;
+uniform int reducedOpacityForNucDots;
 
 float densityCap = 0.25;
 
@@ -176,6 +177,10 @@ void main() {
         // If we don't divide the alpha back out, the edges will still look slightly dark.
         if (total_alpha > 0.001) {
             acc_color /= total_alpha;
+        }
+
+        if (reducedOpacityForNucDots != 0) {
+            total_alpha *= 0.9;
         }
 
         gl_FragColor = vec4(acc_color, total_alpha);

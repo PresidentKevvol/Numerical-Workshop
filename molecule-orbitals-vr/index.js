@@ -1,5 +1,35 @@
 var cur_molecule_mo_coeffs = [];
 
+var show_nuclei = false;
+const atom_colors = {
+    0: "#FF1493",  // default (hot pink)
+    1: "#FFFFFF",  // Hydrogen (White)
+    2: "#D9FFFF",  // Helium (Cyan)
+    3: "#CC80FF",  // Lithium (Purple)
+    4: "#C2FF00",  // Beryllium (Green)
+    5: "#FFB5B5",  // Boron (Pink)
+    6: "#909090",  // Carbon (Dark Gray)
+    7: "#3050F8",  // Nitrogen (Blue)
+    8: "#FF0D0D",  // Oxygen (Red)
+    9: "#90E050",  // Fluorine (Green)
+    10: "#B3E3F5", // Neon (Cyan)
+    11: "#AB5CF2", // Sodium (Purple)
+    12: "#8AFF00", // Magnesium (Dark Green)
+    13: "#BFA6A6", // Aluminum (Silver)
+    14: "#F0C8A0", // Silicon (Clay/Beige)
+    15: "#FF8000", // Phosphorus (Orange)
+    16: "#FFFF30", // Sulfur (Yellow)
+    17: "#1FF01F", // Chlorine (Green)
+    18: "#80D1E3", // Argon (Cyan)
+    19: "#8F40D4", // Potassium (Purple)
+    20: "#3DFF00", // Calcium (Dark Green)
+    26: "#E06633", // Iron (Orange-Brown)
+    29: "#C88033", // Copper (Copper/Brown)
+    30: "#7D80B0", // Zinc (Blue-Gray)
+    35: "#A62929", // Bromine (Dark Red)
+    53: "#940094"  // Iodine (Dark Purple)
+  };
+
 /*
 the molecule template object will have the following fields
 atoms: list of objects that look like {"elem": int, "coord": vec3}
@@ -71,6 +101,29 @@ async function import_setup(ob) {
         await register_shader_injection_specific(atoms_new, ob.orbital_indices, diag, ao_shader_name, ao_coeffs);
     }
     // await register_shader_injection(atoms_new, diag/2.0, ob.orbital_indices);
+
+    // also add the dots representing the nuclei
+    const dots_container = targ.getElementsByClassName("nuclei-dots")[0];
+    // remove all previous children of the nuclei-dots enitity
+    while (dots_container.firstChild) {
+        dots_container.removeChild(dots_container.firstChild);
+    }
+    for (var i=0; i<atoms_new.length; i++) {
+        var elem = atoms_new[i].elem;
+        var coord = atoms_new[i].coord;
+
+        var new_sphere = document.createElement('a-sphere');
+        var elem_color = atom_colors[0];
+        if (Object.hasOwn(atom_colors, elem)) {
+            elem_color = atom_colors[elem];
+        }
+        new_sphere.setAttribute("color", elem_color);
+
+        new_sphere.setAttribute("position", {x: coord[0], y: coord[1], z: coord[2]});
+        new_sphere.setAttribute("radius", 0.1);
+
+        dots_container.appendChild(new_sphere);
+    }
 
     targ.setAttribute("material", {shader: "volumetric-new-mo-0"});
     // cache for later function call access
@@ -163,6 +216,15 @@ function rotation_slider_input() {
     targ.setAttribute("rotation", {x: rl, y: pt, z: yw});
 }
 
+// toggle for show/not show nuclei dots
+function show_nuclei_input(event) {
+    show_nuclei = event.target.checked;
+    const orb_box = document.getElementById('orbital-box');
+    const dots_container = orb_box.getElementsByClassName("nuclei-dots")[0];
+    dots_container.setAttribute('visible', show_nuclei);
+    orb_box.setAttribute("material", {"reducedOpacityForNucDots": show_nuclei?1:0});
+    // if (show_nuclei === false) {} else {}
+}
 
 function ijs_setup() {
     // select orbital buttons of basic mode
@@ -170,6 +232,10 @@ function ijs_setup() {
     for (var i=0; i<select_orbs.length; i++) {
         select_orbs[i].addEventListener('click', select_orbitals_basic);
     }
+
+    document.getElementById("show-nuclei-checkbox").addEventListener("input", show_nuclei_input);
+    document.getElementById("show-nuclei-checkbox").checked = true;
+    // document.getElementById("show-nuclei-checkbox-label").addEventListener("click", (e) => {e.preventDefault();});
 
     document.getElementById("slider-roll").addEventListener("input", rotation_slider_input);
     document.getElementById("slider-pitch").addEventListener("input", rotation_slider_input);
