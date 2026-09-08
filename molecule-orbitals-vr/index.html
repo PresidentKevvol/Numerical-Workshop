@@ -2,6 +2,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Molecular Orbitals in VR - Numerical Workshop</title>
+        <script src="../general-statics/utils.js"></script>
         <link rel="stylesheet" href="/general-statics/universial.css">
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="aframe-html-panels.css">
@@ -274,6 +275,18 @@
                         <tr> <td>yaw  </td> <td>(z):</td> <td><input type="range" min="-180.0" max="180.0" step="0.01" value="0.0" id="slider-yaw" class="rot-slider">    </td></tr>
                     </table>
                 </div>
+            </div>
+
+            <div class="collapsible sect-title">Advance mode <span class="collapsible-indicator">+</span></div>
+            <div class="collapsible-content" >
+                Advanced mode: <br>
+                - Way more molecular orbitals <br>
+                - Stock molecules computed with cc-pVDZ basis set (as opposed to sto-6g) <br>
+                - each atom have more atomic orbitals (an entire extra energy level, i.e. period 2 elements goes up to 3d orbitals) <br>
+                - More raytracing steps due to lower density threshold <br>
+                <span class="caution">Caution: might cause lag or crash on older hardware</span> <br>
+                <button id="advanced-mode">Activate advanced mode</button>
+                <span class="caution" id="activated-hint"></span>
             </div>
         </div>
 

@@ -28,6 +28,8 @@ uniform vec3 posColor;
 uniform vec3 negColor;
 uniform int reducedOpacityForNucDots;
 
+uniform float densityThreshold;
+
 float densityCap = 0.25;
 
 // convert a vec3 in cartesian to spherical coordinates
@@ -78,15 +80,74 @@ float orb_2py(vec3 p, float Z) {
     float Y = 1.0/sqrt(32.0) * SQRT_PI_INV * Z_1_5 * sin(p.y) * sin(p.z);
     return R*Y;
 }
-
-// wave function of 3d0 aka 3dz^2 orbital (one with 2 lobes and a hula hoop)
-// real value only
-float orb_3d0(vec3 p, float Z) {
-    float r = p.x;
+float orb_3s(vec3 p, float Z) {
     float rh = Z * p.x;
-    float R = r*r * exp(-rh/3.0);
+    float Z_1_5 = Z * sqrt(Z);
+    float R = (27.0 - 18.0 * rh + 2.0*rh*rh) * exp(-rh/3.0);
+    float Y = 1.0/(81.0 * sqrt(3.0)) * SQRT_PI_INV * Z_1_5;
+    return R*Y;
+}
+float orb_3pz(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * (6.0 - rh) * exp(-rh/3.0);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * cos(p.y);
+    return R*Y;
+}
+float orb_3px(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * (6.0 - rh) * exp(-rh/3.0);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.z);
+    return R*Y;
+}
+float orb_3py(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh * (6.0 - rh) * exp(-rh/3.0);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * sin(p.z);
+    return R*Y;
+}
+float orb_3dz2(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
     float cos_theta = cos(p.y);
-    float Y = 1.0/(81.0*sqrt(6.0)) * SQRT_PI_INV * pow(Z, 3.5) * (3.0 * cos_theta*cos_theta - 1.0);
+    float Y = 1.0/(81.0*sqrt(6.0)) * SQRT_PI_INV * Z_1_5 * (3.0 * cos_theta*cos_theta - 1.0);
+    return R*Y;
+}
+float orb_3dxz(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.y) * cos(p.z);
+    return R*Y;
+}
+float orb_3dyz(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float Y = sqrt(2.0)/81.0 * SQRT_PI_INV * Z_1_5 * sin(p.y) * cos(p.y) * sin(p.z);
+    return R*Y;
+}
+float orb_3dx2y2(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float sin_theta = sin(p.y);
+    float Y = 1.0/(81.0*sqrt(2.0)) * SQRT_PI_INV * Z_1_5 * sin_theta * sin_theta * cos(2.0 * p.z);
+    return R*Y;
+}
+float orb_3dxy(vec3 p, float Z) {
+    float rh = Z * p.x;
+    float Z_1_5 = Z * sqrt(Z);
+    float R = rh*rh * exp(-rh/3.0);
+    float cos_theta = cos(p.y);
+    float sin_theta = sin(p.y);
+    float Y = 1.0/(81.0*sqrt(2.0)) * SQRT_PI_INV * Z_1_5 * sin_theta * sin_theta * sin(2.0 * p.z);
     return R*Y;
 }
 
@@ -148,7 +209,7 @@ void main() {
             float density = psi * psi;
 
             // Accumulate density if it's significant
-            if (density > 0.001) {
+            if (density > densityThreshold) {
                 // Multiply by step size for numerical integration over the volume
                 // densityTotal += density * dt;
 

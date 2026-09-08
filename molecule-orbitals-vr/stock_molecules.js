@@ -26,3 +26,27 @@ var stock_setup_list = [
     {"name": "O2", "obj": o2, "img": "molecule-imgs/o2.png"},
     {"name": "N2", "obj": n2, "img": "molecule-imgs/n2.png"},
 ];
+
+async function load_json_file_ajax(fname) {
+    var res = await loadFileAjax("stock-molecule-advanced/" + fname);
+    return res;
+}
+
+var stock_setup_list_advanced = [
+    {"name": "Water", "obj": "water.json", "img": "molecule-imgs/water.png"},
+    {"name": "Ammonia", "obj": "ammonia.json", "img": "molecule-imgs/ammonia.png"},
+    {"name": "Methane", "obj": "methane.json", "img": "molecule-imgs/methane.png"},
+    {"name": "Ethene", "obj": "ethene.json", "img": "molecule-imgs/ethene.png"},
+    {"name": "Ethyne", "obj": "ethyne.json", "img": "molecule-imgs/ethyne.png"},
+    {"name": "O2", "obj": "o2.json", "img": "molecule-imgs/o2.png"},
+    {"name": "N2", "obj": "n2.json", "img": "molecule-imgs/n2.png"},
+];
+
+// load the molecules from the json files
+async function load_advanced_stock_molecules() {
+    for (var i=0; i<stock_setup_list_advanced.length; i++) {
+        var fname = stock_setup_list_advanced[i]["obj"];
+        var fil = await load_json_file_ajax(fname);
+        stock_setup_list_advanced[i]["obj"] = JSON.parse(fil);
+    }
+}

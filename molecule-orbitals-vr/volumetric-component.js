@@ -1,14 +1,5 @@
 var MARCH_MAX_STEP = 50;
 
-// use ajax request to load fragment shader
-async function loadShader(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to load shader: ${url}`);
-    }
-    return await response.text();
-}
-
 const default_vertshade = `
 varying vec3 vWorldPosition;
 
@@ -283,7 +274,10 @@ void main() {
     `
 });
 
-const atomic_orbital_indices = {0: "1s", 1: "2s", 2: "2px", 3: "2py", 4: "2pz"};
+const atomic_orbital_indices = {
+    0: "1s", 1: "2s", 2: "2px", 3: "2py", 4: "2pz",
+    5: "3s", 6: "3px", 7: "3py", 8: "3pz", 9: "3dxy", 10: "3dyz", 11: "3dz2", 12: "3dxz", 13: "3dx2y2"
+};
 
 // code injection to create a new custom glsl shader and register it to aframe
 // using code generated from a template
@@ -294,7 +288,7 @@ async function register_shader_injection(atoms, spatial_scale, orbital_indices) 
     } finally {}
 
     // fetch the code template
-    var shader_code_template = await loadShader("frag-template.glsl");
+    var shader_code_template = await loadFileAjax("frag-template.glsl");
     shader_code_template = shader_code_template.replaceAll("%%ORB_ARRAY_SIZE%%", atoms.length);
     shader_code_template = shader_code_template.replaceAll("%%SPATIAL_SCALE%%", spatial_scale);
     
@@ -354,7 +348,7 @@ async function register_shader_injection_specific(atoms, orbital_indices, box_di
     } finally {}
 
     // fetch the code template
-    var shader_code_template = await loadShader("frag-template.glsl");
+    var shader_code_template = await loadFileAjax("frag-template.glsl");
     // spaatial scale not needed, every length normalized to bohr units
     
     // we use marching step settings instead
@@ -375,7 +369,8 @@ async function register_shader_injection_specific(atoms, orbital_indices, box_di
         boxDim: {type: 'vec3', is: 'uniform', default: {x: 1.0, y: 1.0, z: 1.0}},
         posColor: {type: 'vec3', is: 'uniform', default: {x: 0.9, y: 0.5, z: 0.1}},
         negColor: {type: 'vec3', is: 'uniform', default: {x: 0.2, y: 0.6, z: 0.9}},
-        reducedOpacityForNucDots: {type: 'int', is: 'uniform', default: 1}
+        reducedOpacityForNucDots: {type: 'int', is: 'uniform', default: 1},
+        densityThreshold: {type: 'float', is: 'uniform', default: 0.001},
     };
 
     // for the code evaluating the wave function at a point

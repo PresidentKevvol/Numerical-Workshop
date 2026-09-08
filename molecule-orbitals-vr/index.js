@@ -105,9 +105,8 @@ async function import_setup(ob) {
     // also add the dots representing the nuclei
     const dots_container = targ.getElementsByClassName("nuclei-dots")[0];
     // remove all previous children of the nuclei-dots enitity
-    while (dots_container.firstChild) {
-        dots_container.removeChild(dots_container.firstChild);
-    }
+    removeAllChildren(dots_container);
+    
     for (var i=0; i<atoms_new.length; i++) {
         var elem = atoms_new[i].elem;
         var coord = atoms_new[i].coord;
@@ -226,6 +225,17 @@ function show_nuclei_input(event) {
     // if (show_nuclei === false) {} else {}
 }
 
+// activate advanced mode for way more orbitals
+async function activate_advanced() {
+    const orb_box = document.getElementById('orbital-box');
+    orb_box.setAttribute("material", {"densityThreshold": 0.0001});
+
+    await load_advanced_stock_molecules();
+
+    load_stock_setup_set(stock_setup_list_advanced);
+    document.getElementById("activated-hint").innerHTML = "Advanced mode activated";
+}
+
 function ijs_setup() {
     // select orbital buttons of basic mode
     var select_orbs = document.getElementsByClassName('select-orbitals');
@@ -240,6 +250,8 @@ function ijs_setup() {
     document.getElementById("slider-roll").addEventListener("input", rotation_slider_input);
     document.getElementById("slider-pitch").addEventListener("input", rotation_slider_input);
     document.getElementById("slider-yaw").addEventListener("input", rotation_slider_input);
+
+    document.getElementById("advanced-mode").addEventListener("click", activate_advanced);
 }
 
 document.addEventListener("DOMContentLoaded", ijs_setup);

@@ -212,6 +212,10 @@ button.important-btn {
 }
 
 span.smol-note {
-    color: grey;;
+    color: grey;
     font-size: 0.75em;
+}
+
+span.caution {
+    color: darkgoldenrod;
 }
