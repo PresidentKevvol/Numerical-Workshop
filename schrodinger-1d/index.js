@@ -62,6 +62,11 @@ function ijs_setup() {
   //to substitute a value for x, do this
   //first_field.expression.subs({x: 1}).N().valueOf();
 
+  // math_field.expression is deprecated by cortex.js as of Oct 2026
+  // do this instead
+  // const expr = MathfieldElement.computeEngine.parse(math_field.getValue());
+  // const mathJson = expr.json; 
+
   var graph_options = {
     plugins: {
       legend: {
@@ -247,7 +252,8 @@ function generate_function_array(sect, lower_bound, upper_bound, dx) {
       var high = pieces[i].getElementsByClassName('range-high')[0].value;
 
       if (low <= x && x <= high) {
-        y = pieces[i].getElementsByClassName('equation-piece-field')[0].expression.subs({x: x}).N().valueOf();
+        const expr = MathfieldElement.computeEngine.parse(pieces[i].getElementsByClassName('equation-piece-field')[0].getValue());
+        y = expr.subs({x: x}).N().valueOf();
         break;
       }
     }
