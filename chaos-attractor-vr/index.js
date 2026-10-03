@@ -145,7 +145,8 @@ function start_rendering_clicked() {
     //read the current equations into the equations list for usage
     current_equations = [];
     for (var i=0; i<equation_fields.length; i++) {
-        current_equations.push(equation_fields[i].expression);
+        const expr = MathfieldElement.computeEngine.parse(equation_fields[i].getValue());
+        current_equations.push(expr);
     }
 
     //adjust base settings
